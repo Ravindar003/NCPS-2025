@@ -4,14 +4,9 @@
     "PYTHONUNBUFFERED": "1",
     "DJANGO_SETTINGS_MODULE": "ncps_site.settings"
   },
-  "rewrites": [
-    {
-      "source": "/static/(.*)",
-      "destination": "/static/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/api/index.py"
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 30
     }
-  ]
+  }
 }
