@@ -5,8 +5,8 @@
     "PYTHONUNBUFFERED": "1"
   },
   "functions": {
-    "ncps_site/wsgi.py": {
-      "runtime": "python3.11"
+    "api/index.py": {
+      "runtime": "python@3.11"
     }
   },
   "routes": [
@@ -19,7 +19,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "ncps_site/wsgi.py"
+      "dest": "/api/index.py"
     }
   ]
 }
