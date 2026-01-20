@@ -1,0 +1,108 @@
+{% extends "conference/base.html" %}
+
+{% block content %}
+<div class="container py-5 my-4" style="max-width: 850px; margin-top: 80px; margin-bottom: 50px;">
+  <h2 class="mb-4 text-center">Submit Abstract for NCPS 2025</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Guidelines -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Submission Guidelines</h5>
+      <ul class="mb-0 text-muted">
+        <li>Submit your abstract as a <strong>PDF</strong> file (A4, maximum 2 pages).</li>
+        <li>PDF file size must be ≤ <strong>20 MB</strong>.</li>
+        <li>Use a readable font (e.g., Times New Roman, 11–12 pt) and include title, authors, and affiliations.</li>
+        <li>Language: English.</li>
+      </ul>
+
+      <div class="mt-3">
+        <a href="/media/SampleAbstract.doc" class="btn btn-outline-polar me-2" download>
+          <i class="fas fa-file-word me-1"></i> Word Template
+        </a>
+        <a href="/media/SampleAbstract.pdf" class="btn btn-polar" download>
+          <i class="fas fa-file-pdf me-1"></i> Sample PDF
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Abstract Submission Form</h5>
+
+      <form method="post" id="abstractForm" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        <!-- Title -->
+        <div class="mb-3">
+          <label class="form-label">Title <span class="text-danger">*</span></label>
+          {{ form.title }}
+        </div>
+
+        <!-- Theme is assigned from registration; not shown in form -->
+
+        <!-- PDF -->
+        <div class="mb-3">
+          <label class="form-label">Upload PDF <span class="text-danger">*</span></label>
+          <input id="id_pdf" name="pdf_file" type="file" accept="application/pdf" class="form-control" required>
+          <div id="fileWarning" class="form-text text-danger d-none"></div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between">
+          <a href="{% url 'conference:dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+          <button id="submitBtn" class="btn btn-primary">Submit Abstract</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- CKEditor CDN -->
+<!-- Validation: ensure PDF type and size on client-side -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const pdf = document.getElementById("id_pdf");
+  const btn = document.getElementById("submitBtn");
+  const fileWarn = document.getElementById("fileWarning");
+  const MAX_SIZE = 20 * 1024 * 1024;
+
+  pdf.addEventListener('change', function () {
+    const file = pdf.files[0];
+    if (!file) {
+      fileWarn.classList.add('d-none');
+      btn.disabled = false;
+      return;
+    }
+
+    if (file.type !== 'application/pdf' || file.size > MAX_SIZE) {
+      fileWarn.textContent = 'Invalid PDF (type or size).';
+      fileWarn.classList.remove('d-none');
+      btn.disabled = true;
+    } else {
+      fileWarn.classList.add('d-none');
+      btn.disabled = false;
+    }
+  });
+
+});
+</script>
+
+
+<style>
+.card { border-radius: 10px; }
+.btn-primary { background: linear-gradient(90deg,#0d47a1,#1976d2); border: none; }
+.cke_notification { display: none !important; }
+</style>
+
+{% endblock %}

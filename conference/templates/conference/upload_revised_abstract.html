@@ -1,0 +1,51 @@
+{% extends "conference/base.html" %}
+{% block content %}
+
+<div class="container py-5" style="max-width:900px;">
+  <h3 class="mb-3">Upload Revised Abstract</h3>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- 🔹 PDF REVISION (required) -->
+        <div class="mb-4">
+          <label class="form-label fw-semibold">
+            Revised PDF (required)
+          </label>
+
+          <input
+            type="file"
+            name="revised_submission"
+            accept="application/pdf"
+            class="form-control" required>
+
+          <small class="text-muted">
+            Upload the revised PDF file (PDF only, max 20 MB) as requested by the reviewer.
+          </small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          Submit Revision
+        </button>
+
+        <a href="{% url 'conference:dashboard' %}" class="btn btn-secondary ms-2">
+          Cancel
+        </a>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- No text revisions allowed: revised submission must be a PDF -->
+
+{% endblock %}

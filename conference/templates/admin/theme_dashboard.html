@@ -1,0 +1,219 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Theme Admin Dashboard{% endblock %}
+
+{% block admin_content %}
+<div class="container-fluid">
+
+  <!-- HEADER (MATCHES ADMIN DASHBOARD) -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-8">
+      <h2 class="fw-bold mb-0">
+        <i class="fas fa-layer-group text-primary me-2"></i>
+        Theme Admin Dashboard
+      </h2>
+      <p class="text-muted mb-0">
+        You are managing abstracts and participants for assigned scientific themes.
+      </p>
+    </div>
+    <div class="col-md-4 text-end">
+      <span class="badge bg-info text-dark px-3 py-2">
+        Theme Admin
+      </span>
+    </div>
+  </div>
+
+    <!-- Notifications -->
+
+  <div class="mb-4">
+    {% if themes|length > 1 %}
+      <div class="btn-group" role="group" aria-label="Theme selector">
+        {% for t in themes %}
+          {% if selected_theme and t.id == selected_theme.id %}
+            <a href="?theme={{ t.id }}" class="btn btn-polar btn-sm me-1">{{ t.name }}</a>
+          {% else %}
+            <a href="?theme={{ t.id }}" class="btn btn-outline-polar btn-sm me-1">{{ t.name }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      {% for t in themes %}
+        <span class="badge bg-primary me-1">{{ t.name }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <!-- STATS ROW (SAME STYLE AS ADMIN DASHBOARD) -->
+  <div class="row g-4 mb-4">
+
+    <div class="col-md-3">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center">
+          <div class="small text-muted">Total Abstracts</div>
+          <div class="h3 mb-0">{{ total_abstracts }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center">
+          <div class="small text-muted">Pending</div>
+          <div class="h3 mb-0 text-secondary">{{ pending_count }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center">
+          <div class="small text-muted">Revision</div>
+          <div class="h3 mb-0 text-warning">{{ revision_count }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECENT ABSTRACTS (MATCHING ADMIN TABLE STYLE) -->
+   {% if abstracts %}
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="fw-bold mb-3">
+        <i class="fas fa-file-alt me-2"></i> Recent Abstracts
+      </h5>
+
+      {% if abstracts %}
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Submitted</th>
+              <th class="text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in abstracts %}
+            <tr>
+              <td class="fw-semibold">{{ a.title }}</td>
+              <td>
+                <span class="badge
+                  {% if a.status == 'APPROVED' %}bg-success
+                  {% elif a.status == 'REJECTED' %}bg-danger
+                  {% elif a.status == 'REVISION' %}bg-warning text-dark
+                  {% else %}bg-secondary{% endif %}">
+                  {{ a.get_status_display }}
+                </span>
+              </td>
+              <td class="text-muted small">
+                {{ a.submitted_at|date:"d M Y" }}
+              </td>
+              <td class="text-end">
+                <a href="{% url 'conference:ncps_admin:abstract_detail' a.id %}"
+                   class="btn btn-sm btn-outline-primary">
+                  Review
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+        <p class="text-muted mb-0">No abstracts available for your themes.</p>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+{% if review_abstracts %}
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <h6 class="fw-bold mb-3">
+      <i class="fas fa-eye me-2"></i> Abstracts Assigned for Review
+    </h6>
+
+    <ul class="list-group list-group-flush">
+      {% for abstract in review_abstracts %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          
+          <div>
+            <div class="fw-semibold">
+              {{ abstract.title }}
+            </div>
+
+            <div class="small text-muted">
+            {% with review=abstract.reviews.all|first %}
+              {% if review and review.assigned_by %}
+                Sent by
+                <strong>
+                  {{ review.assigned_by.user.get_full_name|default:review.assigned_by.user.username }}
+                </strong>
+              {% else %}
+                Sent by —
+              {% endif %}
+            {% endwith %}
+
+            </div>
+          </div>
+
+          <a href="{% url 'conference:ncps_admin:abstract_detail' abstract.id %}"
+             class="btn btn-sm btn-outline-primary">
+            Review
+          </a>
+
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+
+
+  <!-- PARTICIPANTS (MATCH ADMIN DESIGN) -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h5 class="fw-bold mb-3">
+        <i class="fas fa-users me-2"></i> Participants (Your Themes)
+      </h5>
+
+      {% if participants %}
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Organization</th>
+              <th>Theme</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in participants %}
+            <tr>
+<td class="fw-semibold">
+  <a href="{% url 'conference:ncps_admin:theme_admin_participant_detail' p.id %}"
+     class="text-decoration-none">
+    {{ p.user.get_full_name|default:p.user.username }}
+  </a>
+</td>
+
+
+              <td>{{ p.organization }}</td>
+              <td>
+                <span class="badge bg-light text-dark">
+                  {{ p.get_scientific_theme_display }}
+                </span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+        <p class="text-muted mb-0">No participants found for your themes.</p>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}

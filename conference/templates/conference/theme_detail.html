@@ -1,0 +1,178 @@
+{% extends "conference/base.html" %}
+{% load static %}
+
+{% block title %}{% if theme %}{{ theme.name }} — NCPS 2025{% else %}Theme Not Found — NCPS 2025{% endif %}{% endblock %}
+
+{% block content %}
+<section class="scientific-inqua pb-4" style="margin-top: 0; padding-top: 80px;">
+  <div class="container">
+
+    {% if not theme %}
+      <div class="scientific-wrapper">
+        <div class="scientific-header">
+          <div>
+            <h2>Theme Not Found</h2>
+            <p>The requested theme does not exist.</p>
+          </div>
+          <a href="{% url 'conference:themes' %}" class="btn-view-all">View All Themes</a>
+        </div>
+      </div>
+    {% else %}
+      <div class="scientific-wrapper">
+        <div class="scientific-header">
+          <div>
+            <h2>{{ theme.name }}</h2>
+            <p>{{ theme.description }}</p>
+          </div>
+          <div class="d-flex gap-2 flex-wrap">
+            <a href="{% url 'conference:themes' %}" class="btn-view-all">View All</a>
+            <a href="{% url 'conference:home' %}#themes" class="btn-view-all btn-view-all-secondary">Back to Home</a>
+          </div>
+        </div>
+
+        <div class="row g-4 align-items-stretch">
+          <div class="col-lg-6">
+            <div class="theme-hero">
+              <img src="{% static theme.image %}" alt="{{ theme.name }}">
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="theme-info">
+              <h5 class="mb-3">Session Focus (sample)</h5>
+              <ul class="theme-topics">
+                {% for topic in theme.topics %}
+                  <li>{{ topic }}</li>
+                {% endfor %}
+              </ul>
+
+              <div class="mt-4">
+                <a href="{% url 'conference:abstract_submission' %}" class="btn btn-outline-polar">Submit Abstract</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<style>
+  .scientific-inqua {
+    position: relative;
+    background: #0b1320;
+    overflow: hidden;
+  }
+
+  .scientific-inqua::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("{% static 'images/bg/architecture_dark.jpg' %}") center/cover;
+    opacity: 0.15;
+  }
+
+  .scientific-wrapper {
+    position: relative;
+    z-index: 1;
+  }
+
+  .scientific-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 35px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .scientific-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #ffffff;
+  }
+
+  .scientific-header p {
+    font-size: 0.95rem;
+    color: #d1d5db;
+    max-width: 620px;
+    margin-bottom: 0;
+  }
+
+  .btn-view-all {
+    background: #b11226;
+    color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.25s ease;
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .btn-view-all:hover {
+    background: #8e0f1f;
+    color: #ffffff;
+  }
+
+  .btn-view-all-secondary {
+    background: rgba(255,255,255,0.12);
+  }
+
+  .btn-view-all-secondary:hover {
+    background: rgba(255,255,255,0.18);
+  }
+
+  .theme-hero {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    min-height: 320px;
+  }
+
+  .theme-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .theme-info {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 18px 18px;
+    height: 100%;
+  }
+
+  .theme-info h5 {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .theme-topics {
+    margin: 0;
+    padding-left: 18px;
+    color: #e5e7eb;
+  }
+
+  .theme-topics li {
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 576px) {
+    .theme-hero {
+      min-height: 240px;
+    }
+  }
+</style>
+{% endblock %}

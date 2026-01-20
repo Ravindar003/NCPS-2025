@@ -1,0 +1,43 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="container-fluid">
+
+  <h4 class="fw-bold mb-3">
+    <i class="fas fa-users me-2"></i>Participants (Your Themes)
+  </h4>
+
+  {% if participants %}
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Organization</th>
+          <th>Abstracts</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in participants %}
+        <tr>
+          <td>
+<a href="{% url 'conference:ncps_admin:theme_admin_participant_detail' p.id %}"
+   class="text-decoration-none fw-semibold">
+  {{ p.user.get_full_name|default:p.user.username }}
+</a>
+          </td>
+          <td>{{ p.user.email }}</td>
+          <td>{{ p.organization }}</td>
+          <td> {{ p.user.abstracts.filter(theme__in=themes).count }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="text-muted">No participants found for your themes.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,193 @@
+{% extends "conference/base.html" %}
+{% load static %}
+
+{% block title %}Abstracts — NCPS{% endblock %}
+
+{% block content %}
+<section class="scientific-inqua pb-4" style="margin-top: 0; padding-top: 80px;">
+  <div class="container">
+    <div class="scientific-wrapper">
+
+      <div class="scientific-header">
+        <div>
+          <h2>Abstracts</h2>
+          <p>PDF links (open in a new tab)</p>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <a href="https://www.nipr.ac.jp/symposium2025/abstract/" target="_blank" rel="noopener noreferrer" class="btn-view-all">Open Source Page</a>
+          <a href="{% url 'conference:home' %}#abstracts" class="btn-view-all btn-view-all-secondary">Back to Home</a>
+        </div>
+      </div>
+
+      <div class="scientific-cards scientific-cards-grid">
+        <a class="theme-card" href="https://www.nipr.ac.jp/symposium2025/abstract/PS16-S.pdf" target="_blank" rel="noopener noreferrer">
+          <img src="{% static 'images/themes/polar_operations.jpg' %}" alt="Special Session">
+          <span>[S] Future Plan of Antarctic research</span>
+        </a>
+
+        <a class="theme-card" href="https://www.nipr.ac.jp/symposium2025/abstract/PS16-IDv2.pdf" target="_blank" rel="noopener noreferrer">
+          <img src="{% static 'images/themes/sea_ice.jpg' %}" alt="Interdisciplinary Session">
+          <span>[ID] Polar Data Science</span>
+        </a>
+
+        <a class="theme-card" href="https://www.nipr.ac.jp/symposium2025/abstract/PS16-OA.pdf" target="_blank" rel="noopener noreferrer">
+          <img src="{% static 'images/themes/crustal_evolution.jpg' %}" alt="Ordinary Session OA">
+          <span>[OA] Antarctic Meteorites</span>
+        </a>
+
+        <a class="theme-card" href="https://www.nipr.ac.jp/symposium2025/abstract/PS16-OB.pdf" target="_blank" rel="noopener noreferrer">
+          <img src="{% static 'images/themes/polar_ecology.jpg' %}" alt="Ordinary Session OB">
+          <span>[OB] Polar Biology</span>
+        </a>
+
+        <a class="theme-card" href="https://www.nipr.ac.jp/symposium2025/abstract/PS16-OG.pdf" target="_blank" rel="noopener noreferrer">
+          <img src="{% static 'images/themes/southern_ocean.jpg' %}" alt="Ordinary Session OG">
+          <span>[OG] Polar Geosciences</span>
+        </a>
+
+        <a class="theme-card" href="https://www.nipr.ac.jp/symposium2025/abstract/PS16-OMv2.pdf" target="_blank" rel="noopener noreferrer">
+          <img src="{% static 'images/themes/space_weather.jpg' %}" alt="Ordinary Session OM">
+          <span>[OM] Polar Meteorology and Glaciology</span>
+        </a>
+
+        <a class="theme-card" href="https://www.nipr.ac.jp/symposium2025/abstract/PS16-OS.pdf" target="_blank" rel="noopener noreferrer">
+          <img src="{% static 'images/themes/cryosphere.jpg' %}" alt="Ordinary Session OS">
+          <span>[OS] Space and Upper Atmospheric Sciences</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .scientific-inqua {
+    position: relative;
+    background: #0b1320;
+    overflow: hidden;
+  }
+
+  .scientific-inqua::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("{% static 'images/bg/architecture_dark.jpg' %}") center/cover;
+    opacity: 0.15;
+  }
+
+  .scientific-wrapper {
+    position: relative;
+    z-index: 1;
+  }
+
+  .scientific-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 35px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .scientific-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #ffffff;
+  }
+
+  .scientific-header p {
+    font-size: 0.95rem;
+    color: #d1d5db;
+    max-width: 620px;
+    margin-bottom: 0;
+  }
+
+  .btn-view-all {
+    background: #b11226;
+    color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.25s ease;
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .btn-view-all:hover {
+    background: #8e0f1f;
+    color: #ffffff;
+  }
+
+  .btn-view-all-secondary {
+    background: rgba(255,255,255,0.12);
+  }
+
+  .btn-view-all-secondary:hover {
+    background: rgba(255,255,255,0.18);
+  }
+
+  .scientific-cards {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 18px;
+    padding-bottom: 10px;
+  }
+
+  .scientific-cards-grid {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .theme-card {
+    display: block;
+    width: 220px;
+    height: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.25s ease;
+    text-decoration: none;
+  }
+
+  .theme-card:hover {
+    transform: translateY(-6px);
+  }
+
+  .theme-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s ease;
+    display: block;
+  }
+
+  .theme-card:hover img {
+    transform: scale(1.05);
+  }
+
+  .theme-card span {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 14px 14px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    background: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.78) 65%, rgba(0,0,0,0.9) 100%);
+  }
+
+  @media (max-width: 576px) {
+    .theme-card {
+      width: 100%;
+      max-width: 320px;
+    }
+  }
+</style>
+{% endblock %}

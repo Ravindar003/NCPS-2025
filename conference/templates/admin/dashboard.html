@@ -1,0 +1,354 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Admin Dashboard | NCPS 2025{% endblock %}
+
+{% block admin_content %}
+
+<div class="container-fluid">
+
+  <!-- Header -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-8">
+      <h2 class="mb-0">
+        <i class="fas fa-user-shield text-primary me-2"></i>
+        Admin Dashboard
+      </h2>
+      <p class="text-muted mb-0">
+        NCPS 2025 — Conference overview, submissions & registrations
+      </p>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6">
+      <a href="{% url 'conference:ncps_admin:abstracts' %}" class="stats-link">
+        <div class="stats-card modern-stats-card bg-gradient-primary text-white">
+          <div class="stats-icon">
+            <i class="fas fa-file-alt"></i>
+          </div>
+          <div class="stats-content">
+            <div class="stats-number">{{ total_abstracts }}</div>
+            <div class="stats-label">Total Abstracts</div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-xl-3 col-md-6">
+      <a href="{% url 'conference:ncps_admin:registrations' %}" class="stats-link">
+        <div class="stats-card modern-stats-card bg-gradient-info text-white">
+          <div class="stats-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="stats-content">
+            <div class="stats-number">{{ total_registrations }}</div>
+            <div class="stats-label">Registrations</div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-xl-3 col-md-6">
+      <a href="{% url 'conference:ncps_admin:abstracts' %}?status=APPROVED" class="stats-link">
+        <div class="stats-card modern-stats-card bg-gradient-success text-white">
+          <div class="stats-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="stats-content">
+            <div class="stats-number">{{ approved_count }}</div>
+            <div class="stats-label">Approved</div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-xl-3 col-md-6">
+      <a href="{% url 'conference:ncps_admin:abstracts' %}?status=REJECTED" class="stats-link">
+        <div class="stats-card modern-stats-card bg-gradient-danger text-white">
+          <div class="stats-icon">
+            <i class="fas fa-times-circle"></i>
+          </div>
+          <div class="stats-content">
+            <div class="stats-number">{{ rejected_count }}</div>
+            <div class="stats-label">Rejected</div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Tables -->
+  <div class="row g-4">
+
+    {# Notifications moved to dedicated page; keep dashboard focused #}
+
+    <!-- Recent Abstracts -->
+    <div class="col-lg-6">
+      <div class="conference-card modern-card">
+        <h5 class="mb-3">
+          <i class="fas fa-file-alt text-primary me-2"></i>
+          Recent Abstracts
+        </h5>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle modern-table">
+            <thead class="table-light">
+              <tr>
+                <th>Title</th>
+                <th>User</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for a in recent_abstracts %}
+              <tr class="clickable-row" onclick="window.location='{% url 'conference:ncps_admin:abstract_detail' a.id %}';" style="cursor: pointer;">
+                <td>
+                  <a href="{% url 'conference:ncps_admin:abstract_detail' a.id %}" class="text-decoration-none">
+                    {{ a.title|truncatewords:4 }}
+                  </a>
+                </td>
+                <td>{{ a.user.username }}</td>
+                <td>
+                  <span class="badge 
+                    {% if a.status == 'APPROVED' %}bg-success
+                    {% elif a.status == 'REJECTED' %}bg-danger
+                    {% else %}bg-secondary{% endif %}">
+                    {{ a.status|title }}
+                  </span>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="3" class="text-muted text-center">No submissions</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <a href="{% url 'conference:ncps_admin:abstracts' %}" class="btn btn-outline-polar btn-sm w-100 mt-3">
+          <i class="fas fa-list me-2"></i>Manage Abstracts
+        </a>
+      </div>
+    </div>
+
+    <!-- Recent Registrations -->
+    <div class="col-lg-6">
+      <div class="conference-card modern-card">
+        <h5 class="mb-3">
+          <i class="fas fa-users text-primary me-2"></i>
+          Recent Registrations
+        </h5>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle modern-table">
+            <thead class="table-light">
+              <tr>
+                <th>Name</th>
+                <th>Organization</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in recent_registrations %}
+              <tr class="clickable-row" onclick="window.location='{% url 'conference:ncps_admin:registration_detail' r.id %}';" style="cursor: pointer;">
+                <td>
+                  <a href="{% url 'conference:ncps_admin:registration_detail' r.id %}" class="text-decoration-none">
+                    {{ r.user.get_full_name|default:r.user.username }}
+                  </a>
+                </td>
+                <td>{{ r.organization|default:"—" }}</td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="2" class="text-muted text-center">No registrations</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <a href="{% url 'conference:ncps_admin:registrations' %}" class="btn btn-outline-polar btn-sm w-100 mt-3">
+          <i class="fas fa-users me-2"></i>Manage Registrations
+        </a>
+        {% if request.user.is_superuser %}
+      <a href="{% url 'conference:ncps_admin:theme_admin_list' %}" class="btn btn-outline-primary w-100 mt-2">
+        <i class="fas fa-user-shield me-2"></i>Manage Theme Admins
+      </a>
+      {% endif %}
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+/* Modern Stats Cards */
+.stats-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.stats-link:hover { text-decoration: none; }
+.modern-stats-card {
+  border-radius: 15px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.modern-stats-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  transition: all 0.5s ease;
+}
+
+.modern-stats-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+}
+
+.modern-stats-card:hover::before {
+  top: -30%;
+  right: -30%;
+}
+
+.stats-icon {
+  font-size: 3rem;
+  opacity: 0.9;
+}
+
+.stats-content {
+  flex: 1;
+}
+
+.stats-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.stats-label {
+  font-size: 0.95rem;
+  opacity: 0.95;
+  font-weight: 500;
+}
+
+/* Gradient Backgrounds */
+.bg-gradient-primary {
+  background: var(--primary-blue);
+}
+
+.bg-gradient-info {
+  background: var(--ocean-blue);
+}
+
+.bg-gradient-success {
+  background: var(--accent-teal);
+}
+
+.bg-gradient-danger {
+  background: #DC3545;
+}
+
+/* Modern Cards */
+.modern-card {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+.modern-card:hover {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  transform: translateY(-3px);
+}
+
+/* Modern Table */
+.modern-table {
+  margin-bottom: 0;
+}
+
+.modern-table thead th {
+  border-bottom: 2px solid var(--border-light);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  padding: 15px;
+}
+
+.modern-table tbody td {
+  padding: 15px;
+  vertical-align: middle;
+}
+
+.modern-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.modern-table tbody tr:hover {
+  background-color: var(--ice-blue);
+  transform: scale(1.01);
+}
+
+.clickable-row {
+  cursor: pointer;
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+  .stats-number {
+    font-size: 2rem;
+  }
+  
+  .stats-icon {
+    font-size: 2rem;
+  }
+  
+  .modern-stats-card {
+    padding: 20px;
+    gap: 15px;
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .modern-table {
+    font-size: 0.85rem;
+  }
+  
+  .modern-table thead th,
+  .modern-table tbody td {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .stats-number {
+    font-size: 1.75rem;
+  }
+  
+  .stats-label {
+    font-size: 0.85rem;
+  }
+  
+  .btn {
+    font-size: 0.9rem;
+  }
+}
+</style>
+
+{% endblock %}

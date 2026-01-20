@@ -1,0 +1,290 @@
+{% extends "conference/base.html" %}
+{% load static %}
+{% block title %}Past Conferences | NCPS{% endblock %}
+
+{% block content %}
+<section class="scientific-inqua pb-4" style="margin-top: 0; padding-top: 80px;">
+  <div class="container">
+    <div class="scientific-wrapper">
+
+      <div class="scientific-header">
+        <div>
+          <h2>Past Conferences</h2>
+          <p>Previous editions of the National Conference on Polar Sciences</p>
+        </div>
+        <a href="{% url 'conference:home' %}" class="btn-view-all">Back to Home</a>
+      </div>
+
+      <div class="scientific-cards scientific-cards-grid" id="pastConferenceAccordion">
+        <a class="theme-card" href="#expand2023" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="expand2023">
+          <img src="{% static 'images/about/ncpor-about.webp' %}" alt="NCPS 2023">
+          <span>NCPS 2023 — Goa, India</span>
+        </a>
+
+        <a class="theme-card" href="#expand2021" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="expand2021">
+          <img src="{% static 'images/about/maitri_station.webp' %}" alt="NCPS 2021">
+          <span>NCPS 2021 — Virtual Conference</span>
+        </a>
+      </div>
+
+      <div class="collapse mt-4" id="expand2023" data-bs-parent="#pastConferenceAccordion">
+        <div class="past-detail">
+          <h4 class="past-title">NCPS 2023 – Goa, India</h4>
+
+          <p class="past-lead">
+            The <strong>National Conference on Polar Sciences 2023</strong> was held
+            in Goa and brought together scientists, academicians, and early-career
+            researchers working across polar science, oceanography, and cryosphere research.
+          </p>
+
+          <hr class="past-divider">
+
+          <h6 class="past-section">Conference Highlights</h6>
+          <ul class="past-list">
+            <li>In-person scientific deliberations and interdisciplinary discussions</li>
+            <li>Keynote lectures by leading national experts in polar and ocean sciences</li>
+            <li>Technical and poster sessions showcasing recent research outcomes</li>
+          </ul>
+
+          <h6 class="past-section">Scientific Focus Areas</h6>
+          <ul class="past-list">
+            <li>Climate Change & Polar Variability</li>
+            <li>Cryospheric Processes & Glacier Dynamics</li>
+            <li>Southern Ocean Circulation & Biogeochemistry</li>
+            <li>Himalayan Cryosphere & Water Resources</li>
+            <li>Polar Technology, Remote Sensing & Modelling</li>
+          </ul>
+
+          <h6 class="past-section">Participation & Representation</h6>
+          <ul class="past-list list-unstyled">
+            <li><strong>Mode:</strong> Physical</li>
+            <li><strong>Participants:</strong> 250+</li>
+            <li><strong>Institutions:</strong> Universities, research institutes, government organisations</li>
+          </ul>
+
+          <h6 class="past-section">Conference Outcomes</h6>
+          <p class="mb-0">
+            NCPS 2023 strengthened interdisciplinary collaboration, promoted early-career
+            researcher participation, and contributed to India’s evolving polar and ocean research roadmap.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse mt-4" id="expand2021" data-bs-parent="#pastConferenceAccordion">
+        <div class="past-detail">
+          <h4 class="past-title">NCPS 2021 – Virtual Conference</h4>
+
+          <p class="past-lead">
+            <strong>NCPS 2021</strong> was conducted in a fully virtual format,
+            enabling wide participation from national and international researchers
+            during global travel restrictions.
+          </p>
+
+          <hr class="past-divider">
+
+          <h6 class="past-section">Conference Highlights</h6>
+          <ul class="past-list">
+            <li>Virtual keynote lectures and thematic technical sessions</li>
+            <li>Online poster presentations and interactive discussions</li>
+            <li>Broad national and international participation</li>
+          </ul>
+
+          <h6 class="past-section">Scientific Focus Areas</h6>
+          <ul class="past-list">
+            <li>Polar Climate Systems & Variability</li>
+            <li>Sea Ice & Cryosphere–Atmosphere Interactions</li>
+            <li>Southern Ocean Processes</li>
+            <li>Remote Sensing & Polar Observations</li>
+          </ul>
+
+          <h6 class="past-section">Participation & Representation</h6>
+          <ul class="past-list list-unstyled">
+            <li><strong>Mode:</strong> Virtual</li>
+            <li><strong>Participants:</strong> 300+</li>
+            <li><strong>Institutions:</strong> National & international research organisations</li>
+          </ul>
+
+          <h6 class="past-section">Conference Outcomes</h6>
+          <p class="mb-0">
+            NCPS 2021 ensured continuity of scientific exchange during the pandemic
+            and facilitated collaborative dialogue across polar, ocean, and cryosphere research domains.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .scientific-inqua {
+    position: relative;
+    background: #0b1320;
+    overflow: hidden;
+  }
+
+  .scientific-inqua::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("{% static 'images/bg/architecture_dark.jpg' %}") center/cover;
+    opacity: 0.15;
+  }
+
+  .scientific-wrapper {
+    position: relative;
+    z-index: 1;
+  }
+
+  .scientific-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .scientific-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #ffffff;
+  }
+
+  .scientific-header p {
+    font-size: 0.95rem;
+    color: #d1d5db;
+    max-width: 520px;
+    margin-bottom: 0;
+  }
+
+  .btn-view-all {
+    background: #b11226;
+    color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .btn-view-all:hover {
+    background: #8e0f1f;
+    color: #ffffff;
+  }
+
+  .scientific-cards {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 18px;
+    padding-bottom: 10px;
+  }
+
+  .scientific-cards-grid {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .theme-card {
+    display: block;
+    width: 220px;
+    height: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.25s ease;
+    text-decoration: none;
+  }
+
+  .theme-card:hover {
+    transform: translateY(-6px);
+  }
+
+  .theme-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s ease;
+  }
+
+  .theme-card:hover img {
+    transform: scale(1.05);
+  }
+
+  .theme-card span {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 14px 14px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    background: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.78) 65%, rgba(0,0,0,0.9) 100%);
+  }
+
+  .past-detail {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 18px 18px;
+    animation: expandFade 0.35s ease;
+  }
+
+  .past-title {
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .past-lead {
+    color: #e5e7eb;
+    margin-bottom: 0;
+  }
+
+  .past-divider {
+    border-color: rgba(255,255,255,0.12);
+    opacity: 1;
+    margin: 16px 0;
+  }
+
+  .past-section {
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .past-list {
+    color: #e5e7eb;
+    padding-left: 18px;
+  }
+
+  .past-list.list-unstyled {
+    padding-left: 0;
+  }
+
+  @keyframes expandFade {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 576px) {
+    .theme-card {
+      width: 100%;
+      max-width: 320px;
+    }
+  }
+</style>
+{% endblock %}

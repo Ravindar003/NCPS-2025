@@ -1,0 +1,438 @@
+{% extends "conference/base.html" %}
+
+{% block content %}
+<div class="container py-5 my-5" style="min-height: calc(100vh - 200px);">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg border-0 card-hover glass-effect p-4" style="margin-top:80px;margin-bottom:50px;">
+
+        <div class="text-center mb-4">
+          <h2><i class="fas fa-user-plus me-2"></i>Register for NCPS 2025</h2>
+          <p class="text-muted">Join the premier polar sciences conference of the year</p>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="d-flex flex-column">
+              <div class="step-item active">
+                <div class="step-number">1</div>
+                <div class="step-text">Account Details</div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-text">Personal Info</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8">
+            <form method="post" id="registrationForm">
+              {% csrf_token %}
+              <div id="formAlert" class="alert alert-danger" role="alert" style="display:none;margin-bottom:16px;"></div>
+
+              <h5 class="mb-3"><i class="fas fa-user-circle me-2"></i>Account Information</h5>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label class="form-label">Email *</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="email" class="form-control" name="email" required>
+                  </div>
+                    <div id="emailError" class="invalid-feedback" style="display:none;" aria-live="polite"></div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Confirm Email *</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope-open"></i></span>
+                    <input type="email" class="form-control" name="email_confirm" required>
+                  </div>
+                    <div id="emailHint" class="small text-muted" style="display:none;margin-top:6px;"></div>
+                    <div id="emailConfirmError" class="invalid-feedback" style="display:none;" aria-live="polite"></div>
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <div class="col-md-6">
+                  <label class="form-label">Password *</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    <input id="password1" type="password" class="form-control" name="password1" required>
+                  </div>
+                    <div id="passwordError" class="invalid-feedback" style="display:none;" aria-live="polite"></div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Confirm Password *</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    <input id="password2" type="password" class="form-control" name="password2" required>
+                  </div>
+                    <div id="passwordConfirmError" class="invalid-feedback" style="display:none;" aria-live="polite"></div>
+                </div>
+              </div>
+
+              <!-- Aligned hints row: left = password rules, right = match/mismatch -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <div id="passwordHint" class="small text-muted mt-1" style="display:none;"></div>
+                </div>
+                <div class="col-md-6">
+                  <div id="passwordMatchHint" class="small text-muted mt-1" style="display:none;"></div>
+                </div>
+              </div>
+
+              <h5 class="mb-3 mt-4"><i class="fas fa-id-card me-2"></i>Personal Information</h5>
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <label class="form-label">Title</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                    <select class="form-select" name="title"><option value="">-- Select --</option></select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label class="form-label">Full Name/First Name *</label>
+                  <input type="text" class="form-control" name="first_name" required>
+                  <div id="firstNameError" class="invalid-feedback" style="display:none;" aria-live="polite"></div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Last Name</label>
+                  <input type="text" class="form-control" name="last_name">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Organization/Institution *</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-university"></i></span>
+                  <input type="text" class="form-control" name="organization" required>
+                </div>
+                <div id="organizationError" class="invalid-feedback" style="display:none;" aria-live="polite"></div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Designation *</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+                  <input type="text" class="form-control" name="designation" required>
+                </div>
+                <div id="designationError" class="invalid-feedback" style="display:none;" aria-live="polite"></div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Scientific Theme *</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-flask"></i></span>
+                  <select class="form-select" name="scientific_theme" required>
+                    <option value="">-- Select Scientific Theme --</option>
+                    {% for code,name in theme_choices %}
+                      <option value="{{ code }}">{{ name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <small class="form-text text-muted">Choose the scientific area most relevant to your work</small>
+                <div id="themeError" class="invalid-feedback" style="display:none;" aria-live="polite"></div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Phone Number *</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                  <span class="input-group-text">+91</span>
+                  <input type="hidden" name="country_code" value="+91">
+                  <input type="tel" class="form-control" name="phone" required inputmode="numeric" pattern="\d{10}" maxlength="10" placeholder="Enter 10 digit mobile number">
+                </div>
+                <small class="form-text text-muted">Enter your 10-digit mobile number (without country code).</small>
+                <div id="phoneError" class="invalid-feedback" style="display:none;" aria-live="polite"></div>
+              </div>
+
+              <!-- Temporarily removed: Terms & conditions agreement (commented out) -->
+              <!--
+              <div class="form-check mb-4">
+                <input class="form-check-input" type="checkbox" name="terms" required id="termsCheck">
+                <label class="form-check-label" for="termsCheck">I agree to the <a href="{% url 'conference:terms' %}" class="text-decoration-none" target="_blank" rel="noopener noreferrer">conference terms and conditions</a> and <a href="{% url 'conference:abstract_guidelines' %}" class="text-decoration-none" target="_blank" rel="noopener noreferrer">abstract submission guidelines</a></label>
+                <div id="termsError" class="invalid-feedback" style="display:none;" aria-live="polite"></div>
+              </div>
+              -->
+
+              <!-- Google reCAPTCHA widget -->
+              <div class="mb-3">
+                {% if recaptcha_site_key %}
+                <div class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
+                <div id="captchaError" class="invalid-feedback" style="display:none;" aria-live="polite"></div>
+                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                {% else %}
+                <div class="alert alert-warning">reCAPTCHA not configured. Contact the administrator.</div>
+                {% endif %}
+              </div>
+
+              <div class="d-grid gap-2">
+                <button id="registerSubmit" type="submit" class="btn btn-polar-gradient btn-lg" disabled><i class="fas fa-user-plus me-2"></i>Complete Registration</button>
+                <a href="{% url 'conference:login' %}" class="btn btn-ice-outline"><i class="fas fa-sign-in-alt me-2"></i>Already have an account? Login</a>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .step-item{display:flex;align-items:center;padding:15px;margin-bottom:10px;border-radius:10px;background:#f8f9fa;transition:all .3s}
+  .step-item.active{background:linear-gradient(45deg,var(--primary-blue),var(--ocean-blue));color:#fff}
+  .step-number{width:40px;height:40px;border-radius:50%;background:#fff;color:var(--primary-blue);display:flex;align-items:center;justify-content:center;font-weight:700;margin-right:12px;border:2px solid var(--primary-blue)}
+  .step-text{font-weight:500}
+  .pw-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:.85rem;background:#f1f3f5;color:#495057;border:1px solid #e9ecef}
+  .pw-badge i{width:14px;text-align:center}
+  .pw-badge.valid{background:#198754;color:#fff;border-color:#198754}
+  .pw-badge.invalid{opacity:.95}
+  #passwordRulesContainer{transition:all .15s}
+</style>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const form = document.getElementById('registrationForm');
+  const p1 = document.getElementById('password1');
+  const p2 = document.getElementById('password2');
+  const hint = document.getElementById('passwordHint');
+  const emailHint = document.getElementById('emailHint');
+  const pwMatch = document.getElementById('passwordMatchHint');
+  const submit = document.getElementById('registerSubmit');
+  const email = document.querySelector('input[name="email"]');
+  const emailc = document.querySelector('input[name="email_confirm"]');
+  const theme = document.querySelector('select[name="scientific_theme"]');
+  const terms = document.getElementById('termsCheck');
+  const captcha = document.querySelector('[name="g-recaptcha-response"]');
+  const phone = document.querySelector('input[name="phone"]');
+  const firstName = document.querySelector('input[name="first_name"]');
+  const formAlert = document.getElementById('formAlert');
+
+  if(phone){phone.addEventListener('input',()=>phone.value=phone.value.replace(/\D/g,'').slice(0,10));}
+  // Prevent paste into confirmation fields and prevent copying from primary fields
+  if(emailc){emailc.addEventListener('paste', e=>e.preventDefault());}
+  if(p2){p2.addEventListener('paste', e=>e.preventDefault());}
+  if(email){email.addEventListener('copy', e=>e.preventDefault());}
+  if(p1){p1.addEventListener('copy', e=>e.preventDefault());}
+
+  function isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  function unmetRules(pw,pw2){
+    const unmet=[];
+    if(!pw||pw.length<8)unmet.push('8+ chars');
+    if(!/[A-Z]/.test(pw))unmet.push('uppercase');
+    if(!/[a-z]/.test(pw))unmet.push('lowercase');
+    if(!/\d/.test(pw))unmet.push('digit');
+    if(!/[!@#$%]/.test(pw))unmet.push('special (!@#$%)');
+    if(/[^A-Za-z0-9!@#$%]/.test(pw))unmet.push('only !@#$% allowed');
+    return unmet;
+  }
+
+  function showFormAlert(messages){
+    if(!formAlert) return;
+    formAlert.innerHTML = '<ul class="mb-0">' + messages.map(m=>'<li>'+m+'</li>').join('') + '</ul>';
+    formAlert.style.display = 'block';
+    formAlert.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  function clearFormAlert(){ if(formAlert){ formAlert.style.display='none'; formAlert.innerHTML=''; } }
+
+  function markInvalid(el){ if(!el) return; el.classList.add('is-invalid'); }
+  function clearInvalid(el){ if(!el) return; el.classList.remove('is-invalid'); }
+
+  function setFieldErrorMsg(id, msg){ const el=document.getElementById(id); if(!el) return; el.textContent = msg; el.style.display = msg? 'block':'none'; }
+  function clearFieldErrorMsg(id){ const el=document.getElementById(id); if(!el) return; el.textContent=''; el.style.display='none'; }
+
+  function updateState(){
+    const pw = p1? p1.value : '';
+    const pw2 = p2? p2.value : '';
+    if(hint){
+      if(!pw){
+        hint.style.display='none';
+      } else {
+        const unmet = unmetRules(pw,pw2);
+        if(unmet.length===0){
+          hint.className='small text-success';
+          hint.textContent='Strong password';
+          hint.style.display='block';
+        } else {
+          // don't duplicate the missing message here; per-field inline messages handle missing criteria
+          hint.style.display='none';
+        }
+      }
+    }
+    // Email match hint: only show 'match' when both are valid
+    if(email && emailc && emailHint){
+      const e1 = (email.value||'').trim();
+      const e2 = (emailc.value||'').trim();
+      const e1ok = isValidEmail(e1);
+      const e2ok = isValidEmail(e2);
+      if(!e1 && !e2){ emailHint.style.display='none'; }
+      else if(e1 === e2 && e1ok && e2ok){ emailHint.className='small text-success'; emailHint.textContent='Emails match'; emailHint.style.display='block'; }
+      else if(e1 && e2 && e1 === e2 && !(e1ok && e2ok)){
+        emailHint.className='small text-danger'; emailHint.textContent='Emails match but address is invalid'; emailHint.style.display='block';
+      }
+      else { emailHint.className='small text-danger'; emailHint.textContent='Emails do not match'; emailHint.style.display='block'; }
+    }
+    // Password match hint
+    if(pwMatch){
+        // show match/mismatch only when both fields are filled
+        if(pw && pw2){
+          if(pw === pw2){
+            pwMatch.className = 'small text-success';
+            pwMatch.textContent = 'Passwords match';
+            pwMatch.style.display='block';
+          } else {
+            pwMatch.className = 'small text-danger';
+            pwMatch.textContent = 'Passwords do not match';
+            pwMatch.style.display='block';
+          }
+        } else {
+          pwMatch.style.display='none';
+        }
+    }
+
+    // clear field invalid markers and inline messages when they meet criteria
+    if(email && emailc){ if(isValidEmail(email.value || '') && (email.value||'').trim() === (emailc.value||'').trim()){ clearInvalid(email); clearInvalid(emailc); clearFieldErrorMsg('emailError'); clearFieldErrorMsg('emailConfirmError'); } }
+    if(p1 && p2){ if(unmetRules(p1.value||'', p2.value||'').length===0){ clearInvalid(p1); clearInvalid(p2); clearFieldErrorMsg('passwordError'); clearFieldErrorMsg('passwordConfirmError'); } }
+    if(firstName){ if(/[A-Za-z]/.test((firstName.value||''))){ clearInvalid(firstName); clearFieldErrorMsg('firstNameError'); } }
+    if(phone){ const pv = (phone.value||'').replace(/\D/g,''); if(pv.length===10){ clearInvalid(phone); clearFieldErrorMsg('phoneError'); } }
+    if(theme){ if(theme.value){ clearFieldErrorMsg('themeError'); clearInvalid(theme); } }
+    if(document.getElementById('organizationError')){ if((document.querySelector('input[name="organization"]').value||'').trim()){ clearFieldErrorMsg('organizationError'); } }
+    if(document.getElementById('designationError')){ if((document.querySelector('input[name="designation"]').value||'').trim()){ clearFieldErrorMsg('designationError'); } }
+    if(terms){ if(terms.checked){ clearFieldErrorMsg('termsError'); clearInvalid(terms); } }
+    if(captcha){ if((captcha.value||'').trim()){ clearInvalid(captcha); clearFieldErrorMsg('captchaError'); } }
+
+    const emailsOk = email && email.value.trim() && emailc && emailc.value.trim() && (email.value.trim() === emailc.value.trim()) && isValidEmail(email.value.trim());
+    const themeOk = theme && theme.value;
+    const termsOk = terms ? terms.checked : true;
+    if(submit) submit.disabled = !(pw && unmetRules(pw,pw2).length===0 && emailsOk && themeOk && termsOk);
+  }
+
+  function clientValidate(){
+    const errors = [];
+    clearFormAlert();
+    // emails
+    if(!email || !(email.value||'').trim() || !isValidEmail((email.value||'').trim())){ errors.push('Enter a valid email address.'); markInvalid(email); setFieldErrorMsg('emailError','Enter a valid email address.'); }
+    if(!emailc || !(emailc.value||'').trim()){ errors.push('Confirm email is required.'); markInvalid(emailc); setFieldErrorMsg('emailConfirmError','Confirm email is required.'); }
+    if(email && emailc && (email.value||'').trim() !== (emailc.value||'').trim()){ errors.push('Email and confirmation do not match.'); markInvalid(email); markInvalid(emailc); setFieldErrorMsg('emailError','Email and confirmation do not match.'); setFieldErrorMsg('emailConfirmError','Email and confirmation do not match.'); }
+
+    // passwords
+    const pw = p1? p1.value : '';
+    const pw2 = p2? p2.value : '';
+    const unmet = unmetRules(pw,pw2);
+    if(unmet.length){ const msg = 'Missing: ' + unmet.join(', '); markInvalid(p1); markInvalid(p2); setFieldErrorMsg('passwordError', msg); }
+    // if confirmation present and doesn't match, mark invalid but do not duplicate the message text
+    if(pw2 && pw !== pw2){ errors.push('Passwords do not match.'); markInvalid(p2); }
+
+    // first name
+    if(!firstName || !(firstName.value||'').trim()){ errors.push('First name is required.'); markInvalid(firstName); setFieldErrorMsg('firstNameError','First name is required.'); }
+    else if(!/[A-Za-z]/.test(firstName.value||'')){ errors.push('First name must include alphabetic characters.'); markInvalid(firstName); setFieldErrorMsg('firstNameError','First name must include alphabetic characters.'); }
+
+    // phone
+    if(!phone || !(/^[0-9]{10}$/.test((phone.value||'').replace(/\D/g,'')))){ errors.push('Phone number must be exactly 10 digits.'); markInvalid(phone); setFieldErrorMsg('phoneError','Phone number must be exactly 10 digits.'); }
+
+    // theme
+    if(!theme || !(theme.value||'')){ errors.push('Please select a scientific theme.'); markInvalid(theme); setFieldErrorMsg('themeError','Please select a scientific theme.'); }
+
+    // terms
+    if(terms && !terms.checked){ errors.push('You must agree to the terms and conditions.'); markInvalid(terms); setFieldErrorMsg('termsError','You must agree to the terms and conditions.'); }
+
+    // captcha (reCAPTCHA token must be present)
+    if(!captcha || !(captcha.value||'').trim()){ errors.push('Please complete the reCAPTCHA.'); if(captcha){ markInvalid(captcha); setFieldErrorMsg('captchaError','Please complete the reCAPTCHA.'); } }
+
+    return errors;
+  }
+
+  if(form){
+    form.addEventListener('submit', function(e){
+      const errs = clientValidate();
+      if(errs.length){
+        e.preventDefault();
+        showFormAlert(errs);
+      } else {
+        clearFormAlert();
+      }
+    });
+  }
+
+  // Validate email on blur and show immediate alert if invalid
+  function validateEmailOnBlur(){
+    if(!email) return;
+    const v = (email.value||'').trim();
+    if(!v){ markInvalid(email); showFormAlert(['Email is required.']); }
+    else if(!isValidEmail(v)){ markInvalid(email); showFormAlert(['Enter a valid email address.']); }
+    else { clearInvalid(email); clearFormAlert(); }
+  }
+  if(email){ email.addEventListener('blur', validateEmailOnBlur); }
+  if(emailc){ emailc.addEventListener('blur', function(){ if((emailc.value||'').trim() && (email.value||'').trim() !== (emailc.value||'').trim()){ markInvalid(emailc); showFormAlert(['Email and confirmation do not match.']); } else { clearInvalid(emailc); clearFormAlert(); } }); }
+
+  // Field-level blur/change validators for professional UX
+  function validateFieldOnBlur(field){
+    if(!field) return;
+    const name = field.getAttribute('name');
+    clearFormAlert();
+    if(name === 'email'){
+      const v = (field.value||'').trim();
+      if(!v){ setFieldErrorMsg('emailError','Email is required.'); markInvalid(field); }
+      else if(!isValidEmail(v)){ setFieldErrorMsg('emailError','Enter a valid email address.'); markInvalid(field); }
+      else { clearFieldErrorMsg('emailError'); clearInvalid(field); }
+    }
+    if(name === 'email_confirm'){
+      const v = (field.value||'').trim(); const orig = (email.value||'').trim();
+      if(!v){ setFieldErrorMsg('emailConfirmError','Confirm email is required.'); markInvalid(field); }
+      else if(orig && v !== orig){ setFieldErrorMsg('emailConfirmError','Email and confirmation do not match.'); markInvalid(field); }
+      else { clearFieldErrorMsg('emailConfirmError'); clearInvalid(field); }
+    }
+    if(name === 'password1' || name === 'password2'){
+      const pw = (p1.value||''); const pw2 = (p2.value||'');
+      const unmet = unmetRules(pw,pw2);
+      if(pw && unmet.length){ const msg = 'Missing: ' + unmet.join(', '); setFieldErrorMsg('passwordError', msg); markInvalid(p1); }
+      else { clearFieldErrorMsg('passwordError'); clearInvalid(p1); }
+      // For mismatch, rely on the small pwMatch hint for the message; still mark field invalid
+      if(pw2 && pw !== pw2){ clearFieldErrorMsg('passwordConfirmError'); markInvalid(p2); }
+      else { clearFieldErrorMsg('passwordConfirmError'); clearInvalid(p2); }
+    }
+    if(name === 'first_name'){
+      const v = (field.value||'').trim(); if(!v){ setFieldErrorMsg('firstNameError','First name is required.'); markInvalid(field); }
+      else if(!/[A-Za-z]/.test(v)){ setFieldErrorMsg('firstNameError','First name must include alphabetic characters.'); markInvalid(field); }
+      else { clearFieldErrorMsg('firstNameError'); clearInvalid(field); }
+    }
+    if(name === 'phone'){
+      const v = (field.value||'').replace(/\D/g,''); if(!/^[0-9]{10}$/.test(v)){ setFieldErrorMsg('phoneError','Phone number must be exactly 10 digits.'); markInvalid(field); } else { clearFieldErrorMsg('phoneError'); clearInvalid(field); }
+    }
+    if(name === 'organization'){
+      const v=(field.value||'').trim(); if(!v){ setFieldErrorMsg('organizationError','Organization is required.'); markInvalid(field); } else { clearFieldErrorMsg('organizationError'); clearInvalid(field); }
+    }
+    if(name === 'designation'){
+      const v=(field.value||'').trim(); if(!v){ setFieldErrorMsg('designationError','Designation is required.'); markInvalid(field); } else { clearFieldErrorMsg('designationError'); clearInvalid(field); }
+    }
+  }
+
+  ['email','email_confirm','password1','password2','first_name','phone','organization','designation','g-recaptcha-response'].forEach(n=>{ const el=document.querySelector('[name="'+n+'"]'); if(el) el.addEventListener('blur', ()=>validateFieldOnBlur(el)); });
+  if(theme) theme.addEventListener('change', ()=>{ if(!theme.value){ setFieldErrorMsg('themeError','Please select a scientific theme.'); markInvalid(theme); } else { clearFieldErrorMsg('themeError'); clearInvalid(theme); } });
+  if(terms) terms.addEventListener('change', ()=>{ if(!terms.checked){ setFieldErrorMsg('termsError','You must agree to the terms and conditions.'); markInvalid(terms); } else { clearFieldErrorMsg('termsError'); clearInvalid(terms); } });
+  if(captcha) captcha.addEventListener('input', updateState);
+
+  ['input','keyup','change'].forEach(evt=>{
+    if(p1) p1.addEventListener(evt, updateState);
+    if(p2) p2.addEventListener(evt, updateState);
+    if(email) email.addEventListener(evt, updateState);
+    if(emailc) emailc.addEventListener(evt, updateState);
+    if(theme) theme.addEventListener('change', updateState);
+    if(terms) terms.addEventListener('change', updateState);
+    if(captcha) captcha.addEventListener('input', updateState);
+    if(firstName) firstName.addEventListener(evt, updateState);
+    if(phone) phone.addEventListener(evt, updateState);
+  });
+
+  updateState();
+});
+</script>
+{% endblock %}
+

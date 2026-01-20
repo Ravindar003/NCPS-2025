@@ -1,0 +1,109 @@
+{% extends "conference/base.html" %}
+{% block title %}Edit Profile — NCPS 2025{% endblock %}
+
+{% block content %}
+<div class="container py-5 my-4" style="max-width: 800px; margin-top: 80px; margin-bottom: 50px;">
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <h4 class="mb-4">
+        <i class="fas fa-user-edit me-2 text-primary"></i> Edit Profile
+      </h4>
+
+      <form method="post">
+        {% csrf_token %}
+
+        <h6 class="text-muted mb-3">Account Info</h6>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-control" name="first_name"
+                   value="{{ user_obj.first_name }}">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="last_name"
+                   value="{{ user_obj.last_name }}">
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Email *</label>
+          <input type="email" class="form-control" name="email"
+                 value="{{ user_obj.email }}" required>
+        </div>
+
+        <hr>
+
+        <h6 class="text-muted mb-3">Participant Details</h6>
+
+                {% if participant.participant_code %}
+                  <div class="mb-3">
+                    <label class="form-label">Participant Code</label>
+                    <input type="text" class="form-control" value="{{ participant.participant_code }}" readonly>
+                  </div>
+
+        <div class="mb-3">
+          <label class="form-label">Organization</label>
+          <input type="text" class="form-control" name="organization"
+                 value="{{ participant.organization }}">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <select class="form-select" name="title">
+            <option value="" {% if not participant.title %}selected{% endif %}>-- Select --</option>
+            <option value="Mr" {% if participant.title == 'Mr' %}selected{% endif %}>Mr</option>
+            <option value="Mrs" {% if participant.title == 'Mrs' %}selected{% endif %}>Mrs</option>
+            <option value="Ms" {% if participant.title == 'Ms' %}selected{% endif %}>Ms</option>
+            <option value="Dr" {% if participant.title == 'Dr' %}selected{% endif %}>Dr</option>
+            <option value="Prof" {% if participant.title == 'Prof' %}selected{% endif %}>Prof</option>
+            <option value="Mx" {% if participant.title == 'Mx' %}selected{% endif %}>Mx</option>
+            <option value="Other" {% if participant.title == 'Other' %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Scientific Theme</label>
+          <select class="form-select" name="scientific_theme">
+            <option value="" {% if not participant.scientific_theme %}selected{% endif %}>-- Select Scientific Theme --</option>
+            {% for code, name in theme_choices %}
+              <option value="{{ code }}" {% if participant.scientific_theme == code %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Designation</label>
+          <input type="text" class="form-control" name="designation"
+                 value="{{ participant.designation }}">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Phone</label>
+          <input type="text" class="form-control" name="phone"
+                 value="{{ participant.phone }}">
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Research Interests</label>
+          <textarea class="form-control" name="research_interests" rows="3">{{ participant.research_interests }}</textarea>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <a href="{% url 'profile' %}" class="btn btn-outline-secondary">
+            Cancel
+          </a>
+          <button type="submit" class="btn btn-polar">
+            <i class="fas fa-save me-1"></i> Save Changes
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

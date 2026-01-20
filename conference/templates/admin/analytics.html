@@ -1,0 +1,220 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Analytics | NCPS 2025{% endblock %}
+
+{% block admin_content %}
+<div class="container-fluid py-4">
+
+  <!-- HEADER -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="fw-bold mb-1">
+        <i class="fas fa-chart-line text-primary me-2"></i>
+        Analytics & Reports
+      </h3>
+      <p class="text-muted mb-0">
+        Insights and statistics for NCPS 2025 submissions
+      </p>
+    </div>
+
+    <a href="{% url 'conference:ncps_admin:dashboard' %}"
+       class="btn btn-outline-primary rounded-pill">
+      <i class="fas fa-arrow-left me-1"></i> Dashboard
+    </a>
+  </div>
+
+  <!-- SUMMARY CARDS -->
+  <div class="row g-4 mb-4">
+
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center">
+          <h6 class="text-muted mb-2">
+            <i class="fas fa-file-alt me-1"></i> Total Abstracts
+          </h6>
+          <div class="display-6 fw-bold text-primary">
+            {{ total_abstracts }}
+          </div>
+          <small class="text-muted">
+            {{ recent_abstracts }} in last 30 days
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center">
+          <h6 class="text-muted mb-2">
+            <i class="fas fa-users me-1"></i> Registrations
+          </h6>
+          <div class="display-6 fw-bold text-success">
+            {{ total_registrations }}
+          </div>
+          <small class="text-muted">
+            {{ recent_registrations }} in last 30 days
+          </small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CHARTS -->
+  <div class="row g-4 mb-4">
+
+    <!-- STATUS PIE -->
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="mb-3 fw-semibold">
+            <i class="fas fa-chart-pie me-2"></i>
+            Abstract Status Distribution
+          </h6>
+          <div style="height:300px;">
+            <canvas id="statusChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THEME BAR -->
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="mb-3 fw-semibold">
+            <i class="fas fa-chart-bar me-2"></i>
+            Theme-wise Distribution
+          </h6>
+          <div style="height:300px;">
+            <canvas id="themeChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DATA TABLES -->
+  <div class="row g-4">
+
+    <!-- STATUS TABLE -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="mb-3 fw-semibold">
+            <i class="fas fa-list me-2"></i>
+            Status Breakdown
+          </h6>
+
+          <table class="table table-sm align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Status</th>
+                <th class="text-end">Count</th>
+                <th class="text-end">%</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in abstracts_by_status %}
+              <tr>
+                <td>
+                  <span class="badge bg-secondary">
+                    {{ item.status|title }}
+                  </span>
+                </td>
+                <td class="text-end">{{ item.count }}</td>
+                <td class="text-end">
+                  {% widthratio item.count total_abstracts 100 %}%
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- THEME TABLE -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="mb-3 fw-semibold">
+            <i class="fas fa-palette me-2"></i>
+            Theme Breakdown
+          </h6>
+
+          <table class="table table-sm align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Theme</th>
+                <th class="text-end">Count</th>
+                <th class="text-end">%</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in abstracts_by_theme %}
+              <tr>
+                <td>{{ item.theme_name }}</td>
+                <td class="text-end">{{ item.count }}</td>
+                <td class="text-end">
+                  {% widthratio item.count total_abstracts 100 %}%
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+/* ABSTRACT STATUS PIE */
+const statusCtx = document.getElementById("statusChart");
+if (statusCtx) {
+  new Chart(statusCtx, {
+    type: "pie",
+    data: {
+      labels: {{ status_labels|safe }},
+      datasets: [{
+        data: {{ status_counts|safe }},
+        backgroundColor: [
+          "#0d6efd", "#198754", "#ffc107", "#dc3545", "#6c757d"
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  });
+}
+
+/* THEME BAR */
+const themeCtx = document.getElementById("themeChart");
+if (themeCtx) {
+  new Chart(themeCtx, {
+    type: "bar",
+    data: {
+      labels: {{ theme_labels|safe }},
+      datasets: [{
+        data: {{ theme_counts|safe }},
+        backgroundColor: "#0d6efd"
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  });
+}
+</script>
+{% endblock %}

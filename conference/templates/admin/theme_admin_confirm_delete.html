@@ -1,0 +1,40 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Delete Theme Admin{% endblock %}
+
+{% block admin_content %}
+<div class="container-fluid">
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <h4 class="fw-bold text-danger mb-3">
+        Delete Theme Admin
+      </h4>
+
+      <div class="alert alert-warning">
+        <strong>Warning:</strong><br>
+        You are about to remove theme admin privileges from
+        <strong>{{ theme_admin.user.username }}</strong>.
+        <br><br>
+        This will <strong>NOT</strong> delete the user account or any data.
+      </div>
+
+      <form method="post">
+        {% csrf_token %}
+
+        <button type="submit" class="btn btn-danger">
+          <i class="fas fa-trash me-1"></i> Confirm Delete
+        </button>
+
+        <a href="{% url 'conference:ncps_admin:theme_admin_list' %}"
+           class="btn btn-outline-polar ms-2">
+          Cancel
+        </a>
+      </form>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

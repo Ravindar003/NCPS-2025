@@ -1,0 +1,695 @@
+<!-- NCPS 2025 AI Chatbot Widget -->
+<div id="ncps-chatbot-widget">
+    <!-- Chat Toggle Button -->
+    <button id="chatbot-toggle" class="chatbot-toggle" aria-label="Open Chat">
+        <span style="font-size: 32px; line-height: 1;">🐧</span>
+        <span class="chat-badge" id="chat-badge">1</span>
+    </button>
+
+    <!-- Chat Panel -->
+    <div id="chatbot-panel" class="chatbot-panel" style="display: none;">
+        <!-- Chat Header -->
+        <div class="chatbot-header">
+            <div class="chatbot-header-content">
+                <div class="chatbot-avatar">
+                    <span style="font-size: 28px; line-height: 1;">🐧</span>
+                </div>
+                <div class="chatbot-title">
+                    <h3>Penguin</h3>
+                    <p class="chatbot-subtitle">Your NCPS Conference Assistant</p>
+                </div>
+            </div>
+            <button id="chatbot-close" class="chatbot-close" aria-label="Close Chat">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="chatbot-messages" class="chatbot-messages">
+            <!-- Messages will be dynamically added here -->
+        </div>
+
+        <!-- Quick Replies -->
+        <div id="chatbot-quick-replies" class="chatbot-quick-replies" style="display: none;">
+            <!-- Quick reply buttons will be added here -->
+        </div>
+
+        <!-- Chat Input -->
+        <div class="chatbot-input-container">
+            <div class="chatbot-typing" id="chatbot-typing" style="display: none;">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <form id="chatbot-form" class="chatbot-form">
+                <input 
+                    type="text" 
+                    id="chatbot-input" 
+                    class="chatbot-input" 
+                    placeholder="Type your message..." 
+                    autocomplete="off"
+                    required
+                />
+                <button type="submit" class="chatbot-send" aria-label="Send message">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+/* ==================== NCPS Chatbot Widget Styles ==================== */
+#ncps-chatbot-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Toggle Button */
+.chatbot-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    border: none;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.chatbot-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(30, 58, 138, 0.4);
+}
+
+.chat-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Chat Panel */
+.chatbot-panel {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    width: 380px;
+    max-width: calc(100vw - 48px);
+    height: 600px;
+    max-height: calc(100vh - 140px);
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Chat Header */
+.chatbot-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chatbot-header-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.chatbot-avatar {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chatbot-title h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.chatbot-subtitle {
+    margin: 0;
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.chatbot-close {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+
+.chatbot-close:hover {
+    opacity: 0.8;
+}
+
+/* Messages Container */
+.chatbot-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: #f9fafb;
+    scroll-behavior: smooth;
+}
+
+.chatbot-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chatbot-messages::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+/* Message Bubbles */
+.chat-message {
+    margin-bottom: 16px;
+    display: flex;
+    animation: messageSlide 0.3s ease;
+}
+
+@keyframes messageSlide {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chat-message.user {
+    justify-content: flex-end;
+}
+
+.chat-message.bot {
+    justify-content: flex-start;
+}
+
+.message-content {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    line-height: 1.5;
+    font-size: 14px;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    overflow: visible;
+    display: block;
+    min-height: 20px;
+}
+
+.chat-message.user .message-content {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-message.bot .message-content {
+    background: white;
+    color: #1f2937;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.message-content a {
+    color: #3b82f6;
+    text-decoration: underline;
+}
+
+.chat-message.user .message-content a {
+    color: #fbbf24;
+}
+
+.message-time {
+    font-size: 11px;
+    opacity: 0.6;
+    margin-top: 4px;
+}
+
+/* Quick Replies */
+.chatbot-quick-replies {
+    padding: 12px 20px;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.quick-reply-btn {
+    background: white;
+    border: 1px solid #3b82f6;
+    color: #3b82f6;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.quick-reply-btn:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+/* Typing Indicator */
+.chatbot-typing {
+    padding: 12px 16px;
+    background: white;
+    border-radius: 12px;
+    border-bottom-left-radius: 4px;
+    display: inline-flex;
+    gap: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    margin-bottom: 16px;
+}
+
+.chatbot-typing span {
+    width: 8px;
+    height: 8px;
+    background: #94a3b8;
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+}
+
+.chatbot-typing span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.chatbot-typing span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Input Container */
+.chatbot-input-container {
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    padding: 16px 20px;
+}
+
+.chatbot-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.chatbot-input {
+    flex: 1;
+    border: 1px solid #d1d5db;
+    border-radius: 24px;
+    padding: 10px 16px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.chatbot-input:focus {
+    border-color: #3b82f6;
+}
+
+.chatbot-send {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.chatbot-send:hover {
+    transform: scale(1.1);
+}
+
+.chatbot-send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+    .chatbot-panel {
+        bottom: 90px;
+        right: 12px;
+        left: 12px;
+        width: auto;
+        max-width: none;
+    }
+    
+    #ncps-chatbot-widget {
+        bottom: 16px;
+        right: 16px;
+    }
+}
+</style>
+
+<script>
+(function() {
+    'use strict';
+    
+    // Chatbot Widget Controller
+    const NCPSChatbot = {
+        isOpen: false,
+        isAdmin: {{ request.user.is_staff|lower }},
+        conversationHistory: [],
+        
+        init() {
+            this.cacheElements();
+            this.attachEventListeners();
+            this.initializeChat();
+        },
+        
+        getCurrentPageContext() {
+            const path = window.location.pathname;
+            const pageName = document.title || 'NCPS 2025';
+            
+            // Detect page type
+            let pageType = 'home';
+            let pageContext = '';
+            
+            if (path.includes('/login')) {
+                pageType = 'login';
+                pageContext = 'User is on the LOGIN PAGE. They need to enter Username and Password to access their dashboard.';
+            } else if (path.includes('/register')) {
+                pageType = 'register';
+                pageContext = 'User is on the REGISTRATION PAGE. They need to fill: Full Name, Email, Institution/Organization, and Password to create an account.';
+            } else if (path.includes('/dashboard')) {
+                pageType = 'dashboard';
+                pageContext = 'User is on their DASHBOARD. They can submit abstracts, view submissions, and manage their profile here.';
+            } else if (path.includes('/submit') || path.includes('/abstract')) {
+                pageType = 'abstract';
+                pageContext = 'User is on the ABSTRACT SUBMISSION PAGE. Required fields: Title, Authors, Affiliations, Keywords, Abstract (250-300 words), Theme selection.';
+            } else if (path.includes('/profile')) {
+                pageType = 'profile';
+                pageContext = 'User is on their PROFILE PAGE. They can edit their personal information, institution, and contact details.';
+            } else if (path === '/' || path === '/home') {
+                pageType = 'home';
+                pageContext = 'User is on the HOME PAGE of NCPS 2025 conference website.';
+            }
+            
+            return {
+                pageType: pageType,
+                pagePath: path,
+                pageContext: pageContext,
+                pageTitle: pageName
+            };
+        },
+        
+        cacheElements() {
+            this.toggle = document.getElementById('chatbot-toggle');
+            this.panel = document.getElementById('chatbot-panel');
+            this.close = document.getElementById('chatbot-close');
+            this.messagesContainer = document.getElementById('chatbot-messages');
+            this.form = document.getElementById('chatbot-form');
+            this.input = document.getElementById('chatbot-input');
+            this.quickReplies = document.getElementById('chatbot-quick-replies');
+            this.badge = document.getElementById('chat-badge');
+            this.typingIndicator = document.getElementById('chatbot-typing');
+        },
+        
+        attachEventListeners() {
+            this.toggle.addEventListener('click', () => this.toggleChat());
+            this.close.addEventListener('click', () => this.toggleChat());
+            this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+        },
+        
+        toggleChat() {
+            this.isOpen = !this.isOpen;
+            
+            if (this.isOpen) {
+                this.panel.style.display = 'flex';
+                this.toggle.style.display = 'none';
+                this.input.focus();
+                this.badge.style.display = 'none';
+            } else {
+                this.panel.style.display = 'none';
+                this.toggle.style.display = 'flex';
+            }
+        },
+        
+        async initializeChat() {
+            try {
+                const response = await fetch('/chatbot/api/init/');
+                const data = await response.json();
+                
+                this.addBotMessage(data.greeting);
+                
+                if (data.quick_replies && data.quick_replies.length > 0) {
+                    this.showQuickReplies(data.quick_replies);
+                }
+            } catch (error) {
+                console.error('Failed to initialize chatbot:', error);
+                this.addBotMessage('Hello! I\'m Penguin, your NCPS 2025 assistant. How can I help you?');
+            }
+        },
+        
+        async handleSubmit(e) {
+            e.preventDefault();
+            
+            const message = this.input.value.trim();
+            if (!message) return;
+            
+            // Add user message
+            this.addUserMessage(message);
+            this.input.value = '';
+            
+            // Show typing indicator
+            this.showTyping();
+            
+            // Send to backend
+            try {
+                const pageInfo = this.getCurrentPageContext();
+                const response = await fetch('/chatbot/api/message/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        is_admin: this.isAdmin,
+                        page_context: pageInfo.pageContext,
+                        page_type: pageInfo.pageType,
+                        page_path: pageInfo.pagePath
+                    })
+                });
+                
+                const data = await response.json();
+                
+                console.log('Chatbot API Response:', data);
+                console.log('Message length:', data.message ? data.message.length : 0);
+                console.log('Message content:', data.message);
+                
+                // Hide typing indicator
+                this.hideTyping();
+                
+                // Add bot response
+                this.addBotMessage(data.message);
+                
+                // Show quick replies if available
+                if (data.quick_replies && data.quick_replies.length > 0) {
+                    this.showQuickReplies(data.quick_replies);
+                } else {
+                    this.quickReplies.style.display = 'none';
+                }
+                
+            } catch (error) {
+                this.hideTyping();
+                this.addBotMessage('Sorry, I encountered an error. Please try again.');
+                console.error('Chatbot error:', error);
+            }
+        },
+        
+        addUserMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message user';
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    ${this.escapeHtml(text)}
+                </div>
+            `;
+            this.messagesContainer.appendChild(messageDiv);
+            this.scrollToBottom();
+        },
+        
+        addBotMessage(text) {
+            console.log('addBotMessage called with text length:', text ? text.length : 0);
+            console.log('Full text:', text);
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message bot';
+            // Convert newlines to <br> tags for proper formatting
+            const formattedText = text.replace(/\n/g, '<br>');
+            
+            console.log('Formatted text length:', formattedText.length);
+            
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    ${formattedText}
+                </div>
+            `;
+            
+            this.messagesContainer.appendChild(messageDiv);
+            
+            console.log('Message appended to DOM');
+            console.log('Message div HTML:', messageDiv.innerHTML);
+            
+            // Add click handlers to links
+            const links = messageDiv.querySelectorAll('a');
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (!link.href.startsWith('http')) {
+                        e.preventDefault();
+                        // Navigate to the page
+                        window.location.href = link.getAttribute('href');
+                    }
+                });
+            });
+            
+            this.messagesContainer.appendChild(messageDiv);
+            this.scrollToBottom();
+            
+            // Show badge if chat is closed
+            if (!this.isOpen) {
+                this.badge.style.display = 'flex';
+            }
+        },
+        
+        showQuickReplies(replies) {
+            this.quickReplies.innerHTML = '';
+            
+            replies.forEach(reply => {
+                const btn = document.createElement('button');
+                btn.className = 'quick-reply-btn';
+                btn.textContent = reply;
+                btn.onclick = () => {
+                    this.input.value = reply;
+                    this.form.dispatchEvent(new Event('submit'));
+                };
+                this.quickReplies.appendChild(btn);
+            });
+            
+            this.quickReplies.style.display = 'flex';
+        },
+        
+        showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-message bot';
+            typingDiv.id = 'typing-message';
+            typingDiv.innerHTML = `
+                <div class="chatbot-typing">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+            this.messagesContainer.appendChild(typingDiv);
+            this.scrollToBottom();
+        },
+        
+        hideTyping() {
+            const typingMsg = document.getElementById('typing-message');
+            if (typingMsg) {
+                typingMsg.remove();
+            }
+        },
+        
+        scrollToBottom() {
+            this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+        },
+        
+        escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    };
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => NCPSChatbot.init());
+    } else {
+        NCPSChatbot.init();
+    }
+})();
+</script>

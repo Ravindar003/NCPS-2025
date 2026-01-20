@@ -1,0 +1,85 @@
+{% extends "conference/base.html" %}
+
+{% block title %}FAQ — NCPS 2025{% endblock %}
+
+{% block content %}
+<div class="container py-5 my-4" style="max-width: 900px; margin-top: 80px; margin-bottom: 50px;">
+  <h2 class="mb-3">Frequently Asked Questions</h2>
+  <p class="text-muted mb-4">
+    This page will be updated with commonly asked questions about registration, abstract submission, and participation.
+  </p>
+
+  <div class="accordion shadow-sm" id="faqAccordion">
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1" aria-expanded="true" aria-controls="a1">
+          Who can participate in NCPS 2025?
+        </button>
+      </h2>
+      <div id="a1" class="accordion-collapse collapse show" aria-labelledby="q1" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          NCPS 2025 is open to researchers, students, faculty, industry professionals, and policymakers working in polar and ocean sciences.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2" aria-expanded="false" aria-controls="a2">
+          How do I register?
+        </button>
+      </h2>
+      <div id="a2" class="accordion-collapse collapse" aria-labelledby="q2" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Use the registration page to create an account. After logging in, you can access your dashboard and submit abstracts.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a3" aria-expanded="false" aria-controls="a3">
+          How do I submit an abstract?
+        </button>
+      </h2>
+      <div id="a3" class="accordion-collapse collapse" aria-labelledby="q3" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          After login, go to Dashboard → “View / Submit” under Your Submissions, then follow the submission form instructions.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a4" aria-expanded="false" aria-controls="a4">
+          What is the abstract deadline?
+        </button>
+      </h2>
+      <div id="a4" class="accordion-collapse collapse" aria-labelledby="q4" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          The deadline is shown on your dashboard and on the homepage under Important Dates.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q5">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a5" aria-expanded="false" aria-controls="a5">
+          Where can I download the conference brochure?
+        </button>
+      </h2>
+      <div id="a5" class="accordion-collapse collapse" aria-labelledby="q5" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          You can download it from the Brochure page (Quick Links → Download Brochure).
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mt-4">
+    <a href="{% url 'conference:home' %}" class="btn btn-outline-polar">Return to Homepage</a>
+  </div>
+</div>
+{% endblock %}

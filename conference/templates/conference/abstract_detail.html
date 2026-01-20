@@ -1,0 +1,68 @@
+{% extends "conference/base.html" %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 900px;">
+
+  <div class="card shadow-sm abstract-card">
+    <div class="card-body p-4">
+
+      <!-- Title -->
+      <h3 class="fw-bold mb-2 text-center">
+        {{ abstract.title }}
+      </h3>
+
+      <!-- Meta -->
+      <p class="text-muted text-center mb-2">
+        <i class="fas fa-calendar-alt me-1"></i>
+        Submitted on {{ abstract.submitted_at|date:"d M Y, H:i" }}
+      </p>
+
+      <!-- Status -->
+      <div class="text-center mb-4">
+        <span class="badge 
+          {% if abstract.status == 'APPROVED' %}bg-success
+          {% elif abstract.status == 'REJECTED' %}bg-danger
+          {% elif abstract.status == 'REVISION' %}bg-warning text-dark
+          {% else %}bg-secondary{% endif %}">
+          {{ abstract.get_status_display }}
+        </span>
+      </div>
+
+      <hr>
+
+      <!-- Abstract Body -->
+      <h5 class="fw-semibold mb-3">Abstract</h5>
+      <div class="abstract-content">
+        {{ abstract.abstract|safe }}
+      </div>
+
+{% if abstract.admin_comments %}
+<div class="mt-4">
+  <a class="btn btn-sm btn-outline-secondary"
+     data-bs-toggle="collapse"
+     href="#reviewerComments">
+    <i class="fas fa-comments me-1"></i> View Reviewer Comments
+  </a>
+
+  <div class="collapse mt-3" id="reviewerComments">
+    <div class="reviewer-note">
+      {{ abstract.admin_comments }}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+
+      <!-- Back Button -->
+      <div class="text-end mt-4">
+        <a href="{% url 'conference:dashboard' %}" class="btn btn-outline-secondary">
+          ← Back to Dashboard
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

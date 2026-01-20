@@ -1,0 +1,1717 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="icon" type="image/png"
+      href="{% static 'images/ncpor_logo.png' %}">
+<link rel="apple-touch-icon"
+      href="{% static 'images/ncpor_logo.png' %}">
+
+    <title>{% block title %}NCPS 2025 | National Conference on Polar Sciences{% endblock %}</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="National Conference on Polar Sciences 2025 - Bridging Polar Research, Ocean Sciences & Climate Solutions">
+    <meta name="keywords" content="polar sciences, climate change, arctic research, antarctic studies, ocean sciences">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <style>
+        :root {
+            --font-body: 'Inter', sans-serif;
+            --font-heading: 'Playfair Display', serif;
+
+            /* NSIDC-Inspired Polar Palette */
+            --primary-blue: #112E51;           /* Deep navy for headers, nav, primary buttons */
+            --polar-blue: #205493;              /* Secondary blue for hero, section headers */
+            --ocean-blue: #0071BC;              /* Bright blue for accents */
+            --ice-blue: #C1D7F2;                /* Light ice blue for backgrounds, cards */
+            --glacier-blue: #4A90E2;            /* Medium blue for links, highlights */
+            --deep-blue: #0A1F3D;               /* Darkest blue for contrast */
+            --antarctic-white: #FFFFFF;         /* Pure white for cards */
+            --glacier-gray: #5B616B;            /* Dark gray for text */
+            --light-gray: #F1F1F1;              /* Light neutral background */
+            --accent-teal: #0095A8;             /* Teal for icons, small buttons, hover */
+            --body-text: #212121;               /* Dark gray for body text */
+            --text-secondary: #323A45;          /* Secondary text color */
+            --border-light: rgba(193, 215, 242, 0.3); /* Light border */
+            --shadow-color: rgba(17, 46, 81, 0.15);   /* Shadow with primary color */
+            --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--polar-blue) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent-teal) 0%, var(--ocean-blue) 100%);
+            --gradient-light: linear-gradient(135deg, #FFFFFF 0%, var(--light-gray) 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--light-gray);
+            min-height: 100vh;
+            color: var(--body-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+        }
+  /* Global Card Style */
+.modern-card {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+
+.modern-card .card-body {
+    padding: 30px;
+}
+      
+ .navbar-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    margin-right: 10px;
+    mix-blend-mode: multiply;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+
+.navbar-logo:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 20px rgba(193, 215, 242, 0.5);
+    border-color: var(--accent-teal);
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .navbar-logo {
+        height: 40px;
+        width: 40px;
+    }
+}
+
+        .navbar-brand {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--antarctic-white) !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand:hover {
+            transform: translateY(-2px);
+            color: var(--ice-blue) !important;
+        }
+        
+        .navbar-brand i {
+            color: var(--ice-blue);
+            font-size: 1.6rem;
+        }
+        
+        /* Profile Dropdown */
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: var(--accent-teal);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .dropdown-menu {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid var(--border-light);
+            animation: slideDown 0.3s ease;
+            background: var(--antarctic-white);
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .dropdown-item {
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+            color: var(--primary-blue);
+        }
+        
+        .dropdown-item:hover {
+            background: var(--ice-blue);
+            transform: translateX(5px);
+        }
+        
+        .dropdown-item.text-danger:hover {
+            background: #ffeaea;
+            color: #dc3545 !important;
+        }
+        
+        /* Modern Alerts */
+        .alert {
+            border: none;
+            border-radius: 15px;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            animation: slideIn 0.5s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .alert-success {
+            background: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        
+        .alert-info {
+            background: rgba(23, 162, 184, 0.1);
+            border-left: 4px solid #17a2b8;
+            color: #0c5460;
+        }
+        
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+        
+        /* Modern Footer */
+        .polar-footer {
+            background: var(--primary-blue);
+            color: white;
+            padding: 80px 0 30px;
+            position: relative;
+            overflow: hidden;
+                margin-bottom: 0 !important;
+    padding-bottom: 30px;
+        }
+        
+.footer-globe {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.footer-globe i {
+  font-size: 1.6rem;
+  color: rgba(255,255,255,0.9);
+}
+
+
+@keyframes globeFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+        
+        .polar-footer p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+        
+        .footer-section {
+            height: 100%;
+        }
+        
+        .footer-section h5 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: white;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h5::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-teal);
+            border-radius: 2px;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .contact-item i {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 3px;
+            min-width: 20px;
+        }
+        
+        .contact-item div {
+            flex: 1;
+        }
+        
+        .contact-item strong {
+            color: white;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .footer-links a::before {
+            content: '→';
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-link img {
+            width: 22px;
+            height: 22px;
+            display: block;
+            object-fit: contain;
+        }
+        
+        .social-link:hover {
+            background: white;
+            color: var(--primary-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .contact-item i {
+            color: var(--ice-blue);
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .footer-map {
+            position: relative;
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .footer-map-link {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .footer-map iframe {
+            width: 100%;
+            height: 220px;
+            border: 0;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 991.98px) {
+            .footer-map iframe {
+                height: 240px;
+            }
+        }
+        
+
+        /* Modern Buttons */
+        .btn-polar-gradient {
+            background: var(--polar-blue);
+            color: white;
+            padding: 14px 35px;
+            border-radius: 30px;
+            border: none;
+            font-family: var(--font-body);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(32, 84, 147, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-polar-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-polar-gradient:hover::before {
+            left: 100%;
+        }
+        
+        .btn-polar-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(32, 84, 147, 0.5);
+            background: var(--primary-blue);
+        }
+        
+        .btn-polar-gradient:active {
+            transform: translateY(-1px);
+        }
+
+        /* Polar brand button used across site (kept global so admin pages inherit it) */
+        .btn-polar {
+            background: var(--polar-blue);
+            color: var(--antarctic-white);
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(32, 84, 147, 0.3);
+        }
+
+        .btn-polar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(32, 84, 147, 0.5);
+            color: var(--antarctic-white);
+            background: var(--primary-blue);
+        }
+
+        .btn-outline-polar {
+            color: var(--accent-teal);
+            border-color: var(--accent-teal);
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-polar:hover {
+            background: var(--accent-teal);
+            color: var(--antarctic-white);
+            transform: translateY(-2px);
+        }
+        
+        .btn-ice-outline {
+            border: 2px solid var(--accent-teal);
+            color: var(--accent-teal);
+            background: transparent;
+            padding: 14px 35px;
+            border-radius: 30px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-ice-outline:hover {
+            background: var(--accent-teal);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(13, 71, 161, 0.2);
+        }
+        
+        /* Utility Classes */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .text-gradient {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--ocean-blue);
+        }
+     /* Govt navbar must stay flat even on mobile */
+.navbar-light .navbar-collapse {
+    background: #ffffff !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin-top: 0 !important;
+}
+   
+        /* Responsive Design */
+  @media (max-width: 992px) {
+    .polar-navbar .navbar-collapse {
+        background: rgba(17, 46, 81, 0.95);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        margin-top: 15px;
+    }
+}          
+            .nav-link {
+                margin: 5px 0;
+                padding: 15px 20px !important;
+            }
+            
+            .polar-footer {
+                padding: 60px 0 30px;
+            }
+            
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            
+            .card {
+                margin-bottom: 15px;
+            }
+            
+            .btn {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+        
+        @media (max-width: 768px) {
+            .footer-logo {
+                font-size: 1.8rem;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            .copyright {
+                text-align: center;
+            }
+            
+            .navbar-brand {
+                font-size: 1.3rem;
+            }
+            
+            .table {
+                font-size: 0.85rem;
+            }
+            
+            .stats-card {
+                padding: 15px !important;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            h5 {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .d-flex.gap-3 {
+                flex-direction: column;
+            }
+            
+            .table-responsive {
+                overflow-x: auto;
+            }
+        }
+        
+        /* Animation Classes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Loading Animation */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--ice-blue);
+            border-top-color: var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+.conference-card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    position: relative;
+    z-index: 2;
+}
+/* ============================= */
+/* ENHANCED ATTRACTIVE POLAR HEADER */
+/* ============================= */
+
+.top-header {
+    position: relative;
+    min-height: 180px;
+    background:
+        linear-gradient(
+            0deg,
+            rgba(10, 31, 61, 0.72),
+            rgba(10, 31, 61, 0.72)
+        ),
+        url("{% static 'images/header/ncpor_header.jpg' %}") center/cover no-repeat;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(193, 215, 242, 0.25);
+    overflow: visible;
+    border-bottom: 3px solid var(--accent-teal);
+    box-shadow: 0 5px 30px rgba(0, 113, 188, 0.30);
+    animation: none;
+}
+
+/* Keep content above */
+.top-header > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Enhanced marine life */
+.marine-life {
+    position: absolute;
+    z-index: 1;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+    transition: all 0.5s ease;
+}
+
+.marine-life-1 {
+    bottom: 40px;
+    left: 15%;
+    width: 120px;
+    height: 45px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 45'%3E%3Cdefs%3E%3ClinearGradient id='whaleGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='rgba(255,255,255,0.3)'/%3E%3Cstop offset='100%25' stop-color='rgba(193,215,242,0.6)'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M10,22.5 Q30,7.5 50,22.5 Q70,37.5 90,22.5' fill='none' stroke='url(%23whaleGrad)' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M50,22.5 L55,17.5 L55,27.5 Z' fill='url(%23whaleGrad)'/%3E%3Ccircle cx='35' cy='22.5' r='2' fill='rgba(255,255,255,0.8)'/%3E%3C/svg%3E") no-repeat;
+    animation: whaleSwim 20s infinite ease-in-out;
+}
+
+.marine-life-2 {
+    bottom: 60px;
+    right: 20%;
+    width: 90px;
+    height: 60px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 60'%3E%3Cdefs%3E%3ClinearGradient id='jellyGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='rgba(255,255,255,0.4)'/%3E%3Cstop offset='100%25' stop-color='rgba(193,215,242,0.7)'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cellipse cx='45' cy='30' rx='40' ry='20' fill='none' stroke='url(%23jellyGrad)' stroke-width='2' opacity='0.8'/%3E%3Cpath d='M85,30 L95,30 M5,30 L15,30' stroke='url(%23jellyGrad)' stroke-width='2'/%3E%3Ccircle cx='45' cy='30' r='5' fill='rgba(255,255,255,0.9)'/%3E%3Cpath d='M45,30 L45,50 L40,55 L50,55 L45,50' fill='rgba(255,255,255,0.6)'/%3E%3C/svg%3E") no-repeat;
+    animation: jellyFloat 15s infinite ease-in-out;
+}
+
+.marine-life-3 {
+    bottom: 30px;
+    left: 75%;
+    width: 75px;
+    height: 75px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 75 75'%3E%3Cdefs%3E%3CradialGradient id='fishGrad' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='rgba(255,255,255,0.5)'/%3E%3Cstop offset='100%25' stop-color='rgba(193,215,242,0.8)'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M37.5,10 Q55,15 55,37.5 Q55,60 37.5,65 Q20,60 20,37.5 Q20,15 37.5,10 Z' fill='none' stroke='url(%23fishGrad)' stroke-width='2.5'/%3E%3Ccircle cx='37.5' cy='37.5' r='4' fill='rgba(255,255,255,0.9)'/%3E%3Cpath d='M55,37.5 L65,32.5 L65,42.5 Z' fill='url(%23fishGrad)'/%3E%3C/svg%3E") no-repeat;
+    animation: fishSwim 12s infinite ease-in-out;
+}
+
+/* Marine life animations */
+@keyframes whaleSwim {
+    0%, 100% { transform: translateX(0) translateY(0) scale(1); }
+    25% { transform: translateX(30px) translateY(-10px) scale(1.1); }
+    50% { transform: translateX(60px) translateY(0) scale(1); }
+    75% { transform: translateX(30px) translateY(10px) scale(0.9); }
+}
+
+@keyframes jellyFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+    50% { transform: translateY(-20px) rotate(10deg); opacity: 1; }
+}
+
+@keyframes fishSwim {
+    0% { transform: translateX(0) scale(1) rotateY(0deg); }
+    25% { transform: translateX(20px) scale(1.2) rotateY(0deg); }
+    50% { transform: translateX(40px) scale(1) rotateY(180deg); }
+    75% { transform: translateX(20px) scale(0.8) rotateY(180deg); }
+    100% { transform: translateX(0) scale(1) rotateY(0deg); }
+}
+
+/* Interactive marine life hover */
+.marine-life:hover {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+    transform: scale(1.2);
+    z-index: 10;
+}
+
+/* Enhanced animated waves */
+.top-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='wave1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='rgba(255,255,255,0.3)'/%3E%3Cstop offset='100%25' stop-color='rgba(255,255,255,0.1)'/%3E%3C/linearGradient%3E%3ClinearGradient id='wave2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='rgba(193,215,242,0.22)'/%3E%3Cstop offset='100%25' stop-color='rgba(193,215,242,0.08)'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0,40 C200,20 400,60 600,40 C800,20 1000,60 1200,40 L1200,80 L0,80 Z' fill='url(%23wave1)'/%3E%3Cpath d='M0,50 C300,30 600,50 900,45 C1200,40 1200,80 1200,80 L0,80 Z' fill='url(%23wave2)' opacity='0.8'/%3E%3C/svg%3E") repeat-x bottom;
+    background-size: 1200px 80px;
+    animation: waveMove 15s linear infinite, waveBreath 8s ease-in-out infinite;
+    z-index: 2;
+}
+
+@keyframes waveBreath {
+    0%, 100% { height: 80px; }
+    50% { height: 85px; }
+}
+
+/* Enhanced logo effects */
+.gov-emblem, .ncpor-logo {
+    height: 90px;
+    object-fit: contain;
+    filter: 
+        drop-shadow(0 4px 8px rgba(0,0,0,0.4))
+        drop-shadow(0 0 20px rgba(255, 255, 255, 0.35))
+        drop-shadow(0 0 30px rgba(193, 215, 242, 0.35));
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 5;
+}
+
+.gov-emblem:hover, .ncpor-logo:hover {
+    filter: 
+        drop-shadow(0 6px 12px rgba(0,0,0,0.5))
+        drop-shadow(0 0 30px rgba(255, 255, 255, 0.45))
+        drop-shadow(0 0 42px rgba(193, 215, 242, 0.55));
+    transform: translateY(-5px) scale(1.05);
+    animation: logoGlow 2s infinite alternate;
+}
+
+@keyframes logoGlow {
+    0% { filter: 
+        drop-shadow(0 6px 12px rgba(0,0,0,0.5))
+        drop-shadow(0 0 30px rgba(255, 255, 255, 0.45))
+        drop-shadow(0 0 42px rgba(193, 215, 242, 0.55)); }
+    100% { filter: 
+        drop-shadow(0 6px 12px rgba(0,0,0,0.5))
+        drop-shadow(0 0 38px rgba(255, 255, 255, 0.55))
+        drop-shadow(0 0 52px rgba(193, 215, 242, 0.70)); }
+}
+
+/* Enhanced text effects */
+.header-text {
+    padding: 15px 25px;
+    position: relative;
+    z-index: 5;
+}
+
+.gov-main-title {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 2.5rem;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    text-shadow: 
+        0 2px 4px rgba(0,0,0,0.5),
+        0 4px 8px rgba(0,0,0,0.3),
+        0 8px 16px rgba(0,0,0,0.2),
+        0 0 32px rgba(193, 215, 242, 0.35),
+        0 0 64px rgba(193, 215, 242, 0.22);
+    animation: titleGlow 3s infinite alternate;
+}
+
+@keyframes titleGlow {
+    0% { text-shadow: 
+        0 2px 4px rgba(0,0,0,0.5),
+        0 4px 8px rgba(0,0,0,0.3),
+        0 8px 16px rgba(0,0,0,0.2),
+        0 0 32px rgba(193, 215, 242, 0.35),
+        0 0 64px rgba(193, 215, 242, 0.22); }
+    100% { text-shadow: 
+        0 2px 4px rgba(0,0,0,0.5),
+        0 4px 8px rgba(0,0,0,0.3),
+        0 8px 16px rgba(0,0,0,0.2),
+        0 0 44px rgba(193, 215, 242, 0.45),
+        0 0 90px rgba(193, 215, 242, 0.30); }
+}
+
+.header-divider {
+    width: 120px;
+    height: 4px;
+    margin: 12px auto 15px;
+    border-radius: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 113, 188, 0.85),
+        rgba(255, 255, 255, 0.85),
+        rgba(0, 113, 188, 0.85),
+        transparent
+    );
+    box-shadow: 
+        0 0 10px rgba(0, 113, 188, 0.45),
+        0 0 20px rgba(255, 255, 255, 0.18);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-divider::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.8),
+        transparent
+    );
+    animation: dividerShine 3s infinite;
+}
+
+@keyframes dividerShine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.gov-sub-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.8px;
+    margin: 0;
+    text-shadow: 
+        0 2px 4px rgba(0,0,0,0.4),
+        0 0 18px rgba(193, 215, 242, 0.35);
+    animation: subtitleFloat 4s infinite ease-in-out;
+}
+
+.header-highlight {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.header-highlight .gov-sub-title,
+.header-highlight .gov-ministry-title {
+    margin: 0;
+}
+
+.header-highlight .gov-sub-title {
+    padding-bottom: 2px;
+}
+
+@keyframes subtitleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+/* Add floating ice crystals */
+.ice-crystal {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10,2 L10,6 M10,14 L10,18 M2,10 L6,10 M14,10 L18,10 M4,4 L7,7 M13,13 L16,16 M4,16 L7,13 M13,4 L16,7' stroke='rgba(255,255,255,0.4)' stroke-width='1' fill='none'/%3E%3Ccircle cx='10' cy='10' r='4' stroke='rgba(255,255,255,0.3)' stroke-width='0.5' fill='none'/%3E%3C/svg%3E");
+    opacity: 0;
+    animation: iceFall 10s linear infinite;
+    z-index: 0;
+}
+
+@keyframes iceFall {
+    0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(180px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Create multiple ice crystals */
+.ice-crystal:nth-child(6) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
+.ice-crystal:nth-child(7) { left: 20%; animation-delay: 2s; animation-duration: 15s; }
+.ice-crystal:nth-child(8) { left: 30%; animation-delay: 4s; animation-duration: 10s; }
+.ice-crystal:nth-child(9) { left: 40%; animation-delay: 1s; animation-duration: 14s; }
+.ice-crystal:nth-child(10) { left: 50%; animation-delay: 3s; animation-duration: 11s; }
+.ice-crystal:nth-child(11) { left: 60%; animation-delay: 5s; animation-duration: 13s; }
+.ice-crystal:nth-child(12) { left: 70%; animation-delay: 2s; animation-duration: 9s; }
+.ice-crystal:nth-child(13) { left: 80%; animation-delay: 4s; animation-duration: 12s; }
+.ice-crystal:nth-child(14) { left: 90%; animation-delay: 1s; animation-duration: 15s; }
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .top-header {
+        min-height: 140px;
+    }
+    
+    .gov-main-title {
+        font-size: 1.5rem;
+    }
+    
+    .gov-sub-title {
+        font-size: 0.95rem;
+    }
+    
+    .header-divider {
+        width: 80px;
+        height: 3px;
+    }
+    
+    .gov-emblem, .ncpor-logo {
+        height: 60px;
+    }
+    
+    .marine-life {
+        display: none;
+    }
+    
+    .ice-crystal {
+        width: 15px;
+        height: 15px;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .top-header,
+    .marine-life,
+    .ice-crystal,
+    .gov-main-title,
+    .gov-sub-title,
+    .header-divider::after {
+        animation: none;
+    }
+    
+    .top-header::after {
+        animation: none;
+        height: 60px;
+    }
+}
+@keyframes waveMove {
+    0% { background-position: 0 bottom; }
+    100% { background-position: 1200px bottom; }
+}
+/* Add this to your existing media query for mobile */
+@media (max-width: 768px) {
+    .ice-crystal {
+        display: none; /* Reduce animation load on mobile */
+    }
+}
+/* ============================= */
+/* QUICK ACCESS PANELS */
+/* ============================= */
+
+.quick-links-section {
+    background: #f8fafc;
+    padding: 50px 0;
+}
+
+.quick-card {
+    display: block;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 30px;
+    height: 100%;
+    text-decoration: none;
+    color: #003366;
+    transition: all 0.25s ease;
+}
+
+.quick-card i {
+    font-size: 2rem;
+    color: var(--polar-blue);
+    margin-bottom: 15px;
+}
+
+.quick-card h5 {
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.quick-card p {
+    font-size: 0.95rem;
+    color: #475569;
+}
+
+.quick-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border-color: var(--polar-blue);
+}
+
+/* ============================= */
+/* SECTION RAIL – FINAL CLEAN */
+/* ============================= */
+/* ============================= */
+/* SECTION RAIL – TEXT + DOT */
+/* ============================= */
+
+.section-rail {
+    position: fixed;
+    left: 5px;             
+    right: auto;            
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction:column;
+    gap: 14px;
+    z-index: 1200;
+}
+
+
+/* One rail item */
+.rail-item {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-direction: row; /* ✔ NORMAL */
+    position: relative;
+    outline: none;
+}
+
+/* TEXT CARD */
+.rail-label {
+    position: absolute;
+    left: 52px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-10px);
+    background: rgba(10, 31, 61, 0.9);
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    min-width: 110px;
+    text-align: center;
+
+    /* NEW: hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0.25s ease,
+        background 0.25s ease;
+}
+
+/* ICON CONTAINER */
+.rail-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.9);
+    border: 2px solid rgba(10, 31, 61, 0.6);
+
+    color: rgba(10, 31, 61, 0.9);
+    font-size: 1rem;
+
+    box-shadow: 0 0 6px rgba(10, 31, 61, 0.35);
+    transition: all 0.25s ease;
+}
+
+/* Hover icon */
+.rail-item:hover .rail-icon {
+    background: var(--accent-teal);
+    border-color: var(--accent-teal);
+    color: #ffffff;
+
+    box-shadow:
+        0 0 12px rgba(0,149,168,0.8),
+        0 0 22px rgba(0,149,168,0.4);
+}
+
+/* Active icon */
+.rail-item.active .rail-icon {
+    background: linear-gradient(
+        135deg,
+        var(--accent-teal),
+        var(--ocean-blue)
+    );
+    border-color: var(--accent-teal);
+    color: #ffffff;
+
+    box-shadow:
+        0 0 16px rgba(0,149,168,0.9),
+        0 0 28px rgba(0,149,168,0.6);
+
+    transform: scale(1.15);
+}
+
+/* Show label ONLY on hover */
+.rail-item:hover .rail-label {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+    pointer-events: auto;
+}
+
+
+.rail-item.active .rail-dot {
+    background: #ffffff;
+    border-color: var(--accent-teal);
+
+    box-shadow:
+        0 0 14px rgba(0,149,168,0.9),
+        0 0 26px rgba(0,149,168,0.6);
+}
+
+
+/* Hide on mobile */
+@media (max-width: 768px) {
+    .section-rail {
+        display: none;
+    }
+}
+
+
+/* ============================= */
+/* POLAR FOOTER BACKGROUND IMAGE */
+/* ============================= */
+
+.polar-footer {
+  position: relative;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+/* Background image */
+/* Disable by default */
+.polar-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+
+/* Enable ONLY for home footer */
+.footer-image::before {
+  display: block;
+background:
+    linear-gradient(
+      to top,
+                        rgba(10, 31, 61, 0.96),
+                        rgba(10, 31, 61, 0.86),
+                        rgba(10, 31, 61, 0.72)
+    ),
+    var(--footer-bg);
+}
+
+
+/* Keep footer content above background */
+.polar-footer > * {
+  position: relative;
+  z-index: 1;
+}
+.footer-image::before {
+  display: block;
+}/* Force main conference title into one line */
+.gov-main-title {
+    white-space: nowrap;
+    overflow: visible;
+}
+
+/* Ministry line */
+.gov-ministry-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.88);
+    letter-spacing: 0.6px;
+    text-shadow:
+        0 2px 4px rgba(0,0,0,0.4),
+        0 0 12px rgba(193,215,242,0.35);
+}
+@media (max-width: 768px) {
+    .gov-main-title {
+        font-size: 1.2rem;
+        letter-spacing: 0.5px;
+    }
+
+    .gov-sub-title {
+        font-size: 0.95rem;
+    }
+
+    .gov-ministry-title {
+        font-size: 0.85rem;
+    }
+
+    .header-highlight {
+        margin-top: 8px;
+    }
+}
+
+@media (min-width: 992px) {
+    .header-text {
+        transform: translateX(-45px);
+    }
+}
+@media (min-width: 992px) {
+    .gov-main-title {
+        margin-left: -6px;
+    }
+
+    .gov-sub-title,
+    .gov-ministry-title {
+        margin-left: -4px;
+    }
+}
+section[id]:not(#home) {
+  scroll-margin-top: 160px;
+}
+
+:root {
+    --footer-bg: url("{% static 'images/footer/polar_footer.jpg' %}");
+}
+
+
+    </style>
+</head>
+<body>
+{% block main_nav %}
+<!-- Top Banner -->
+<div class="top-header" id="home">
+
+    <!-- Ice crystals -->
+    <div class="ice-crystal"></div>
+    <div class="ice-crystal"></div>
+    <div class="ice-crystal"></div>
+    <div class="ice-crystal"></div>
+    <div class="ice-crystal"></div>
+    <div class="ice-crystal"></div>
+    <div class="ice-crystal"></div>
+    <div class="ice-crystal"></div>
+    <div class="ice-crystal"></div>
+
+    <div class="container-fluid px-4 h-100">
+        <div class="row align-items-center h-100">
+
+            <!-- LEFT: Logos -->
+            <div class="col-lg-3 col-md-4 col-12 d-flex align-items-center gap-3">
+                <img src="{% static 'images/ncpor_logo.png' %}"
+                     alt="NCPOR Logo"
+                     class="ncpor-logo">
+                <img src="{% static 'images/ncpor_logo1.png' %}"
+                     alt="NCPOR Logo"
+                     class="ncpor-logo">
+            </div>
+
+            <!-- CENTER: Text -->
+            <div class="col-lg-6 col-md-8 col-12 text-center header-text">
+                <h1 class="gov-main-title">
+                    National Conference on Polar Sciences
+                </h1>
+
+                <div class="header-divider"></div>
+
+                <div class="header-highlight">
+                    <p class="gov-sub-title">
+                        National Centre for Polar and Ocean Research
+                    </p>
+
+                    <p class="gov-ministry-title">
+                        Ministry of Earth Sciences, Government of India
+                    </p>
+                </div>
+            </div>
+
+            <!-- RIGHT: Emblem -->
+            <div class="col-lg-3 col-md-12 col-12 d-flex align-items-center justify-content-lg-end justify-content-center mt-3 mt-lg-0">
+                <img src="{% static 'images/india_emblem.png' %}"
+                     alt="State Emblem of India"
+                     class="gov-emblem">
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+    <!-- Main Content -->
+    <main class="page-content">
+
+        <!-- Messages -->
+        {% if messages %}
+        <div class="container mt-4">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% elif message.tags == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %} me-3"></i>
+                    <div>{{ message }}</div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Page Content -->
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+{% block footer %}
+{% if request.resolver_match.url_name == "home" %}
+<footer class="polar-footer footer-image">
+
+  <div class="container">
+    <div class="row align-items-start">
+
+      <!-- Follow Us -->
+            <div class="col-lg-3 mb-5">
+        <div class="footer-section">
+
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <div class="footer-globe">
+              <i class="fas fa-share-alt"></i>
+            </div>
+            <div>
+              <strong class="d-block text-white">Follow Us</strong>
+              <span class="small text-white-50">
+                Stay connected for updates & announcements
+              </span>
+            </div>
+          </div>
+
+          <div class="social-links">
+                                                <a href="https://x.com/ncaor_goa" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="X">
+                                                        <img src="https://img.icons8.com/color/48/twitterx--v1.png" alt="X" width="22" height="22" loading="lazy">
+            </a>
+                        <a href="https://www.linkedin.com/company/national-centre-for-polar-and-ocean-research/?originalSubdomain=in" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <img src="https://img.icons8.com/color/48/linkedin.png" alt="LinkedIn" width="22" height="22" loading="lazy">
+            </a>
+                        <a href="https://www.facebook.com/ncpor.goa" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <img src="https://img.icons8.com/color/48/facebook-new.png" alt="Facebook" width="22" height="22" loading="lazy">
+            </a>
+                        <a href="https://www.youtube.com/@NCPORGoaVasco" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                            <img src="https://img.icons8.com/color/48/youtube-play.png" alt="YouTube" width="22" height="22" loading="lazy">
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+            <div class="col-lg-3 mb-5">
+        <div class="footer-section">
+          <h5>Quick Links</h5>
+                <ul class="footer-links">
+                <li><a href="#themes">Scientific Themes</a></li>
+                <li><a href="#venue">Venue</a></li>
+                <li><a href="{% url 'conference:past_conferences' %}">Past Conferences</a></li>
+                <li><a href="{% url 'conference:abstracts' %}">Abstracts</a></li>
+                <li><a href="{% url 'conference:register' %}">Registration</a></li>
+                </ul>
+
+        </div>
+      </div>
+
+      <!-- Contact -->
+            <div class="col-lg-3 mb-5">
+        <div class="footer-section">
+          <h5>Contact</h5>
+          <div class="contact-info">
+<div class="contact-item">
+  <i class="fas fa-map-marker-alt"></i>
+  <div>
+    <strong>
+            <a href="https://www.google.com/maps?q=Headland+Sada,+Vasco-da-Gama,+Goa+403804,+India"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="text-white text-decoration-none">
+                National Centre for Polar and Ocean Research
+      </a>
+        </strong>
+        <span class="small text-white-50 d-block">Ministry of Earth Sciences, Government of India</span>
+        <br>
+        Headland Sada, Vasco-da-Gama<br>
+        Goa 403804, India
+  </div>
+</div>
+
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+                            <div>
+                                <a href="mailto:ncps@ncpor.res.in" class="text-white text-decoration-none">ncps@ncpor.res.in</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <i class="fas fa-globe"></i>
+                            <div>
+                                <a href="https://ncpor.res.in" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-none">ncpor.res.in</a>
+                            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+            <!-- Map (beside Contact) -->
+            <div class="col-lg-3 mb-5">
+                <div class="footer-section">
+                    <h5>Map</h5>
+                    <div class="footer-map">
+                        <a
+                            class="footer-map-link"
+                            href="https://www.google.com/maps?q=National%20Centre%20for%20Polar%20and%20Ocean%20Research%20(NCPOR)%2C%20Headland%20Sada%2C%20Vasco-da-Gama%2C%20Goa%20403804%2C%20India&t=k"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Open NCPOR location in Google Maps">
+                        </a>
+                        <iframe
+                            title="NCPOR Location Map"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src="https://maps.google.com/maps?hl=en&q=National%20Centre%20for%20Polar%20and%20Ocean%20Research%20(NCPOR)%2C%20Headland%20Sada%2C%20Vasco-da-Gama%2C%20Goa%20403804%2C%20India&t=k&z=15&output=embed">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+
+    <div class="copyright">
+            © 2027 National Centre for Polar and Ocean Research | Ministry of Earth Sciences, Government of India
+    </div>
+  </div>
+
+</footer>
+{% endif %}
+{% endblock %}
+
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- CKEditor -->
+    <script src="https://cdn.ckeditor.com/4.24.0-lts/standard/ckeditor.js"></script>
+
+    <script>
+// (Particles removed)
+    </script>
+    <!-- SECTION RAIL NAVIGATION -->
+     {% if request.resolver_match.url_name == "home" %}
+<div class="section-rail">
+
+  <!-- Home -->
+  <a href="#home" class="rail-item">
+    <span class="rail-icon">
+      <i class="fas fa-house"></i>
+    </span>
+        <span class="rail-label">NCPS 2027</span>
+  </a>
+
+  <!-- About -->
+  <a href="#about" class="rail-item">
+    <span class="rail-icon">
+      <i class="fas fa-circle-info"></i>
+    </span>
+        <span class="rail-label">Welcome</span>
+  </a>
+
+  <!-- Themes -->
+  <a href="#themes" class="rail-item">
+    <span class="rail-icon">
+      <i class="fas fa-layer-group"></i>
+    </span>
+        <span class="rail-label">Scientific Themes</span>
+  </a>
+
+    <!-- Research Gallery -->
+  <a href="#bytes" class="rail-item">
+    <span class="rail-icon">
+      <i class="fas fa-images"></i>
+    </span>
+        <span class="rail-label">Research Gallery</span>
+  </a>
+
+    <!-- Venue -->
+    <a href="#venue" class="rail-item">
+        <span class="rail-icon">
+            <i class="fas fa-location-dot"></i>
+        </span>
+        <span class="rail-label">Venue</span>
+    </a>
+
+  <!-- Register (CTA) -->
+  <a href="{% url 'conference:register' %}" class="rail-item cta">
+    <span class="rail-icon">
+      <i class="fas fa-user-plus"></i>
+    </span>
+    <span class="rail-label">Register</span>
+  </a>
+
+</div>
+{% endif %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const railItems = document.querySelectorAll(".section-rail .rail-item");
+  const homeItem = document.querySelector('.rail-item[href="#home"]');
+
+  const sectionMap = Array.from(railItems)
+    .map(item => {
+      const target = item.getAttribute("href");
+      if (!target || !target.startsWith("#")) return null;
+
+      const section = document.querySelector(target);
+      if (!section) return null;
+
+      return { item, section, id: target };
+    })
+    .filter(Boolean);
+
+  function setActive() {
+    const scrollY = window.scrollY;
+
+    // ✅ FIX 1: HOME SECTION (TOP HEADER)
+    if (scrollY < 120) {
+      railItems.forEach(i => i.classList.remove("active"));
+      homeItem?.classList.add("active");
+      return;
+    }
+
+    let closest = null;
+    let minDistance = Infinity;
+
+    sectionMap.forEach(({ item, section, id }) => {
+      if (id === "#home") return; // 🚫 skip home here
+
+      const rect = section.getBoundingClientRect();
+      const distance = Math.abs(rect.top - window.innerHeight * 0.45);
+
+      if (rect.top <= window.innerHeight * 0.55 && distance < minDistance) {
+        minDistance = distance;
+        closest = item;
+      }
+    });
+
+    if (closest) {
+      railItems.forEach(i => i.classList.remove("active"));
+      closest.classList.add("active");
+    }
+  }
+
+  // Initial highlight
+  setActive();
+
+  window.addEventListener("scroll", setActive, { passive: true });
+});
+</script>
+
+
+
+    <!-- PolarX AI Chatbot Widget -->
+    {% include 'conference/chatbot_widget.html' %}
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

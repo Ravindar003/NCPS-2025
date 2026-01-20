@@ -1,0 +1,176 @@
+{% extends "conference/base.html" %}
+
+{% block admin_top_nav %}
+{# intentionally empty: hide top navigation links #}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- SIDEBAR -->
+        <aside class="col-md-3 col-lg-2 bg-light border-end min-vh-100 pt-5 mt-4 admin-sidebar">
+            <h6 class="text-center fw-bold text-primary mb-4">
+                <i class="fas fa-shield-alt"></i> ADMIN PANEL
+            </h6>
+
+            <ul class="nav flex-column px-2">
+
+                <!-- Dashboard -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link admin-nav-link
+                    {% if request.resolver_match.url_name == 'dashboard' or request.resolver_match.url_name == 'theme_dashboard' %}
+                    active{% endif %}"
+                    href="{% if request.user.is_superuser %}
+                            {% url 'conference:ncps_admin:dashboard' %}
+                          {% else %}
+                            {% url 'conference:ncps_admin:theme_dashboard' %}
+                          {% endif %}">
+                        <i class="fas fa-chart-line me-2"></i> Dashboard
+                    </a>
+                </li>
+
+                <!-- Abstracts -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link admin-nav-link
+                    {% if request.resolver_match.url_name == 'abstracts' or request.resolver_match.url_name == 'abstract_detail' %}
+                    active{% endif %}"
+                    href="{% url 'conference:ncps_admin:abstracts' %}">
+                        <i class="fas fa-file-alt me-2"></i> Abstracts
+                    </a>
+                </li>
+
+                {% if user.is_superuser %}
+                <!-- Registrations -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link admin-nav-link
+                    {% if request.resolver_match.url_name == 'registrations' or request.resolver_match.url_name == 'registration_detail' %}
+                    active{% endif %}"
+                    href="{% url 'conference:ncps_admin:registrations' %}">
+                        <i class="fas fa-users me-2"></i> Registrations
+                    </a>
+                </li>
+                {% endif %}
+
+                <!-- Analytics -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link admin-nav-link
+                    {% if request.resolver_match.url_name == 'analytics' %}
+                    active{% endif %}"
+                    href="{% url 'conference:ncps_admin:analytics' %}">
+                        <i class="fas fa-chart-pie me-2"></i> Analytics
+                    </a>
+                </li>
+
+                <!-- Notifications -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link admin-nav-link
+                    {% if request.resolver_match.url_name == 'notifications' %}
+                    active{% endif %}"
+                    href="{% url 'conference:ncps_admin:notifications' %}">
+                        <i class="fas fa-bell me-2"></i> Notifications
+                        {% if unread_notifications_count and unread_notifications_count > 0 %}
+                          <span class="badge bg-danger ms-2">{{ unread_notifications_count }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+
+                {% if request.user.is_superuser %}
+                <!-- Admin Logs -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link admin-nav-link
+                    {% if request.resolver_match.url_name == 'admin_logs' %}
+                    active{% endif %}"
+                    href="{% url 'conference:ncps_admin:admin_logs' %}">
+                        <i class="fas fa-clipboard-list me-2"></i> Admin Logs
+                    </a>
+                </li>
+
+                <!-- Theme Admins -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link admin-nav-link
+                    {% if request.resolver_match.url_name == 'theme_admin_list' %}
+                    active{% endif %}"
+                    href="{% url 'conference:ncps_admin:theme_admin_list' %}">
+                        <i class="fas fa-user-shield me-2"></i> Manage Theme Admins
+                    </a>
+                </li>
+                {% endif %}
+
+                <!-- Logout -->
+                <li class="nav-item mt-4">
+                    <a class="nav-link admin-nav-link text-danger" href="{% url 'conference:logout' %}">
+                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                    </a>
+                </li>
+
+            </ul>
+        </aside>
+
+        <!-- MAIN ADMIN CONTENT -->
+        <main class="col-md-9 col-lg-10 px-4 py-4 admin-content">
+            {% block admin_content %}{% endblock %}
+        </main>
+
+    </div>
+</div>
+
+<style>
+/* Admin Sidebar Styles */
+.admin-sidebar {
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+}
+
+.admin-nav-link {
+    border-radius: 10px;
+    padding: 12px 15px !important;
+    transition: all 0.3s ease;
+    color: #495057 !important;
+    font-weight: 500;
+}
+
+.admin-nav-link:hover {
+    background: #e9ecef;
+    color: #0d47a1 !important;
+    transform: translateX(5px);
+}
+
+.admin-nav-link.active {
+    background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(13, 71, 161, 0.3);
+}
+
+.admin-nav-link.text-danger:hover {
+    background: #fee;
+    color: #dc3545 !important;
+}
+
+.admin-content {
+    min-height: calc(100vh - 80px);
+}
+
+/* Responsive Admin Layout */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        position: relative;
+        top: 0;
+        height: auto;
+        min-height: auto;
+    }
+    
+    .admin-content {
+        padding-top: 20px !important;
+    }
+    
+    .admin-nav-link {
+        font-size: 0.9rem;
+    }
+}
+</style>
+
+{% endblock %}  

@@ -1,0 +1,81 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Theme Admins{% endblock %}
+
+{% block admin_content %}
+<div class="container-fluid">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold mb-0">Theme Admins</h4>
+
+    <a href="{% url 'conference:ncps_admin:theme_admin_create' %}" class="btn btn-polar">
+    + Add Theme Admin
+    </a>
+
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <table class="table table-bordered mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Email</th>
+            <th>Themes</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for ta in theme_admins %}
+          <tr>
+            <td>{{ ta.user.email|default:ta.user.username }}</td>
+
+            <td>
+              {% for t in ta.themes.all %}
+                <span class="badge bg-info text-dark me-1">{{ t.name }}</span>
+              {% empty %}
+                <span class="text-muted">No themes</span>
+              {% endfor %}
+            </td>
+
+            <td>
+              {% if ta.is_active %}
+                <span class="badge bg-success">Active</span>
+              {% else %}
+                <span class="badge bg-secondary">Inactive</span>
+              {% endif %}
+            </td>
+
+            <td>
+  <a href="{% url 'conference:ncps_admin:theme_admin_edit' ta.id %}"
+     class="btn btn-sm btn-outline-polar">
+    Edit
+  </a>
+
+  <a href="{% url 'conference:ncps_admin:theme_admin_toggle' ta.id %}"
+     class="btn btn-sm btn-outline-polar ms-1">
+    Toggle
+  </a>
+
+<form method="post"
+      action="{% url 'conference:ncps_admin:theme_admin_delete' ta.id %}"
+      style="display:inline;">
+  {% csrf_token %}
+  <button type="submit"
+          class="btn btn-sm btn-outline-danger"
+          onclick="return confirm('Are you sure you want to revoke this theme admin?');">
+    Delete
+  </button>
+</form>
+
+</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

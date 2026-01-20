@@ -1,0 +1,150 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Registration Detail{% endblock %}
+
+{% block admin_content %}
+<div class="container py-5">
+
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h2 class="mb-0">
+        <i class="fas fa-user text-primary me-2"></i>Registration Details
+      </h2>
+      <p class="text-muted mb-0">Participant information and status</p>
+    </div>
+    <div class="col-md-4 text-end">
+      <a href="{% url 'conference:ncps_admin:registrations' %}" class="btn btn-outline-polar rounded-pill">
+        <i class="fas fa-arrow-left me-1"></i> Back
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- LEFT -->
+    <div class="col-lg-8">
+
+      <!-- Participant Info -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h5 class="mb-3">Participant Information</h5>
+
+          <div class="row g-2">
+            <div class="col-md-6">
+              <dl class="row mb-0">
+                <dt class="col-5 text-muted">ID</dt>
+                <dd class="col-7">{{ registration.id }}</dd>
+
+                <dt class="col-5 text-muted">Code</dt>
+                <dd class="col-7"><span class="badge bg-light text-dark">{{ registration.participant_code|default:"-" }}</span></dd>
+
+                <dt class="col-5 text-muted">Title</dt>
+                <dd class="col-7">{{ registration.get_title_display|default:registration.title }}</dd>
+
+                <dt class="col-5 text-muted">Name</dt>
+                <dd class="col-7">{{ registration.user.get_full_name|default:registration.user.username }}</dd>
+
+                <dt class="col-5 text-muted">Username</dt>
+                <dd class="col-7">{{ registration.user.username }}</dd>
+
+                <dt class="col-5 text-muted">Phone</dt>
+                <dd class="col-7">{{ registration.phone }}</dd>
+              </dl>
+            </div>
+
+            <div class="col-md-6">
+              <dl class="row mb-0">
+                <dt class="col-5 text-muted">Email</dt>
+                <dd class="col-7"><a href="mailto:{{ registration.user.email }}">{{ registration.user.email }}</a></dd>
+
+                <dt class="col-5 text-muted">Organization</dt>
+                <dd class="col-7">{{ registration.organization }}</dd>
+
+                <dt class="col-5 text-muted">Designation</dt>
+                <dd class="col-7">{{ registration.designation }}</dd>
+
+                <dt class="col-5 text-muted">Scientific Theme</dt>
+                <dd class="col-7">{{ registration.get_scientific_theme_display }}</dd>
+              </dl>
+            </div>
+
+            <div class="col-12 mt-2">
+              <dl class="row mb-0">
+                <dt class="col-md-3 text-muted">Registered On</dt>
+                <dd class="col-md-9">{{ registration.created_at|date:"d M Y H:i" }}</dd>
+
+                <dt class="col-md-3 text-muted">User Joined</dt>
+                <dd class="col-md-9">{{ registration.user.date_joined|date:"d M Y H:i" }}</dd>
+
+                <dt class="col-md-3 text-muted">Last Login</dt>
+                <dd class="col-md-9">{{ registration.user.last_login|date:"d M Y H:i"|default:"Never" }}</dd>
+              </dl>
+            </div>
+          </div>
+
+          <hr class="my-3">
+          <h6 class="mb-2">Additional Information</h6>
+          <div class="bg-light p-3 rounded small">
+            {% if registration.research_interests %}
+              <div>{{ registration.research_interests }}</div>
+            {% else %}
+              <div class="text-muted">No additional information provided.</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Abstracts -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="mb-3"><i class="fas fa-file-alt me-2"></i>Submitted Abstracts</h5>
+
+          {% if abstracts %}
+            <div class="list-group list-group-flush small">
+              {% for abstract in abstracts %}
+                <div class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                      <strong>{{ abstract.title }}</strong>
+                      <div class="text-muted small">Submitted: {{ abstract.submitted_at|date:"d M Y H:i" }}</div>
+                      <div class="mt-1 small">
+                        <span class="badge bg-light text-dark">{{ abstract.theme.name }}</span>
+                        <span class="badge bg-secondary ms-1">{{ abstract.get_status_display }}</span>
+                      </div>
+                      {% if abstract.admin_comments %}
+                        <div class="mt-2 text-muted small">Admin note: {{ abstract.admin_comments|truncatechars:120 }}</div>
+                      {% endif %}
+                    </div>
+                    <div class="text-end">
+                      {% if abstract.pdf_file %}
+                        <a href="{{ abstract.pdf_file.url }}" class="btn btn-sm btn-outline-secondary me-2" target="_blank">
+                          <i class="fas fa-file-pdf text-danger"></i>
+                        </a>
+                      {% endif %}
+                      <a href="{% url 'conference:ncps_admin:abstract_detail' abstract.id %}" class="btn btn-sm btn-outline-polar">
+                        <i class="fas fa-eye"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p class="text-muted">No abstracts submitted.</p>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col-lg-4">
+
+      <!-- Status removed: handled in separate admin UI -->
+
+      <!-- Update removed: payment/status update handled elsewhere -->
+
+    </div>
+  </div>
+</div>
+{% endblock %}

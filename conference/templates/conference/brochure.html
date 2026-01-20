@@ -1,0 +1,36 @@
+{% extends "conference/base.html" %}
+{% load static %}
+
+{% block title %}Brochure — NCPS 2025{% endblock %}
+
+{% block content %}
+<div class="container py-5 my-4" style="max-width: 900px; margin-top: 80px; margin-bottom: 50px;">
+  <h2 class="mb-3">Conference Brochure</h2>
+  <p class="text-muted mb-4">
+    Download the official NCPS 2025 booklet.
+  </p>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div>
+          <strong class="d-block">NCPS 2025 Booklet (PDF)</strong>
+          <span class="text-muted small">File: NCPS-2025_booklet.pdf</span>
+        </div>
+        <div class="d-flex gap-2">
+          <a class="btn btn-outline-polar" href="{% static 'NCPS-2025_booklet.pdf' %}" target="_blank" rel="noopener noreferrer">
+            View
+          </a>
+          <a class="btn btn-polar" href="{% static 'NCPS-2025_booklet.pdf' %}" download>
+            Download
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <a href="{% url 'conference:home' %}" class="btn btn-outline-polar">Return to Homepage</a>
+  </div>
+</div>
+{% endblock %}

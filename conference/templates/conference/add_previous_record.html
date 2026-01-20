@@ -1,0 +1,76 @@
+{% extends "conference/base.html" %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 800px;">
+  <div class="mb-4 d-flex align-items-center">
+    <h3 class="mb-0"><i class="fas fa-folder-plus me-2"></i>Upload Previous Record</h3>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} small">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input type="text" name="title" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Type</label>
+          <select name="record_type" class="form-select">
+            <option value="abstract">Abstract</option>
+            <option value="poster">Poster</option>
+            <option value="final_paper">Final Paper</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="mb-3">
+  <label class="form-label fw-semibold">
+    <i class="fas fa-map-marker-alt me-1 text-primary"></i> Scientific Field
+  </label>
+  <select name="scientific_field" class="form-select shadow-sm" required>
+    <option value="polar_ocean">Polar Ocean Science</option>
+    <option value="sea_ice">Sea Ice &amp; Sea-ice Dynamics</option>
+    <option value="glaciology">Glaciology / Ice Sheets</option>
+    <option value="physical_ocean">Physical Oceanography</option>
+    <option value="marine_bio">Marine Biology / Ecology</option>
+    <option value="ocean_chem">Ocean Chemistry</option>
+    <option value="cryosphere">Cryosphere Processes</option>
+    <option value="remote_sensing">Remote Sensing &amp; Satellite</option>
+    <option value="ocean_modelling">Ocean Modelling &amp; Forecasting</option>
+    <option value="climate">Climate Change &amp; Polar Climate</option>
+    <option value="coastal">Coastal Processes &amp; Management</option>
+    <option value="fisheries">Fisheries &amp; Marine Resources</option>
+    <option value="geophysics">Marine Geophysics</option>
+    <option value="atmosphere">Polar Atmosphere</option>
+    <option value="other">Other</option>
+  </select>
+</div>
+
+
+        <div class="mb-3">
+          <label class="form-label">Upload File</label>
+          <input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx,.zip" required>
+          <small class="text-muted d-block">Max 20 MB. Allowed: PDF, DOC, DOCX, ZIP.</small>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Notes (optional)</label>
+          <textarea name="notes" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="d-flex">
+          <button type="submit" class="btn btn-polar me-2"><i class="fas fa-upload me-1"></i> Upload</button>
+          <a href="{% url 'conference:dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

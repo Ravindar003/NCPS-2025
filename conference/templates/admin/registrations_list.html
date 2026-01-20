@@ -1,0 +1,242 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Registrations{% endblock %}
+
+{% block admin_content %}
+<div class="container py-5">
+
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h2 class="mb-0">
+        <i class="fas fa-users text-primary me-2"></i>Registrations
+      </h2>
+      <p class="text-muted mb-0">Manage participant registrations</p>
+    </div>
+    <div class="col-md-4 text-end">
+      <a href="{% url 'conference:ncps_admin:export_registrations' %}" class="btn btn-polar rounded-pill">
+        <i class="fas fa-download me-1"></i> Export CSV
+      </a>
+    </div>
+  </div>
+
+  <!-- Search and Filter -->
+  <div class="card shadow-sm mb-3">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-8">
+             <input type="text" 
+               id="searchInput" 
+               class="form-control" 
+               placeholder="🔍 Search by name, email, code, or organization...">
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-outline-secondary w-100" onclick="clearFilters()">
+            <i class="fas fa-redo me-1"></i> Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0" id="registrationsTable">
+          <thead class="table-light">
+            <tr>
+              <th class="sortable" data-sort="id">
+                ID <i class="fas fa-sort text-muted"></i>
+              </th>
+              <th class="sortable" data-sort="title">
+                Title <i class="fas fa-sort text-muted"></i>
+              </th>
+              <th class="sortable" data-sort="name">
+                Name <i class="fas fa-sort text-muted"></i>
+              </th>
+                <th>Code</th>
+              <th class="sortable" data-sort="organization">
+                Organization <i class="fas fa-sort text-muted"></i>
+              </th>
+              <th>Scientific Theme</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="registrationsTableBody">
+            {% for reg in registrations %}
+            <tr data-id="{{ reg.id }}"
+                data-code="{{ reg.participant_code|default:'' }}"
+                data-name="{{ reg.user.get_full_name|default:reg.user.username|lower }}"
+                data-email="{{ reg.user.email|lower }}"
+                data-organization="{{ reg.organization|lower }}"
+                data-title="{{ reg.get_title_display|default:reg.title|lower }}"
+                data-theme="{{ reg.scientific_theme|default:'' }}">
+              <td>{{ reg.id }}</td>
+              <td>{{ reg.get_title_display|default:reg.title }}</td>
+              <td>
+                <strong>{{ reg.user.get_full_name|default:reg.user.username }}</strong><br>
+                <small class="text-muted">{{ reg.user.email }}</small>
+              </td>
+              <td><strong>{{ reg.participant_code|default:"-" }}</strong></td>
+              <td>{{ reg.organization }}</td>
+              <td>{{ reg.get_scientific_theme_display }}</td>
+              <td>
+                <a href="{% url 'conference:ncps_admin:registration_detail' reg.id %}"
+                   class="btn btn-sm btn-outline-polar">
+                  <i class="fas fa-eye"></i>
+                </a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center py-4 text-muted">
+                No registrations found
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+.sortable:hover {
+  background-color: #f0f0f0;
+}
+.sortable i {
+  font-size: 0.8em;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('searchInput');
+  const tableBody = document.getElementById('registrationsTableBody');
+  const allRows = Array.from(tableBody.querySelectorAll('tr[data-id]'));
+  
+  let currentSort = { column: null, ascending: true };
+
+  // Live search
+  searchInput.addEventListener('input', filterTable);
+
+  function filterTable() {
+    const searchTerm = searchInput.value.toLowerCase();
+    
+    let visibleCount = 0;
+    allRows.forEach(row => {
+      const id = row.dataset.id;
+        const code = row.dataset.code || '';
+      const name = row.dataset.name;
+      const email = row.dataset.email;
+      const organization = row.dataset.organization;
+      const title = row.dataset.title || '';
+      const theme = row.dataset.theme || '';
+      
+      const matchesSearch = !searchTerm || 
+        id.includes(searchTerm) ||
+          code.toLowerCase().includes(searchTerm) ||
+        name.includes(searchTerm) ||
+        email.includes(searchTerm) ||
+        organization.includes(searchTerm) ||
+        title.includes(searchTerm) ||
+        theme.includes(searchTerm);
+      
+      if (matchesSearch) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+    
+    // Update empty state
+    updateEmptyState(visibleCount);
+  }
+
+  function updateEmptyState(count) {
+    let emptyRow = tableBody.querySelector('tr.empty-row');
+    if (count === 0 && !emptyRow) {
+      emptyRow = document.createElement('tr');
+      emptyRow.className = 'empty-row';
+      emptyRow.innerHTML = '<td colspan="7" class="text-center py-4 text-muted">No matching registrations found</td>';
+      tableBody.appendChild(emptyRow);
+    } else if (count > 0 && emptyRow) {
+      emptyRow.remove();
+    }
+  }
+
+  // Sorting
+  document.querySelectorAll('.sortable').forEach(header => {
+    header.addEventListener('click', function() {
+      const sortBy = this.dataset.sort;
+      sortTable(sortBy);
+      updateSortIcons(this);
+    });
+  });
+
+  function sortTable(column) {
+    if (currentSort.column === column) {
+      currentSort.ascending = !currentSort.ascending;
+    } else {
+      currentSort.column = column;
+      currentSort.ascending = true;
+    }
+
+    const sortedRows = allRows.sort((a, b) => {
+      let valA, valB;
+      
+      switch(column) {
+        case 'id':
+          valA = parseInt(a.dataset.id);
+          valB = parseInt(b.dataset.id);
+          break;
+        case 'name':
+          valA = a.dataset.name;
+          valB = b.dataset.name;
+          break;
+        case 'organization':
+          valA = a.dataset.organization;
+          valB = b.dataset.organization;
+          break;
+      }
+      
+      if (valA < valB) return currentSort.ascending ? -1 : 1;
+      if (valA > valB) return currentSort.ascending ? 1 : -1;
+      return 0;
+    });
+
+    // Re-append rows in sorted order
+    sortedRows.forEach(row => tableBody.appendChild(row));
+    
+    // Keep empty row at end if it exists
+    const emptyRow = tableBody.querySelector('tr:not([data-id])');
+    if (emptyRow) {
+      tableBody.appendChild(emptyRow);
+    }
+  }
+
+  function updateSortIcons(activeHeader) {
+    document.querySelectorAll('.sortable i').forEach(icon => {
+      icon.className = 'fas fa-sort text-muted';
+    });
+    
+    const icon = activeHeader.querySelector('i');
+    icon.className = currentSort.ascending ? 
+      'fas fa-sort-up text-primary' : 
+      'fas fa-sort-down text-primary';
+  }
+
+  window.clearFilters = function() {
+    searchInput.value = '';
+    filterTable();
+  };
+});
+</script>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "conference/base.html" %}
+{% load static %}
+
+{% block title %}Scientific Themes — NCPS 2025{% endblock %}
+
+{% block content %}
+<section class="scientific-inqua pb-4" style="margin-top: 0; padding-top: 80px;">
+  <div class="container">
+    <div class="scientific-wrapper">
+
+      <div class="scientific-header">
+        <div>
+          <h2>Scientific Themes & Sessions</h2>
+          <p>
+            The Open Science Conference (OSC) will host thematic sessions covering
+            diverse aspects of the polar regions, the Southern Ocean, and the
+            Himalayan cryosphere.
+          </p>
+        </div>
+        <a href="{% url 'conference:home' %}#themes" class="btn-view-all">Back to Home</a>
+      </div>
+
+      <div class="scientific-cards scientific-cards-grid">
+
+        {% for t in themes %}
+          <a class="theme-card" href="{% url 'conference:theme_detail' t.code %}">
+            <img src="{% static t.image %}" alt="{{ t.name }}">
+            <span>{{ t.name }}</span>
+          </a>
+        {% endfor %}
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .scientific-inqua {
+    position: relative;
+    background: #0b1320;
+    overflow: hidden;
+  }
+
+  .scientific-inqua::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("{% static 'images/bg/architecture_dark.jpg' %}") center/cover;
+    opacity: 0.15;
+  }
+
+  .scientific-wrapper {
+    position: relative;
+    z-index: 1;
+  }
+
+  .scientific-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .scientific-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #ffffff;
+  }
+
+  .scientific-header p {
+    font-size: 0.95rem;
+    color: #d1d5db;
+    max-width: 520px;
+    margin-bottom: 0;
+  }
+
+  .btn-view-all {
+    background: #b11226;
+    color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .btn-view-all:hover {
+    background: #8e0f1f;
+    color: #ffffff;
+  }
+
+  .scientific-cards {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 18px;
+    padding-bottom: 10px;
+  }
+
+  .scientific-cards-grid {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .theme-card {
+    display: block;
+    width: 220px;
+    height: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.25s ease;
+    text-decoration: none;
+  }
+
+  .theme-card:hover {
+    transform: translateY(-6px);
+  }
+
+  .theme-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s ease;
+  }
+
+  .theme-card:hover img {
+    transform: scale(1.05);
+  }
+
+  .theme-card span {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 14px 14px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    background: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.78) 65%, rgba(0,0,0,0.9) 100%);
+  }
+
+  @media (max-width: 576px) {
+    .theme-card {
+      width: 100%;
+      max-width: 320px;
+    }
+  }
+</style>
+{% endblock %}

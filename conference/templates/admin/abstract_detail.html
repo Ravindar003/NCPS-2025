@@ -1,0 +1,321 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Abstract Detail{% endblock %}
+
+{% block admin_content %}
+<div class="container-fluid">
+
+  <!-- HEADER -->
+  <div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+      <h2 class="fw-bold mb-0">
+        <i class="fas fa-file-alt text-primary me-2"></i>
+        Abstract Details
+      </h2>
+      <p class="text-muted mb-0">
+        Review, assign reviewers, approve or reject
+      </p>
+    </div>
+    <div class="col-md-4 text-end">
+      <a href="{% url 'conference:ncps_admin:abstracts' %}" class="btn btn-outline-polar">
+        <i class="fas fa-arrow-left me-1"></i> Back
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- LEFT: ABSTRACT CONTENT -->
+    <div class="col-lg-8">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+          <h5 class="fw-bold">{{ abstract.title }}</h5>
+
+          <p class="text-muted mb-2">
+            Submitted on {{ abstract.submitted_at|date:"d M Y, H:i" }}
+          </p>
+
+          <span class="badge
+            {% if abstract.status == 'APPROVED' %}bg-success
+            {% elif abstract.status == 'REJECTED' %}bg-danger
+            {% elif abstract.status == 'REVISION' %}bg-warning text-dark
+            {% else %}bg-secondary{% endif %}">
+            {{ abstract.get_status_display }}
+          </span>
+
+          <hr>
+
+          <h6>Abstract Content</h6>
+
+          {% if abstract.abstract|length > 0 %}
+            <div class="bg-light p-3 rounded small">
+              {{ abstract.abstract|safe }}
+            </div>
+
+          {% elif abstract.pdf_file %}
+            <p class="text-muted mb-2">
+              This abstract was submitted as a PDF.
+            </p>
+            <a href="{{ abstract.pdf_file.url }}" target="_blank"
+              class="btn btn-outline-polar btn-sm">
+              <i class="fas fa-file-pdf me-1"></i> View Original PDF
+            </a>
+
+          {% else %}
+            <p class="text-muted">No abstract content available.</p>
+          {% endif %}
+
+
+          {% if abstract.revised_submission %}
+            <a href="{{ abstract.revised_submission.url }}" target="_blank"
+               class="btn btn-outline-success mt-3 ms-2">
+              <i class="fas fa-file-upload me-1"></i> View Revised PDF
+            </a>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: ADMIN ACTIONS -->
+    <div class="col-lg-4">
+
+{% if can_manage and not is_reviewer %}
+
+
+      <!-- UPDATE STATUS (ALWAYS AVAILABLE) -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+          <h6 class="fw-bold mb-3">
+            <i class="fas fa-edit me-2"></i> Update Status
+          </h6>
+
+          <form method="post" action="{% url 'conference:ncps_admin:update_abstract_status' abstract.id %}">
+            {% csrf_token %}
+
+            <label class="form-label">Decision</label>
+                <select name="status" id="statusSelect" class="form-select mb-3">
+                  {% for value, label in status_choices %}
+                  {% if value != "RESUBMITTED" %}
+                    <option value="{{ value }}" {% if abstract.status == value %}selected{% endif %}>
+                      {{ label }}
+                    </option>
+                  {% endif %}
+                {% endfor %}
+
+                </select>
+
+
+            <div id="revisionBox" class="mb-3" style="display:none;">
+              <label class="form-label">Revision Due Date</label>
+              <input type="date"
+                     name="revision_due_date"
+                     value="{{ abstract.revision_due_date|date:'Y-m-d' }}"
+                     class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Instructions / Rejection Reason</label>
+              <textarea name="admin_comments"
+                        rows="4"
+                        class="form-control">{{ abstract.admin_comments }}</textarea>
+            </div>
+
+            <button class="btn btn-polar w-100">
+              <i class="fas fa-save me-1"></i> Save Decision
+            </button>
+          </form>
+
+        </div>
+      </div>
+
+      <!-- ASSIGN EXTERNAL REVIEWER (OPTIONAL) -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+          <h6 class="fw-bold mb-3">
+            <i class="fas fa-user-plus me-2"></i> Assign External Reviewer
+          </h6>
+
+          {% if available_reviewers %}
+            <form method="post" action="{% url 'conference:ncps_admin:assign_abstract_reviewer' abstract.id %}">
+              {% csrf_token %}
+              <div class="input-group">
+                <select name="reviewer" class="form-select" required>
+                  <option value="">Select Theme Admin</option>
+                  {% for ta in available_reviewers %}
+                    <option value="{{ ta.id }}">
+                      {{ ta.user.get_full_name|default:ta.user.username }}
+                    </option>
+                  {% endfor %}
+                </select>
+                <button class="btn btn-outline-primary">Assign</button>
+              </div>
+            </form>
+          {% else %}
+            <p class="text-muted mb-0">
+              No other active Theme Admins available for review.
+            </p>
+          {% endif %}
+
+        </div>
+      </div>
+
+      {% endif %}
+
+{% if can_manage or is_superuser %}
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+
+    <h6 class="fw-bold mb-3">
+      <i class="fas fa-comments me-2"></i> External Reviews
+    </h6>
+
+    {% for r in existing_reviews %}
+      <div class="border rounded p-3 mb-3">
+        <strong>
+          {{ r.reviewer.user.get_full_name|default:r.reviewer.user.username }}
+        </strong>
+
+        {% if r.status %}
+          <span class="badge ms-2
+            {% if r.status == 'APPROVED' %}bg-success
+            {% elif r.status == 'REJECTED' %}bg-danger
+            {% elif r.status == 'REVISION' %}bg-warning text-dark
+            {% endif %}
+          ">
+            {{ r.get_status_display }}
+          </span>
+        {% endif %}
+
+        {% if r.comment %}
+          <p class="mt-2 mb-1 text-muted">
+            {{ r.comment }}
+          </p>
+        {% endif %}
+
+        {% if r.edited_at %}
+          <small class="text-muted">
+            ✏️ Edited on {{ r.edited_at|date:"d M Y, H:i" }}
+          </small>
+        {% elif r.submitted_at %}
+          <small class="text-muted">
+            🕒 Submitted on {{ r.submitted_at|date:"d M Y, H:i" }}
+          </small>
+        {% endif %}
+      </div>
+    {% empty %}
+      <p class="text-muted">No reviews yet.</p>
+    {% endfor %}
+    {% if abstract.status == "APPROVED" or abstract.status == "REJECTED" %}
+  <p class="text-muted small">
+    Review locked after final decision.
+  </p>
+{% endif %}
+
+
+  </div>
+</div>
+{% endif %}
+
+{% if is_reviewer and review_obj and abstract.status != "APPROVED" and abstract.status != "REJECTED" %}
+
+
+  {% if review_obj.assigned_by %}
+    <div class="alert alert-info small mb-3">
+      <i class="fas fa-share me-1"></i>
+      Sent for review by
+      <strong>
+        {{ review_obj.assigned_by.user.get_full_name|default:review_obj.assigned_by.user.username }}
+      </strong>
+    </div>
+  {% endif %}
+
+  <form method="post" action="{% url 'conference:ncps_admin:submit_review_comment' abstract.id %}">
+    {% csrf_token %}
+
+    <label class="form-label fw-semibold">Your Recommendation</label>
+
+    {% if review_obj.is_submitted and request.GET.edit != "1" %}
+      <input type="hidden" name="status" value="{{ review_obj.status }}">
+    {% endif %}
+
+    <select name="status"
+            class="form-select mb-3"
+            {% if review_obj.is_submitted and request.GET.edit != "1" %}disabled{% endif %}>
+      <option value="">-- Select --</option>
+      <option value="APPROVED" {% if review_obj.status == "APPROVED" %}selected{% endif %}>
+        Approve
+      </option>
+      <option value="REVISION" {% if review_obj.status == "REVISION" %}selected{% endif %}>
+        Revision Required
+      </option>
+      <option value="REJECTED" {% if review_obj.status == "REJECTED" %}selected{% endif %}>
+        Reject
+      </option>
+    </select>
+
+    <label class="form-label fw-semibold">Reviewer Comment</label>
+
+    <textarea name="comment"
+              rows="4"
+              class="form-control mb-3"
+              {% if review_obj.is_submitted and request.GET.edit != "1" %}readonly{% endif %}>{{ review_obj.comment }}</textarea>
+
+    {% if not review_obj.is_submitted %}
+      <button class="btn btn-outline-primary w-100">
+        Submit Review
+      </button>
+    {% else %}
+      <div class="alert alert-secondary small mb-0">
+        Review submitted — editing is not allowed.
+      </div>
+    {% endif %}
+  </form>
+
+{% endif %}
+
+      <!-- SUBMITTER INFO -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="fw-bold mb-2">
+            <i class="fas fa-user me-2"></i> Submitter
+          </h6>
+
+          <p class="mb-1">
+            <strong>{{ abstract.user.get_full_name|default:abstract.user.username }}</strong>
+          </p>
+          <p class="text-muted mb-0">{{ abstract.user.email }}</p>
+
+          {% if participant and participant.participant_code %}
+            <p class="mt-2"><strong>Participant Code:</strong>
+              <span class="badge bg-light text-dark">{{ participant.participant_code }}</span>
+            </p>
+          {% endif %}
+
+          {% if participant %}
+            <hr>
+            <p class="mb-1"><strong>Organization:</strong> {{ participant.organization }}</p>
+            <p class="mb-0"><strong>Theme:</strong> {{ abstract.theme.name }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleRevision() {
+  const status = document.getElementById("statusSelect")?.value;
+  const box = document.getElementById("revisionBox");
+  if (!box) return;
+  box.style.display = (status === "REVISION") ? "block" : "none";
+}
+document.addEventListener("DOMContentLoaded", toggleRevision);
+document.getElementById("statusSelect")?.addEventListener("change", toggleRevision);
+</script>
+
+{% endblock %}

@@ -1,0 +1,2619 @@
+{% extends "conference/base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- ================= INQUA STYLE HERO ================= -->
+<section class="hero-inqua" id="home">
+
+  <div class="container-fluid px-4">
+
+    <div class="hero-video-card">
+
+      <video class="hero-video" autoplay muted loop playsinline>
+        <source src="{% static 'videos/NCPS_INTRO.mp4' %}" type="video/mp4">
+      </video>
+
+      <!-- Hero Text -->
+      <div class="hero-text">
+        <h1>NCPS 2027</h1>
+        <p>Advancing India’s Polar, Ocean & Cryosphere Research</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- ================= ABOUT SECTION ================= -->
+<section class="about-inqua" id="about">
+  <div class="container">
+    <div class="row align-items-center">
+
+      <!-- LEFT CONTENT -->
+      <div class="col-lg-6">
+        <div class="about-text">
+
+          <h2 class="about-title">
+            Welcome to NCPS 2027
+          </h2>
+
+          <p class="about-subtitle">
+            Advancing Polar & Ocean Sciences for Societal Services
+          </p>
+
+          <div class="about-meta">
+            <span>
+              <i class="fas fa-calendar-alt"></i>
+              January 16 – 18, 2027
+            </span>
+            <span>
+              <i class="fas fa-map-marker-alt"></i>
+              Goa, India
+            </span>
+          </div>
+
+          <p class="about-description">
+            The National Conference on Polar Sciences (NCPS 2027) focuses on
+            delivering practical, science-based insights for climate resilience,
+            sustainable oceans, cryospheric research, and environmental security.
+            The conference provides a multidisciplinary platform for researchers,
+            policymakers, and practitioners to exchange knowledge and advance
+            India’s polar and ocean science missions.
+          </p>
+
+          <div class="about-social">
+            <a href="https://www.linkedin.com/company/national-centre-for-polar-and-ocean-research/?originalSubdomain=in" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/color/48/linkedin.png" alt="LinkedIn" width="18" height="18" loading="lazy">
+            </a>
+            <a href="https://x.com/ncaor_goa" aria-label="X" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/color/48/twitterx--v1.png" alt="X" width="18" height="18" loading="lazy">
+            </a>
+            <a href="https://www.facebook.com/ncpor.goa" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/color/48/facebook-new.png" alt="Facebook" width="18" height="18" loading="lazy">
+            </a>
+            <a href="https://www.youtube.com/@NCPORGoaVasco" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/color/48/youtube-play.png" alt="YouTube" width="18" height="18" loading="lazy">
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+<!-- RIGHT IMAGE / SLIDER CARD -->
+<div class="col-lg-6">
+  <div class="about-media">
+
+    <div class="about-slider">
+
+      <div class="about-slides">
+
+        <div class="about-slide">
+          <img src="{% static 'images/about/ncpor-about.webp' %}" alt="NCPOR Goa">
+          <h3 class="about-slide-title">National Centre for Polar & Ocean Research</h3>
+        </div>
+
+        <div class="about-slide">
+          <img src="{% static 'images/about/maitri_station.webp' %}" alt="Maitri Station">
+          <h3 class="about-slide-title">Maitri Station, Antarctica</h3>
+        </div>
+
+        <div class="about-slide">
+          <img src="{% static 'images/about/bharati_station.webp' %}" alt="Bharati Station">
+          <h3 class="about-slide-title">Bharati Station, Antarctica</h3>
+        </div>
+
+        <div class="about-slide">
+          <img src="{% static 'images/about/himadri_station.webp' %}" alt="Himadri Station">
+          <h3 class="about-slide-title">Himadri Station, Arctic</h3>
+        </div>
+
+        <div class="about-slide">
+          <img src="{% static 'images/about/orv_sagar_kanya.webp' %}" alt="ORV Sagar Kanya">
+          <h3 class="about-slide-title">ORV Sagar Kanya – Research Vessel</h3>
+        </div>
+
+      </div>
+
+      <!-- Controls -->
+      <button class="about-nav about-prev">&#10094;</button>
+      <button class="about-nav about-next">&#10095;</button>
+
+      <!-- Dots -->
+      <div class="about-dots"></div>
+
+    </div>
+
+  </div>
+</div>
+
+  </div>
+</section>
+<!-- ================= SCIENTIFIC THEME SECTION ================= -->
+{% load static %}
+
+<section class="scientific-inqua" id="themes">
+
+  <div class="container">
+    <div class="scientific-wrapper">
+
+      <!-- Header -->
+      <div class="scientific-header">
+        <div>
+          <h2>Scientific Themes & Sessions</h2>
+          <p>
+            The Open Science Conference (OSC) will host thematic sessions covering
+            diverse aspects of the polar regions, the Southern Ocean, and the
+            Himalayan cryosphere.
+          </p>
+        </div>
+
+        <a href="{% url 'conference:themes' %}" class="btn-view-all">View All</a>
+      </div>
+
+      <!-- Theme Cards -->
+      <div class="scientific-cards auto-scroll scientific-scroll">
+
+        <!-- Crustal Evolution -->
+        <a href="{% url 'conference:theme_detail' 'crustal_evolution' %}" class="theme-card-link">
+        <div class="theme-card">
+          <img src="{% static 'images/themes/crustal_evolution.jpg' %}"
+               alt="Crustal Evolution and Reconstruction">
+          <span>Crustal Evolution and Reconstruction</span>
+        </div>
+        </a>
+
+        <!-- Space Weather -->
+        <a href="{% url 'conference:theme_detail' 'space_weather' %}" class="theme-card-link">
+        <div class="theme-card">
+          <img src="{% static 'images/themes/space_weather.jpg' %}"
+               alt="Space Weather and Meteorology">
+          <span>Space Weather and Meteorology</span>
+        </div>
+        </a>
+
+        <!-- Southern Ocean -->
+        <a href="{% url 'conference:theme_detail' 'southern_ocean' %}" class="theme-card-link">
+        <div class="theme-card">
+          <img src="{% static 'images/themes/southern_ocean.jpg' %}"
+               alt="Southern Ocean in a Changing Climate">
+          <span>Southern Ocean in a Changing Climate</span>
+        </div>
+        </a>
+
+        <!-- Climate Change -->
+        <a href="{% url 'conference:theme_detail' 'climate_change' %}" class="theme-card-link">
+        <div class="theme-card">
+          <img src="{% static 'images/themes/climate_change.jpg' %}"
+               alt="Climate Change and Variability">
+          <span>Climate Change and Variability</span>
+        </div>
+        </a>
+
+        <!-- Cryosphere -->
+        <a href="{% url 'conference:theme_detail' 'cryosphere' %}" class="theme-card-link">
+        <div class="theme-card">
+          <img src="{% static 'images/themes/cryosphere.jpg' %}"
+               alt="Cryospheric Processes and Dynamics">
+          <span>Cryospheric Processes and Dynamics</span>
+        </div>
+        </a>
+
+        <!-- Sea Ice -->
+        <a href="{% url 'conference:theme_detail' 'sea_ice' %}" class="theme-card-link">
+        <div class="theme-card">
+          <img src="{% static 'images/themes/sea_ice.jpg' %}"
+               alt="Sea Ice Variability and Modelling">
+          <span>Sea Ice Variability and Modelling</span>
+        </div>
+        </a>
+
+        <!-- Polar Ecology -->
+        <a href="{% url 'conference:theme_detail' 'polar_ecology' %}" class="theme-card-link">
+        <div class="theme-card">
+          <img src="{% static 'images/themes/polar_ecology.jpg' %}"
+               alt="Polar Environment and Ecology">
+          <span>Polar Environment and Ecology</span>
+        </div>
+        </a>
+
+        <!-- Polar Operations -->
+        <a href="{% url 'conference:theme_detail' 'polar_operations' %}" class="theme-card-link">
+        <div class="theme-card">
+          <img src="{% static 'images/themes/polar_operations.jpg' %}"
+               alt="Polar Operations, Governance and Outreach">
+          <span>Polar Operations, Governance and Outreach</span>
+        </div>
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ================= RESEARCH GALLERY ================= -->
+<section class="research-gallery inqua-gallery" id="bytes">
+
+  <div class="container">
+
+    <div class="gallery-wrapper">
+
+      <!-- Section Header -->
+      <div class="gallery-header">
+        <div>
+          <h2>Research Gallery</h2>
+          <p>Snapshots from polar, ocean, and cryosphere research activities</p>
+        </div>
+      </div>
+
+      <!-- Gallery Track -->
+      <div class="gallery-track auto-scroll gallery-scroll">
+
+        <div class="gallery-item">
+          <img src="{% static 'images/ncpor/ncpor_01.jpg' %}" alt="Polar research activity">
+        </div>
+
+        <div class="gallery-item">
+          <img src="{% static 'images/ncpor/ncpor_02.jpg' %}" alt="Oceanographic survey">
+        </div>
+
+        <div class="gallery-item">
+          <img src="{% static 'images/ncpor/ncpor_03.jpg' %}" alt="Cryosphere studies">
+        </div>
+
+        <div class="gallery-item">
+          <img src="{% static 'images/ncpor/ncpor_04.jpg' %}" alt="Research station">
+        </div>
+
+        <div class="gallery-item">
+          <img src="{% static 'images/ncpor/ncpor_05.jpg' %}" alt="Remote sensing operations">
+        </div>
+
+        <div class="gallery-item">
+          <img src="{% static 'images/ncpor/ncpor_06.jpg' %}" alt="Scientific instrumentation">
+        </div>
+
+        <div class="gallery-item">
+          <img src="{% static 'images/ncpor/ncpor_07.jpg' %}" alt="Field logistics">
+        </div>
+
+        <div class="gallery-item">
+          <img src="{% static 'images/ncpor/ncpor_08.jpg' %}" alt="Marine research">
+        </div>
+
+        <div class="gallery-item">
+          <img src="{% static 'images/ncpor/ncpor_09.jpg' %}" alt="Ice core analysis">
+        </div>
+
+        <div class="gallery-item">
+          <img src="{% static 'images/ncpor/ncpor_10.jpg' %}" alt="Polar expedition team">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= ABSTRACTS ================= -->
+<section class="abstracts-section py-5" id="abstracts">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <div class="section-header">
+          <h2 class="section-title">Abstracts</h2>
+          <p class="section-subtitle">Open the abstracts page with all links</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <a href="{% url 'conference:abstracts' %}" class="btn btn-outline-dark w-100">
+          Open Abstracts
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= PAST CONFERENCES ================= -->
+<section class="past-conferences-section py-5" id="past-conferences">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <div class="section-header">
+          <h2 class="section-title">Past Conferences</h2>
+          <p class="section-subtitle">Explore highlights and outcomes from previous NCPS editions</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <a href="{% url 'conference:past_conferences' %}" class="btn btn-outline-dark w-100">
+          View Past Conferences
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= IMPORTANT DATES ================= -->
+<section class="dates-section inqua-dates py-5" id="dates">
+    <div class="container">
+        <div class="row">
+
+            <!-- LEFT: TIMELINE -->
+            <div class="col-lg-8">
+                <div class="section-header mb-5">
+                    <h2 class="section-title">Important Dates</h2>
+                    <p class="section-subtitle">
+                        Key milestones for participation in NCPS 2027
+                    </p>
+                </div>
+
+                <div class="timeline inqua-timeline">
+
+                    <!-- ITEM -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="marker-dot"></span>
+                            <span class="marker-line"></span>
+                        </div>
+                        <div class="timeline-content">
+                            <span class="timeline-date">31 March 2027</span>
+                            <h5>Abstract Submission Opens</h5>
+                            <p>Begin submitting your research abstracts</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="marker-dot"></span>
+                            <span class="marker-line"></span>
+                        </div>
+                        <div class="timeline-content">
+                            <span class="timeline-date">30 June 2027</span>
+                            <h5>Abstract Submission Deadline</h5>
+                            <p>Final date for abstract submissions</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="marker-dot"></span>
+                            <span class="marker-line"></span>
+                        </div>
+                        <div class="timeline-content">
+                            <span class="timeline-date">31 July 2027</span>
+                            <h5>Acceptance Notifications</h5>
+                            <p>Authors notified of abstract acceptance</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="marker-dot"></span>
+                            <span class="marker-line"></span>
+                        </div>
+                        <div class="timeline-content">
+                            <span class="timeline-date">31 August 2027</span>
+                            <h5>Early Bird Registration Ends</h5>
+                            <p>Discounted registration deadline</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="marker-dot"></span>
+                        </div>
+                        <div class="timeline-content">
+                            <span class="timeline-date">16–18 September 2027</span>
+                            <h5>Conference Dates</h5>
+                            <p>NCPS 2027 conference in Goa</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RIGHT: SIDEBAR -->
+            <div class="col-lg-4">
+                <div class="sidebar-sticky inqua-sidebar">
+
+                    <div class="cta-card inqua-cta mb-4">
+                        <h4>Participate in NCPS 2027</h4>
+                        <p>Join scientists and researchers advancing polar and ocean sciences.</p>
+
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'conference:dashboard' %}" class="btn btn-outline-dark w-100">
+                            Go to Dashboard
+                        </a>
+                        {% else %}
+                        <a href="{% url 'conference:register' %}" class="btn btn-polar-gradient w-100">
+                          Register
+                        </a>
+                        <form method="post" action="{% url 'conference:login' %}" class="mt-3">
+                          {% csrf_token %}
+
+                          <div class="mb-2">
+                            <label class="form-label small mb-1" for="homeInlineEmail">Email</label>
+                            <input type="email" class="form-control" id="homeInlineEmail" name="email" autocomplete="email" required>
+                          </div>
+
+                          <div class="mb-3">
+                            <label class="form-label small mb-1" for="homeInlinePassword">Password</label>
+                            <input type="password" class="form-control" id="homeInlinePassword" name="password" autocomplete="current-password" required>
+                          </div>
+
+                          <button type="submit" class="btn btn-outline-dark w-100">Submit</button>
+                        </form>
+                        {% endif %}
+                    </div>
+
+                    <div class="quick-links-card inqua-links">
+                        <h5>Quick Links</h5>
+
+                        <a href="#themes" class="quick-link-item">
+                            Conference Themes
+                        </a>
+                        <a href="#venue" class="quick-link-item">
+                            Venue Information
+                        </a>
+                        <a href="{% url 'conference:brochure' %}" class="quick-link-item">
+                            Download Brochure
+                        </a>
+                        <a href="{% url 'conference:faq' %}" class="quick-link-item">
+                            Frequently Asked Questions
+                        </a>
+                        <a href="{% url 'conference:past_conferences' %}" class="quick-link-item">
+                          Past Conferences
+                        </a>
+                        <a href="{% url 'conference:abstracts' %}" class="quick-link-item">
+                          Abstracts
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= ROADMAP / FLOW ================= -->
+<section class="roadmap-section inqua-roadmap" id="roadmap">
+  <div class="container">
+
+    <div class="roadmap-header mb-5">
+      <h2>Participation Roadmap</h2>
+      <p>A simple step-by-step guide to complete your NCPS 2027 journey</p>
+    </div>
+
+    <div class="roadmap-steps">
+      <div class="roadmap-step">
+        <div class="roadmap-node">
+          <span class="roadmap-number">1</span>
+        </div>
+        <div class="roadmap-content">
+          <h5>Create Account</h5>
+          <p>Register and sign in to access your dashboard.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-step">
+        <div class="roadmap-node">
+          <span class="roadmap-number">2</span>
+        </div>
+        <div class="roadmap-content">
+          <h5>Complete Details</h5>
+          <p>Fill in your participant information for smooth processing.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-step">
+        <div class="roadmap-node">
+          <span class="roadmap-number">3</span>
+        </div>
+        <div class="roadmap-content">
+          <h5>Submit Abstract</h5>
+          <p>Upload your abstract and choose the appropriate theme.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-step">
+        <div class="roadmap-node">
+          <span class="roadmap-number">4</span>
+        </div>
+        <div class="roadmap-content">
+          <h5>Track Review</h5>
+          <p>Check status updates and follow any reviewer instructions.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-step">
+        <div class="roadmap-node">
+          <span class="roadmap-number">5</span>
+        </div>
+        <div class="roadmap-content">
+          <h5>Revise (If Needed)</h5>
+          <p>Submit revisions if your abstract is returned for changes.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-step">
+        <div class="roadmap-node">
+          <span class="roadmap-number">6</span>
+        </div>
+        <div class="roadmap-content">
+          <h5>Confirm Registration</h5>
+          <p>Complete registration to finalize your participation.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-step">
+        <div class="roadmap-node">
+          <span class="roadmap-number">7</span>
+        </div>
+        <div class="roadmap-content">
+          <h5>Attend the Conference</h5>
+          <p>Join NCPS 2027 in Goa and participate in sessions.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= VENUE SECTION ================= -->
+<section class="venue-section inqua-venue" id="venue">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="venue-header mb-5">
+      <h2>Venue</h2>
+      <p>The conference will be held at one of India’s premier coastal research locations</p>
+    </div>
+
+    <div class="row align-items-center">
+
+      <!-- LEFT: TEXT -->
+      <div class="col-lg-6">
+        <div class="venue-content">
+          <h3>National Centre for Polar and Ocean Research</h3>
+          <p class="venue-subtitle">Goa, India</p>
+
+
+
+          <p class="venue-description">
+            The National Conference on Polar Sciences (NCPS 2027) will be hosted at the
+            National Centre for Polar and Ocean Research, located in Goa.
+            The venue offers world-class research infrastructure, conference facilities,
+            and a unique coastal environment that supports interdisciplinary scientific exchange.
+          </p>
+
+          <ul class="venue-highlights">
+            <li>
+              <i class="fas fa-map-marker-alt"></i>
+              Headland Sada, Vasco-da-Gama, Goa
+            </li>
+            <li>
+              <i class="fas fa-university"></i>
+              Premier Government Research Institution
+            </li>
+            <li>
+              <i class="fas fa-plane"></i>
+              Well connected by air, rail, and road
+            </li>
+          </ul>
+
+        </div>
+      </div>
+
+      <!-- RIGHT: IMAGE -->
+      <div class="col-lg-6">
+
+        <div class="venue-media-card">
+          <div class="venue-media-tabs">
+            <button class="venue-tab active" type="button" data-bs-toggle="tab" data-bs-target="#venuePhoto" aria-controls="venuePhoto" aria-selected="true">
+              Photo
+            </button>
+            <button class="venue-tab" type="button" data-bs-toggle="tab" data-bs-target="#venueMap" aria-controls="venueMap" aria-selected="false">
+              Map
+            </button>
+            <a
+              class="btn btn-outline-dark venue-directions-btn"
+              href="https://www.google.com/maps/dir/?api=1&destination=National%20Centre%20for%20Polar%20and%20Ocean%20Research%2C%20Headland%20Sada%2C%20Vasco-da-Gama%2C%20Goa"
+              target="_blank"
+              rel="noopener noreferrer">
+              Get Directions
+            </a>
+          </div>
+
+          <div class="tab-content venue-media-body">
+            <div class="tab-pane fade show active" id="venuePhoto" role="tabpanel">
+              <div class="venue-image-card venue-image-card--flat">
+                <img
+                  src="{% static 'images/Venue/ncpor_venue.jpg' %}"
+                  alt="National Centre for Polar and Ocean Research, Goa"
+                  loading="lazy">
+
+                <div class="venue-image-caption">
+                  National Centre for Polar and Ocean Research, Goa
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="venueMap" role="tabpanel">
+              <div class="venue-map-embed">
+                <iframe
+                  title="NCPOR Goa location map"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=National%20Centre%20for%20Polar%20and%20Ocean%20Research%2C%20Headland%20Sada%2C%20Vasco-da-Gama%2C%20Goa&output=embed"></iframe>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= ACCOMMODATION SECTION ================= -->
+<section class="accommodation-section inqua-accommodation" id="accommodation">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="accommodation-header mb-5">
+      <h2>Accommodation</h2>
+      <p>Suggested stay options in Vasco-da-Gama, Goa</p>
+    </div>
+
+    <div class="accommodation-grid">
+
+      <div class="accommodation-panel accommodation-panel--copy">
+        <p>
+          To ensure a comfortable and convenient stay for participants attending the National Conference on Polar Sciences (NCPS), we have arranged a selection of quality accommodation options in Vasco-da-Gama, Goa, just minutes away from the National Centre for Polar and Ocean Research (NCPOR) – the conference venue.
+        </p>
+
+        <p>
+          Whether you prefer a business-class hotel, a budget-friendly option, or a scenic beachside property, Vasco city offers accommodation to suit every preference. We encourage early reservations to secure your stay, as rooms will be allotted on a first-come, first-served basis.
+        </p>
+
+        <p class="mb-0">
+          All Suggested hotels are located in proximity to the venue and are easily accessible by local transport or taxi services. Vasco-da-Gama city also offers convenient connectivity to Goa International Airport (Dabolim), which is approximately 5 km from NCPOR. Restaurants, cafes, and shops are located nearby, ensuring that participants have access to all amenities during their visit.
+        </p>
+      </div>
+
+      <div class="accommodation-panel accommodation-panel--list">
+        <div class="accommodation-list-header">
+          <i class="fas fa-hotel"></i>
+          <h3>Suggested Hotels</h3>
+        </div>
+
+        <ul class="accommodation-list">
+          <li>
+            <span class="hotel-name">The HQ</span>
+            <span class="hotel-distance">approx. 3.5 km from NCPOR</span>
+          </li>
+          <li>
+            <span class="hotel-name">Hotel Supreme</span>
+            <span class="hotel-distance">approx. 4 km from NCPOR</span>
+          </li>
+          <li>
+            <span class="hotel-name">The Flora Grand</span>
+            <span class="hotel-distance">approx. 5 km from NCPOR</span>
+          </li>
+          <li>
+            <span class="hotel-name">La-Paz Gardens Beacon</span>
+            <span class="hotel-distance">approx. 3.5 km from NCPOR</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* Home page section styles (avoid overriding global Bootstrap/header styles) */
+
+/* ================= INQUA STYLE HERO ================= */
+
+.hero-inqua {
+  padding-top: 25px;
+  padding-bottom: 20px;
+  background: #ffffff;
+}
+
+/* Video container */
+.hero-video-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  height: 520px;
+  background: #000;
+}
+
+/* Video */
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Text overlay */
+.hero-text {
+  position: absolute;
+  top: 35px;
+  left: 40px;
+  color: #ffffff;
+  max-width: 520px;
+}
+
+.hero-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.45);
+}
+
+.hero-text p {
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.95;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.hero-buttons {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .hero-video-card {
+    height: 380px;
+  }
+
+  .hero-text {
+    top: 20px;
+    left: 20px;
+  }
+
+  .hero-text h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero-text p {
+    font-size: 0.9rem;
+  }
+}
+
+/* ================= ABOUT SECTION (INQUA STYLE) ================= */
+/* ================= INQUA STYLE IMAGE HEADING ================= */
+
+.about-inqua {
+  padding: 80px 0 90px;
+  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+}
+
+/* LEFT TEXT */
+.about-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  margin-bottom: 6px;
+}
+
+.about-title::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 2px;
+  background: #8b1e1e;
+  margin-top: 10px;
+  opacity: 0.75;
+}
+
+.about-subtitle {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+.about-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin-bottom: 18px;
+}
+
+.about-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.about-meta i {
+  color: #8b1e1e;
+}
+
+.about-description {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #374151;
+  max-width: 520px;
+}
+
+/* SOCIAL ICONS */
+.about-social {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.about-social a {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid #8b1e1e;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: background 0.22s ease, color 0.22s ease;
+}
+
+.about-social a img {
+  width: 18px;
+  height: 18px;
+  display: block;
+  object-fit: contain;
+}
+
+.about-social a:hover {
+  background: #ffffff;
+}
+
+/* RIGHT IMAGE CARD */
+.about-media {
+  display: flex;
+  justify-content: center;
+}
+
+.about-image-card {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  height: 300px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+}
+
+.about-image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Overlay text */
+.about-image-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.35);
+}
+
+.about-image-overlay h5 {
+  color: #ffffff;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+/* ================= ABOUT IMAGE SLIDER (FINAL – INQUA STYLE) ================= */
+
+.about-slider {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  height: 360px;
+  margin-left: auto;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid #111827;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.18);
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+
+.about-slider::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.0) 58%, rgba(0,0,0,0.22) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.about-slider:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 28px 60px rgba(0,0,0,0.22);
+}
+
+.about-slides {
+  display: flex;
+  height: 100%;
+  transition: transform 0.6s ease;
+}
+
+.about-slide {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.about-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.about-slider:hover .about-slide img {
+  transform: scale(1.02);
+}
+
+/* INQUA heading */
+.about-slide-title {
+  position: absolute;
+  left: 50%;
+  bottom: 26%;
+  transform: translateX(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+  text-shadow: 0 4px 18px rgba(0,0,0,0.65);
+  pointer-events: none;
+}
+
+/* Arrows */
+.about-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s ease, background 0.3s ease;
+}
+
+.about-slider:hover .about-nav {
+  opacity: 1;
+}
+
+.about-prev { left: 16px; }
+.about-next { right: 16px; }
+
+.about-nav:hover {
+  background: rgba(0,0,0,0.75);
+}
+
+/* Dots */
+.about-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+
+.about-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  cursor: pointer;
+}
+
+.about-dot.active {
+  background: #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .about-slider {
+    margin: 35px auto 0;
+    height: 300px;
+  }
+
+  .about-slide-title {
+    font-size: 1.3rem;
+    bottom: 20%;
+  }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .about-inqua {
+    padding: 60px 0;
+  }
+
+  .about-image-card {
+    height: 240px;
+    margin-top: 35px;
+  }
+
+  .about-title {
+    font-size: 1.7rem;
+  }
+}
+
+
+/* ============================= */
+/* THEMES CAROUSEL */
+/* ============================= */
+
+.carousel-btn:hover {
+    background: var(--primary-blue);
+    color: var(--white);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.themes-carousel {
+    display: flex;
+    gap: 30px;
+    width: max-content;
+    animation: scrollThemes 40s linear infinite;
+}
+
+
+.themes-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.theme-slide {
+    flex: 0 0 320px;
+    min-width: 300px;
+}
+.theme-card {
+    position: relative;
+    width: 320px;
+    height: 240px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(14px);
+}
+
+
+.theme-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+}
+
+.theme-image {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.theme-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    object-position: center;
+}
+
+.theme-card:hover .theme-image img {
+    transform: scale(1.1);
+}
+
+.theme-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 18px 20px;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.85),
+        rgba(0,0,0,0.1)
+    );
+}
+
+
+.theme-content h4 {
+    font-size: 1.3rem;
+    color: var(--primary-blue);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.theme-content p {
+    color: var(--dark-gray);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.theme-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag {
+    background: var(--light-gray);
+    color: var(--primary-blue);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+/* ================= RESEARCH GALLERY ================= */
+
+.research-gallery {
+  padding: 80px 0;
+  background: #ffffff;
+}
+
+/* Header */
+.gallery-header {
+  margin-bottom: 30px;
+}
+
+.gallery-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.gallery-header p {
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+/* Horizontal gallery */
+.gallery-track {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.gallery-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual item */
+.gallery-item {
+  min-width: 260px;
+  height: 180px;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Caption */
+.gallery-item span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.6),
+    rgba(0,0,0,0.0)
+  );
+}
+
+/* Hover */
+.gallery-item:hover {
+  transform: translateY(-4px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .gallery-item {
+    min-width: 220px;
+    height: 150px;
+  }
+}
+/* ================= RESEARCH GALLERY (INQUA CARD STYLE) ================= */
+
+.inqua-gallery {
+  padding: 80px 0;
+  background: #ffffff;
+}
+
+.gallery-wrapper {
+  background: #0b0b0b;
+  border-radius: 22px;
+  padding: 45px 40px 40px;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Optional subtle background texture */
+.gallery-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("{% static 'images/bg/architecture_dark.jpg' %}") center/cover;
+  opacity: 0.12;
+}
+
+/* Header inside dark card */
+.gallery-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 30px;
+}
+
+.gallery-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.gallery-header p {
+  font-size: 0.95rem;
+  color: #d1d5db;
+  max-width: 520px;
+}
+
+/* Gallery track inside card */
+.gallery-track {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 18px;
+  padding-bottom: 10px;
+}
+
+/* Gallery item tweak for dark bg */
+.gallery-item {
+  min-width: 260px;
+  height: 180px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* ================= INQUA IMPORTANT DATES ================= */
+
+.inqua-dates {
+  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+  padding: 90px 0;
+}
+
+/* Header */
+.inqua-dates .section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+}
+
+.section-subtitle {
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+.inqua-dates .section-header {
+  max-width: 720px;
+}
+
+.inqua-dates .section-title {
+  margin-bottom: 6px;
+}
+
+.inqua-dates .section-title::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 2px;
+  background: var(--primary-blue);
+  margin-top: 10px;
+  opacity: 0.75;
+}
+
+/* Timeline */
+.inqua-timeline {
+  border-radius: 16px;
+  padding: 14px 18px;
+  border: 1px solid #eef2f7;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(6px);
+}
+
+.inqua-timeline .timeline-item {
+  display: flex;
+  gap: 18px;
+  padding: 14px 0;
+}
+
+.inqua-timeline .timeline-item + .timeline-item {
+  border-top: 1px solid #f3f4f6;
+}
+
+.timeline-marker {
+  width: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 22px;
+}
+
+.timeline-content {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.inqua-timeline .timeline-item:hover .timeline-content {
+  border-color: #d1d5db;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(0,0,0,0.08);
+}
+
+.timeline-date {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #8b1e1e;
+  margin-bottom: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(139,30,30,0.10);
+  border: 1px solid rgba(139,30,30,0.22);
+}
+
+.timeline-content h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #111827;
+}
+
+.timeline-content p {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Markers */
+.marker-dot {
+  width: 12px;
+  height: 12px;
+  background: #8b1e1e;
+  border-radius: 50%;
+  margin-top: 6px;
+  box-shadow: 0 0 0 4px rgba(139,30,30,0.14);
+}
+
+.marker-line {
+  width: 2px;
+  height: 100%;
+  background: #e5e7eb;
+  margin: 4px auto 0;
+  flex: 1;
+}
+
+/* Sidebar */
+.inqua-sidebar {
+  position: sticky;
+  top: 120px;
+}
+
+/* CTA */
+.inqua-cta {
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.06);
+}
+
+.inqua-cta h4 {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.inqua-cta p {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.inqua-dates .inqua-cta .btn-outline-dark {
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.inqua-dates .inqua-cta .btn-outline-dark:hover {
+  background: var(--primary-blue);
+  border-color: var(--primary-blue);
+  color: #ffffff;
+}
+
+/* Links */
+.inqua-links {
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px;
+  background: #ffffff;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.06);
+}
+
+.inqua-links h5 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.inqua-links .quick-link-item {
+  display: block;
+  padding: 8px 0;
+  font-size: 0.9rem;
+  color: #374151;
+  text-decoration: none;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.inqua-links .quick-link-item:last-child {
+  border-bottom: none;
+}
+
+.inqua-links .quick-link-item:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 992px) {
+  .inqua-dates {
+    padding: 70px 0;
+  }
+
+  .inqua-timeline {
+    padding: 10px 12px;
+  }
+
+  .timeline-content {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .inqua-timeline .timeline-item {
+    gap: 12px;
+    padding: 12px 0;
+  }
+
+  .timeline-date {
+    font-size: 0.82rem;
+  }
+
+  .timeline-content h5 {
+    font-size: 0.98rem;
+  }
+}
+
+/* ================= INQUA ROADMAP ================= */
+
+.inqua-roadmap {
+  padding: 90px 0;
+  background: #ffffff;
+}
+
+.roadmap-header {
+  max-width: 720px;
+}
+
+.roadmap-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  margin-bottom: 6px;
+}
+
+.roadmap-header h2::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 2px;
+  background: #8b1e1e;
+  margin-top: 10px;
+  opacity: 0.75;
+}
+
+.roadmap-header p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  max-width: 560px;
+}
+
+.roadmap-steps {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+  position: relative;
+}
+
+.roadmap-steps::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 18px;
+  height: 2px;
+  background: #e5e7eb;
+}
+
+.roadmap-step {
+  position: relative;
+  text-align: center;
+}
+
+.roadmap-node {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: #8b1e1e;
+  box-shadow: 0 0 0 6px rgba(139,30,30,0.12);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.roadmap-number {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.roadmap-content {
+  padding: 0 6px;
+}
+
+.roadmap-content h5 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.roadmap-content p {
+  font-size: 0.88rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+@media (max-width: 992px) {
+  .inqua-roadmap {
+    padding: 75px 0;
+  }
+
+  .roadmap-steps {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .roadmap-steps::before {
+    left: 18px;
+    right: auto;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    height: auto;
+  }
+
+  .roadmap-step {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 14px;
+    align-items: start;
+    text-align: left;
+  }
+
+  .roadmap-node {
+    margin: 0;
+  }
+
+  .roadmap-content {
+    padding: 2px 0 0;
+  }
+}
+/* ================= VENUE SECTION (INQUA STYLE) ================= */
+
+.inqua-venue {
+  padding: 90px 0 65px;
+  background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
+}
+
+/* Header */
+.venue-header {
+  max-width: 720px;
+}
+
+.venue-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  margin-bottom: 6px;
+}
+
+.venue-header h2::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 2px;
+  background: #8b1e1e;
+  margin-top: 10px;
+  opacity: 0.75;
+}
+
+.venue-header p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  max-width: 520px;
+}
+
+/* Left content */
+.venue-content {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid #eef2f7;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+  backdrop-filter: blur(6px);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.venue-content:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 54px rgba(0,0,0,0.10);
+  border-color: #e5e7eb;
+}
+
+.venue-content h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #111827;
+}
+
+.venue-subtitle {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 14px;
+}
+
+.venue-description {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #374151;
+  margin-bottom: 18px;
+  max-width: 520px;
+}
+
+/* Highlights */
+.venue-highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.venue-highlights li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #374151;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.venue-highlights li:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.07);
+  border-color: #d1d5db;
+}
+
+.venue-highlights i {
+  color: #8b1e1e;
+  font-size: 0.9rem;
+}
+
+/* Image card */
+.venue-image-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #eef2f7;
+  box-shadow: 0 22px 46px rgba(0,0,0,0.12);
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+
+.venue-image-card--flat {
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.venue-image-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.0) 55%, rgba(0,0,0,0.28) 100%);
+  pointer-events: none;
+}
+
+.venue-image-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 28px 60px rgba(0,0,0,0.14);
+}
+
+.venue-image-card img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.venue-image-card:hover img {
+  transform: scale(1.02);
+}
+
+/* Caption */
+.venue-image-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  color: #ffffff;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.65),
+    rgba(0,0,0,0.0)
+  );
+  z-index: 1;
+}
+
+/* Modern media card (Photo/Map) */
+.venue-media-card {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #eef2f7;
+  background: #ffffff;
+  box-shadow: 0 22px 46px rgba(0,0,0,0.12);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.venue-media-tabs {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 12px;
+  border-bottom: 1px solid #eef2f7;
+  background: rgba(255,255,255,0.95);
+}
+
+.venue-tab {
+  appearance: none;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #111827;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.venue-tab.active {
+  border-color: rgba(139,30,30,0.35);
+  color: #8b1e1e;
+}
+
+.venue-media-body {
+  position: relative;
+}
+
+.venue-map-embed iframe {
+  width: 100%;
+  height: 360px;
+  border: 0;
+  display: block;
+}
+
+.inqua-venue .venue-directions-btn {
+  margin-left: auto;
+  border-color: #8b1e1e;
+  color: #8b1e1e;
+}
+
+.inqua-venue .venue-directions-btn:hover {
+  background: #8b1e1e;
+  border-color: #8b1e1e;
+  color: #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .inqua-venue {
+    padding: 70px 0 55px;
+  }
+
+  .venue-content {
+    padding: 18px;
+  }
+
+  .venue-image-card {
+    margin-top: 35px;
+  }
+
+  .venue-image-card img {
+    height: 260px;
+  }
+
+  .venue-map-embed iframe {
+    height: 260px;
+  }
+}
+
+@media (max-width: 576px) {
+  .venue-image-card img {
+    height: 240px;
+  }
+}
+
+/* ================= ACCOMMODATION SECTION (INQUA STYLE) ================= */
+.inqua-accommodation {
+  padding: 50px 0 90px;
+  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+}
+
+.accommodation-header {
+  max-width: 720px;
+}
+
+.accommodation-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  margin-bottom: 6px;
+}
+
+.accommodation-header h2::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 2px;
+  background: #8b1e1e;
+  margin-top: 10px;
+  opacity: 0.8;
+}
+
+.accommodation-header p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  max-width: 560px;
+}
+
+.accommodation-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 0.85fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.accommodation-panel {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid #eef2f7;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+}
+
+.accommodation-panel--list {
+  position: sticky;
+  top: 90px;
+}
+
+.accommodation-panel--copy p {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #374151;
+  margin-bottom: 14px;
+}
+
+.accommodation-list-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.accommodation-list-header i {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 149, 168, 0.10);
+  color: var(--accent-teal);
+  font-size: 1rem;
+}
+
+.accommodation-list-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.accommodation-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.accommodation-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.accommodation-list li:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.07);
+  border-color: #d1d5db;
+}
+
+.accommodation-list .hotel-name {
+  font-weight: 600;
+  color: #111827;
+}
+
+.accommodation-list .hotel-distance {
+  font-size: 0.9rem;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.accommodation-note {
+  font-size: 0.92rem;
+  font-style: italic;
+  color: #6b7280;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 992px) {
+  .inqua-accommodation {
+    padding: 45px 0 60px;
+  }
+
+  .accommodation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .accommodation-panel--list {
+    position: static;
+  }
+}
+
+@media (max-width: 576px) {
+  .accommodation-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .accommodation-list .hotel-distance {
+    white-space: normal;
+  }
+}
+/* ============================= */
+/* RESPONSIVE DESIGN */
+/* ============================= */
+@media (max-width: 1200px) {
+    .theme-slide {
+        flex: 0 0 calc(50% - 20px);
+    }
+}
+
+@media (max-width: 992px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .hero-description {
+        font-size: 1.2rem;
+    }
+    
+    .floating-cards-container {
+        height: 300px;
+        margin-top: 50px;
+    }
+    
+    .about-image-wrapper {
+        margin-top: 50px;
+        transform: none;
+    }
+    
+    .venue-map {
+        padding-left: 0;
+        margin-top: 50px;
+    }
+    
+    .theme-slide {
+        flex: 0 0 100%;
+    }
+    
+    .carousel-btn {
+        display: none;
+    }
+    
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-description {
+        font-size: 1.2rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+    }
+    
+    .hero-buttons .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .floating-card {
+        width: 100px;
+        height: 100px;
+        font-size: 1.5rem;
+    }
+    
+    .gallery-item {
+        flex: 0 0 250px;
+        height: 150px;
+    }
+    
+    .timeline::before {
+        left: 0;
+    }
+    
+    .timeline-item {
+        padding-left: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .floating-card {
+        width: 80px;
+        height: 80px;
+        font-size: 1.2rem;
+    }
+    
+    .floating-card span {
+        font-size: 0.7rem;
+    }
+    
+    .venue-feature {
+        padding: 10px;
+    }
+}
+
+/* ============================= */
+/* UTILITY CLASSES */
+/* ============================= */
+/* ================= SCIENTIFIC THEME (INQUA STYLE) ================= */
+
+.scientific-inqua {
+  padding: 80px 0;
+  background: #ffffff;
+}
+
+.scientific-wrapper {
+  background: #0b0b0b;
+  border-radius: 22px;
+  padding: 45px 40px 40px;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Optional subtle background texture */
+.scientific-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("{% static 'images/bg/architecture_dark.jpg' %}") center/cover;
+  opacity: 0.15;
+}
+
+/* Header */
+.scientific-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.scientific-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.scientific-header p {
+  font-size: 0.95rem;
+  color: #d1d5db;
+  max-width: 520px;
+}
+
+/* View All button */
+.btn-view-all {
+  background: #b11226;
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.25s ease;
+}
+
+.theme-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.btn-view-all:hover {
+  background: #8e0f1f;
+  color: #ffffff;
+}
+
+/* Cards row */
+.scientific-cards {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.scientific-cards::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual card */
+.theme-card {
+  min-width: 220px;
+  height: 280px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.theme-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Text overlay */
+.theme-card span {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+/* Hover */
+.theme-card:hover {
+  transform: translateY(-6px);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .scientific-wrapper {
+    padding: 30px 25px;
+  }
+
+  .scientific-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .theme-card {
+    min-width: 200px;
+    height: 250px;
+  }
+}
+/* ================= AUTO SCROLL ANIMATIONS ================= */
+.scientific-cards {
+  will-change: transform;
+}
+/* Shared */
+.auto-scroll {
+  display: flex;
+  gap: 18px;
+  width: max-content;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Scientific Themes: Right → Left */
+@keyframes scroll-right-to-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Research Gallery: Left → Right */
+@keyframes scroll-left-to-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.theme-card,
+.theme-card img {
+  cursor: pointer;
+}
+.gallery-item,
+.gallery-item img {
+  cursor: pointer;
+}
+/* ================= FULL-BLEED SECTION (90% PAGE WIDTH) ================= */
+
+/* Make key sections less inset (reduce left/right whitespace) */
+.about-inqua > .container,
+.inqua-dates > .container,
+.inqua-roadmap > .container,
+.inqua-venue > .container,
+.inqua-accommodation > .container {
+  width: 90vw;
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Scientific Themes */
+.scientific-inqua .scientific-wrapper {
+  width: 90vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Research Gallery */
+.inqua-gallery .gallery-wrapper {
+  width: 90vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ================= SECTION SPACING (TIGHTER) ================= */
+/* Tighten vertical gaps between sections on Home */
+.about-inqua { padding: 70px 0 60px; }
+.scientific-inqua { padding: 60px 0; }
+.inqua-gallery { padding: 60px 0; }
+.inqua-dates { padding: 60px 0; }
+.inqua-roadmap { padding: 60px 0; }
+
+/* Dates section also has `py-5` class; override it explicitly */
+.inqua-dates.py-5 { padding-top: 60px; padding-bottom: 60px; }
+
+@media (max-width: 992px) {
+  .about-inqua { padding: 55px 0 45px; }
+  .scientific-inqua { padding: 50px 0; }
+  .inqua-gallery { padding: 50px 0; }
+  .inqua-dates { padding: 50px 0; }
+  .inqua-dates.py-5 { padding-top: 50px; padding-bottom: 50px; }
+  .inqua-roadmap { padding: 50px 0; }
+}
+
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const slider = document.querySelector(".about-slider");
+  if (!slider) return;
+
+  const slides = slider.querySelector(".about-slides");
+  const totalSlides = slides.children.length;
+
+  let currentIndex = 0;
+
+  function updateSlide() {
+    slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }
+
+  slider.querySelector(".about-next").addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % totalSlides;
+    updateSlide();
+  });
+
+  slider.querySelector(".about-prev").addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+    updateSlide();
+  });
+
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  function enableAutoScroll(containerSelector, animationName, duration = 40) {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
+
+    // Duplicate content for infinite scroll
+    container.innerHTML += container.innerHTML;
+
+    container.style.animation = `${animationName} ${duration}s linear infinite`;
+  }
+
+  // Scientific Themes → Right to Left
+  enableAutoScroll(
+    ".scientific-cards",
+    "scroll-right-to-left",
+    45
+  );
+
+  // Research Gallery → Left to Right
+  enableAutoScroll(
+    ".gallery-track",
+    "scroll-left-to-right",
+    35
+  );
+
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const gallery = document.querySelector(".gallery-track");
+  if (!gallery) return;
+
+  // Pause scrolling when hovering any gallery item or image
+  gallery.addEventListener("mouseover", (e) => {
+    if (e.target.closest(".gallery-item")) {
+      gallery.style.animationPlayState = "paused";
+    }
+  });
+
+  // Resume scrolling when mouse leaves gallery area
+  gallery.addEventListener("mouseout", (e) => {
+    if (!e.relatedTarget || !gallery.contains(e.relatedTarget)) {
+      gallery.style.animationPlayState = "running";
+    }
+  });
+
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const themesStrip = document.querySelector(".scientific-cards");
+  if (!themesStrip) return;
+
+  // Pause scrolling when hovering any theme card/image
+  themesStrip.addEventListener("mouseover", (e) => {
+    if (e.target.closest(".theme-card, .theme-card-link")) {
+      themesStrip.style.animationPlayState = "paused";
+    }
+  });
+
+  // Resume scrolling when mouse leaves themes strip area
+  themesStrip.addEventListener("mouseout", (e) => {
+    if (!e.relatedTarget || !themesStrip.contains(e.relatedTarget)) {
+      themesStrip.style.animationPlayState = "running";
+    }
+  });
+
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const venueCard = document.querySelector(".venue-media-card");
+  if (!venueCard) return;
+
+  const tabs = Array.from(venueCard.querySelectorAll(".venue-tab"));
+  const panes = Array.from(venueCard.querySelectorAll(".tab-pane"));
+
+  function activateTab(tabButton) {
+    const targetSelector = tabButton.getAttribute("data-bs-target") || tabButton.getAttribute("data-target");
+    if (!targetSelector) return;
+
+    tabs.forEach((t) => {
+      t.classList.toggle("active", t === tabButton);
+      t.setAttribute("aria-selected", t === tabButton ? "true" : "false");
+    });
+
+    panes.forEach((pane) => {
+      const shouldShow = `#${pane.id}` === targetSelector;
+      pane.classList.toggle("show", shouldShow);
+      pane.classList.toggle("active", shouldShow);
+    });
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", (e) => {
+      e.preventDefault();
+      activateTab(tab);
+    });
+  });
+
+  // Ensure initial state is correct
+  const initiallyActive = tabs.find((t) => t.classList.contains("active")) || tabs[0];
+  if (initiallyActive) activateTab(initiallyActive);
+
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const slides = document.querySelector(".about-slides");
+  const slideCount = document.querySelectorAll(".about-slide").length;
+  const dotsContainer = document.querySelector(".about-dots");
+  const prevBtn = document.querySelector(".about-prev");
+  const nextBtn = document.querySelector(".about-next");
+
+  let index = 0;
+
+  // Create dots
+  for (let i = 0; i < slideCount; i++) {
+    const dot = document.createElement("span");
+    dot.classList.add("about-dot");
+    if (i === 0) dot.classList.add("active");
+    dot.addEventListener("click", () => goToSlide(i));
+    dotsContainer.appendChild(dot);
+  }
+
+  const dots = document.querySelectorAll(".about-dot");
+
+  function updateSlider() {
+    slides.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach(d => d.classList.remove("active"));
+    dots[index].classList.add("active");
+  }
+
+  function goToSlide(i) {
+    index = i;
+    updateSlider();
+  }
+
+  prevBtn.addEventListener("click", () => {
+    index = (index - 1 + slideCount) % slideCount;
+    updateSlider();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    index = (index + 1) % slideCount;
+    updateSlider();
+  });
+
+});
+</script>
+
+{% endblock %}

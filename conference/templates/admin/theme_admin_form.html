@@ -1,0 +1,79 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}
+  {% if mode == "create" %}Create Theme Admin{% else %}Edit Theme Admin{% endif %}
+{% endblock %}
+
+{% block admin_content %}
+<div class="container-fluid">
+
+  <h4 class="fw-bold mb-3">
+    {% if mode == "create" %}
+      Create Theme Admin
+    {% else %}
+      Edit Theme Admin
+    {% endif %}
+  </h4>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+
+        {% if mode == "create" %}
+        <div class="mb-3">
+          <label class="form-label">User</label>
+          <select name="user" class="form-select" required>
+            <option value="">Select staff user</option>
+            {% for u in users %}
+              <option value="{{ u.id }}">{{ u.username }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% endif %}
+
+        <div class="mb-3">
+          <label class="form-label">Scientific Themes</label>
+          {% for t in themes %}
+            <div class="form-check">
+              <input class="form-check-input"
+                     type="checkbox"
+                     name="themes"
+                     value="{{ t.id }}"
+                     id="theme{{ t.id }}"
+                     {% if theme_admin and t in theme_admin.themes.all %}checked{% endif %}>
+              <label class="form-check-label" for="theme{{ t.id }}">
+                {{ t.name }}
+              </label>
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if mode == "edit" %}
+        <div class="form-check mb-3">
+          <input class="form-check-input"
+                 type="checkbox"
+                 name="is_active"
+                 id="isActive"
+                 {% if theme_admin.is_active %}checked{% endif %}>
+          <label class="form-check-label" for="isActive">
+            Active
+          </label>
+        </div>
+        {% endif %}
+
+        <button class="btn btn-polar">
+          <i class="fas fa-save me-1"></i> Save
+        </button>
+
+        <a href="{% url 'conference:ncps_admin:theme_admin_list' %}"
+           class="btn btn-outline-polar ms-2">
+          Cancel
+        </a>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

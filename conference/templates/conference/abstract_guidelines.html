@@ -1,0 +1,22 @@
+{% extends "conference/base.html" %}
+
+{% block title %}Abstract Submission Guidelines — NCPS 2025{% endblock %}
+
+{% block content %}
+<div class="container py-5 my-4" style="max-width: 900px; margin-top: 80px; margin-bottom: 50px;">
+  <h2 class="mb-3">Abstract Submission Guidelines</h2>
+  <p class="text-muted mb-4">
+    Please review the abstract submission guidelines before submitting your abstract.
+  </p>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <p class="mb-0 text-muted">Guidelines content coming soon.</p>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <a href="{% url 'conference:abstract_submission' %}" class="btn btn-outline-polar">Go to Abstract Submission</a>
+  </div>
+</div>
+{% endblock %}

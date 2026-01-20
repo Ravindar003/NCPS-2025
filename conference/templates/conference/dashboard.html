@@ -1,0 +1,500 @@
+{% extends "conference/base.html" %}
+{% block admin_top_nav %}{% endblock %}
+{% block content %}
+<div class="container py-5 my-4" style="margin-top: 80px; margin-bottom: 50px;">
+
+  <!-- Header -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-8">
+      <h2 class="mb-0 fw-bold">
+        Welcome back,
+        <span class="text-primary">{{ user.get_full_name|default:user.username }}</span>! 👋
+      </h2>
+      <p class="text-muted mb-0 mt-2">
+        Here's your NCPS 2027 dashboard — quick access to your profile, submissions and conference resources.
+      </p>
+    </div>
+
+    <div class="col-md-4 mt-3 mt-md-0">
+      <div class="d-flex justify-content-md-end align-items-center gap-2 flex-wrap">
+        <a href="{% url 'conference:abstract_submission' %}" class="btn btn-polar rounded-pill flex-grow-1 flex-md-grow-0">
+          <i class="fas fa-file-upload me-1"></i> Submit Abstract
+        </a>
+        <a href="{% url 'conference:logout' %}" class="btn btn-outline-secondary rounded-pill flex-grow-1 flex-md-grow-0">
+          <i class="fas fa-sign-out-alt me-1"></i> Logout
+        </a>
+      </div>
+    </div>
+  </div>
+    
+<div class="row g-4">
+
+      <!-- Participant Code Card -->
+      {% if user.participant and user.participant.participant_code %}
+      <div class="col-12">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="mb-1 text-muted">Your Participant Code</h6>
+              <div id="participantCodeValue" class="h5 mb-0">{{ user.participant.participant_code }}</div>
+              <small class="text-muted">Share this code when asked during registration or abstracts.</small>
+            </div>
+            <div>
+              <button id="copyCodeBtn" class="btn btn-outline-secondary">
+                <i class="fas fa-copy me-1"></i>Copy
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+  <!-- LEFT COLUMN -->
+  <div class="col-lg-8">
+
+    <!-- Profile Card -->
+    <div class="card shadow-sm mb-4 modern-profile-card">
+      <div class="card-body">
+        <div class="d-flex align-items-start flex-column flex-md-row">
+          <div class="avatar rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-md-3 mb-3 mb-md-0"
+               style="width:64px;height:64px;font-weight:700;font-size:1.5rem;">
+            {{ user.username|slice:":1"|upper }}
+          </div>
+
+          <div class="flex-grow-1">
+            <h5 class="card-title mb-1 fw-bold">{{ user.get_full_name|default:user.username }}</h5>
+            <p class="text-muted mb-1">
+              <i class="fas fa-envelope me-2"></i>{{ user.email }}
+            </p>
+
+            {% if user.participant %}
+              <p class="mb-0 text-muted">
+                <i class="fas fa-university me-2"></i>{{ user.participant.organization }}
+                {% if user.participant.participant_code %}
+                  <span class="ms-2 badge bg-light text-dark">{{ user.participant.participant_code }}</span>
+                {% endif %}
+              </p>
+              <p class="text-muted">
+                <i class="fas fa-briefcase me-2"></i>{{ user.participant.designation }}
+              </p>
+              {# Theme moved to header badge area for better visibility #}
+            {% else %}
+              <p class="text-muted mb-0"><em>No profile data yet.</em></p>
+            {% endif %}
+          </div>
+
+          <div class="text-end ms-3 d-none d-md-block">
+            <div class="d-flex flex-column align-items-end gap-2">
+              <span class="badge bg-success rounded-pill px-3 py-2">
+                <i class="fas fa-check-circle me-1"></i>Active Participant
+              </span>
+              <span class="theme-pill-sm">
+                <i class="fas fa-flask me-1"></i>{{ participant_theme_name|default:user.participant.get_scientific_theme_display }}
+              </span>
+              <p class="small text-muted mt-1 mb-0">
+                Registered on: <strong>{{ user.date_joined|date:"d M Y" }}</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="d-block d-md-none mt-3 text-center">
+          <span class="badge bg-success rounded-pill px-3 py-2">
+            <i class="fas fa-check-circle me-1"></i>Active Participant
+          </span>
+          <p class="small text-muted mt-2 mb-0">
+            Registered on: <strong>{{ user.date_joined|date:"d M Y" }}</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submissions + Dates -->
+    <div class="row gx-3">
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h6 class="card-title">
+              <i class="fas fa-file-alt me-2"></i>Your Submissions
+            </h6>
+            <p class="card-text text-muted mb-2">
+              You have <strong>{{ submissions_count|default:0 }}</strong> abstracts.
+            </p>
+            <a href="{% url 'conference:abstract_submission' %}" class="btn btn-outline-polar btn-sm">
+              View / Submit
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h6 class="card-title">
+              <i class="fas fa-calendar-alt me-2"></i>Important Dates
+            </h6>
+            <p class="card-text text-muted mb-2">
+              Abstract deadline:
+              <strong>{{ abstract_deadline|default:"TBD" }}</strong>
+            </p>
+            <a href="{% url 'conference:home' %}#dates" class="btn btn-outline-polar btn-sm">See Dates</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Abstract Submissions -->
+    <div class="card shadow-sm mb-4 mt-4 modern-submissions-card">
+      <div class="card-body">
+        <h6 class="card-title mb-3 fw-bold">
+          <i class="fas fa-file-alt me-2 text-primary"></i>Your Abstract Submissions
+        </h6>
+
+        {% if abstracts %}
+        <div class="abstracts-container">
+          <ul class="list-group list-group-flush small">
+
+          {% for abs in abstracts %}
+          <li class="list-group-item py-3 abstract-item">
+            <div class="d-flex justify-content-between align-items-start flex-column flex-md-row">
+
+              <!-- LEFT -->
+              <div class="mb-3 mb-md-0 flex-grow-1">
+                <strong class="d-block mb-1">{{ abs.title }}</strong>
+                <div class="text-muted small">
+                  <i class="fas fa-calendar me-1"></i>
+                  Submitted on {{ abs.submitted_at|date:"d M Y, H:i" }}
+                </div>
+
+                <div class="mt-2">
+                  {% if abs.status == "APPROVED" %}
+                    <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Approved</span>
+                  {% elif abs.status == "REJECTED" %}
+                    <span class="badge bg-danger"><i class="fas fa-times-circle me-1"></i>Rejected</span>
+                  {% elif abs.status == "REVISION" %}
+                    <span class="badge bg-warning text-dark"><i class="fas fa-edit me-1"></i>Revision Requested</span>
+                  {% elif abs.status == "RESUBMITTED" %}
+                    <span class="badge bg-info"><i class="fas fa-paper-plane me-1"></i>Resubmitted (Under Review)</span>
+                  {% else %}
+                    <span class="badge bg-secondary"><i class="fas fa-clock me-1"></i>Under Review</span>
+                  {% endif %}
+                </div>
+
+                {% if abs.admin_comments %}
+                <div class="mt-2 text-muted small alert alert-info py-2 px-3">
+                  <i class="fas fa-comment-dots me-1"></i>
+                  <strong>Admin note:</strong> {{ abs.admin_comments }}
+                </div>
+                {% endif %}
+
+                {% if abs.revised_submission %}
+                <div class="mt-2 small">
+                  <i class="fas fa-file-upload text-success me-1"></i>
+                  Revised document uploaded
+                  {% if abs.revised_uploaded_at %}
+                    on <strong>{{ abs.revised_uploaded_at|date:"d M Y, H:i" }}</strong>
+                  {% endif %}
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- RIGHT -->
+              <div class="text-end text-md-end text-start mt-3 mt-md-0">
+                <div class="d-flex flex-column gap-2">
+                  <!-- 👁️ VIEW ABSTRACT (TEXT) -->
+                  <a href="{% url 'conference:user_abstract_detail' abs.id %}"
+                     class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-eye me-1"></i> View Abstract
+                  </a>
+
+                  {% if abs.status == "REVISION" and not abs.revised_submission %}
+                  <a href="{% url 'conference:upload_revised_abstract' abs.id %}"
+                     class="btn btn-outline-warning btn-sm">
+                    <i class="fas fa-upload me-1"></i> Upload Revised
+                  </a>
+                  {% endif %}
+
+                  {% if abs.pdf_file %}
+                  <a href="{{ abs.pdf_file.url }}"
+                     class="btn btn-outline-secondary btn-sm"
+                     target="_blank">
+                    <i class="fas fa-file-pdf me-1"></i> Original PDF
+                  </a>
+                  {% endif %}
+
+                  {% if abs.revised_submission %}
+                  <a href="{{ abs.revised_submission.url }}"
+                     class="btn btn-outline-success btn-sm"
+                     target="_blank">
+                    <i class="fas fa-eye me-1"></i> Revised PDF
+                  </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        </div>
+        {% else %}
+          <p class="text-muted small mb-0 text-center py-3">
+            <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
+            No abstracts submitted yet.
+          </p>
+        {% endif %}
+
+      </div>
+    </div>
+
+  </div> <!-- ✅ END LEFT COLUMN -->
+
+
+  <!-- RIGHT SIDEBAR -->
+  <div class="col-lg-4">
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h6 class="card-title">
+          <i class="fas fa-link me-2"></i>Quick Links
+        </h6>
+        <div class="list-group list-group-flush">
+          <a href="{% url 'conference:abstract_submission' %}" class="list-group-item list-group-item-action">Submit Abstract</a>
+          <a href="{% url 'conference:brochure' %}" class="list-group-item list-group-item-action">Download Brochure</a>
+          <a href="{% url 'conference:home' %}#dates" class="list-group-item list-group-item-action">View Important Dates</a>
+          <a href="/" class="list-group-item list-group-item-action">Return to Homepage</a>
+        </div>
+      </div>
+    </div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h6 class="card-title mb-3">
+      <i class="fas fa-bell me-2"></i>Notifications
+    </h6>
+
+    {% if notifications %}
+      <!-- SCROLL CONTAINER -->
+      <div class="notification-scroll">
+        <ul class="list-group list-group-flush small">
+          {% for n in notifications %}
+          <li class="list-group-item px-0">
+            <strong>{{ n.title }}</strong>
+            <div class="text-muted small">
+              {{ n.message|linebreaksbr }}
+            </div>
+            <div class="text-muted small mt-1">
+              <i class="fas fa-clock me-1"></i>
+              {{ n.created_at|timesince }} ago
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% else %}
+      <p class="text-muted small mb-0">No notifications yet.</p>
+    {% endif %}
+
+    <a href="{% url 'conference:notifications' %}" class="btn btn-sm btn-outline-polar mt-3 w-100">
+      View All Notifications
+    </a>
+  </div>
+</div>
+
+
+  </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const copyBtn = document.getElementById('copyCodeBtn');
+  const codeEl = document.getElementById('participantCodeValue');
+  if (!copyBtn || !codeEl) return;
+  copyBtn.addEventListener('click', function(){
+    const code = codeEl.textContent.trim();
+    if (!code) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(() => {
+        const orig = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check me-1"></i>Copied';
+        setTimeout(() => copyBtn.innerHTML = orig, 1500);
+      }).catch(() => {});
+    }
+  });
+});
+</script>
+
+<style>
+  .btn-polar {
+    background: var(--polar-blue);
+    color: var(--antarctic-white);
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(32, 84, 147, 0.3);
+  }
+  
+  .btn-polar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(32, 84, 147, 0.5);
+    color: var(--antarctic-white);
+    background: var(--primary-blue);
+  }
+  
+  .btn-outline-polar {
+    color: var(--accent-teal);
+    border-color: var(--accent-teal);
+    transition: all 0.3s ease;
+  }
+  
+  .btn-outline-polar:hover {
+    background: var(--accent-teal);
+    color: var(--antarctic-white);
+    transform: translateY(-2px);
+  }
+  
+  .avatar { 
+    font-size: 24px;
+    box-shadow: 0 4px 15px rgba(13, 71, 161, 0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .card { 
+    border-radius: 15px;
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+  }
+  
+  .modern-profile-card {
+    background: var(--antarctic-white);
+  }
+  
+  .modern-submissions-card {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .abstracts-container {
+    max-height: 600px;
+    overflow-y: auto;
+  }
+  
+  .abstract-item {
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+  }
+  
+  .abstract-item:hover {
+    background-color: var(--ice-blue);
+    border-left-color: var(--accent-teal);
+    transform: translateX(5px);
+  }
+  
+  .notification-scroll {
+    max-height: 220px;
+    overflow-y: auto;
+    padding-right: 6px;
+  }
+
+  /* Smooth scrollbar */
+  .notification-scroll::-webkit-scrollbar,
+  .abstracts-container::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .notification-scroll::-webkit-scrollbar-thumb,
+  .abstracts-container::-webkit-scrollbar-thumb {
+    background: var(--polar-blue);
+    border-radius: 4px;
+  }
+  
+  .notification-scroll::-webkit-scrollbar-track,
+  .abstracts-container::-webkit-scrollbar-track {
+    background: var(--light-gray);
+    border-radius: 4px;
+  }
+  
+  /* Badge enhancements */
+  .badge {
+    font-weight: 500;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  /* Scientific theme pill */
+  /* Subtle theme badge in profile header */
+  .theme-pill-sm {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(74,144,226,0.12);
+    color: var(--deep-blue);
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    border: 1px solid rgba(74,144,226,0.18);
+  }
+  
+  /* Responsive improvements */
+  @media (max-width: 768px) {
+    .btn {
+      width: 100%;
+      margin-bottom: 8px;
+    }
+    
+    .gap-2 .btn {
+      margin-bottom: 8px;
+    }
+    
+    h2 {
+      font-size: 1.5rem;
+    }
+    
+    .avatar {
+      width: 56px !important;
+      height: 56px !important;
+      font-size: 20px;
+    }
+    
+    .card-body {
+      padding: 20px 15px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .abstracts-container {
+      max-height: 400px;
+    }
+    
+    .abstract-item {
+      padding: 15px 10px !important;
+    }
+    
+    .btn-sm {
+      font-size: 0.8rem;
+      padding: 6px 12px;
+    }
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .card {
+    animation: fadeIn 0.5s ease-out;
+  }
+</style>
+
+{% endblock %}
