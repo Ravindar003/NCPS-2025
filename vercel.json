@@ -1,6 +1,5 @@
 {
   "buildCommand": "pip install -r requirements.txt",
-  "outputDirectory": "staticfiles",
   "env": {
     "PYTHONUNBUFFERED": "1",
     "DJANGO_SETTINGS_MODULE": "ncps_site.settings"
