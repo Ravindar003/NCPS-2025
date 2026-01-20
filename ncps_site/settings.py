@@ -12,9 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'ncps-2025-polar-sciences-conference-key-12345'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 # DEVELOPMENT ONLY
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
